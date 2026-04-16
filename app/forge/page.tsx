@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
-import { Hammer, Sparkles, Loader2, CheckCircle2, AlertCircle, Download, ExternalLink } from 'lucide-react';
+import { Hammer, Sparkles, Loader2, CheckCircle2, AlertCircle, Download, ExternalLink, ShieldAlert } from 'lucide-react';
 import { generateKit, processAndSaveKit, ForgeOutput } from '@/lib/forge';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ForgePage() {
+  const { user, loading: authLoading, isAdmin } = useAuth();
+  const router = useRouter();
   const [topic, setTopic] = useState('');
   const [audience, setAudience] = useState('');
   const [rawContent, setRawContent] = useState('');
@@ -39,6 +43,40 @@ export default function ForgePage() {
       setIsScraping(false);
     }
   };
+
+  // Auth guard — show spinner while resolving, deny access to non-admins
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-primary/50" />
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <div className="flex-1 flex items-center justify-center px-4">
+          <div className="text-center max-w-sm">
+            <div className="h-20 w-20 rounded-2xl bg-destructive/10 flex items-center justify-center mx-auto mb-6">
+              <ShieldAlert className="h-10 w-10 text-destructive" />
+            </div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-2">Access Restricted</h1>
+            <p className="text-muted-foreground text-sm mb-6">
+              The Forge is reserved for administrators only. Please sign in with an authorized account.
+            </p>
+            <button
+              onClick={() => router.push('/login')}
+              className="h-11 px-6 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-all"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleForge = async (e: React.FormEvent) => {
     e.preventDefault();

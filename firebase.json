@@ -6,5 +6,14 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Notebook Kit",
+        "supportEmail": "admin@notebookkit.com"
+      }
+    }
   }
 }

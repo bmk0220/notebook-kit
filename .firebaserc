@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "notebook-kit"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
