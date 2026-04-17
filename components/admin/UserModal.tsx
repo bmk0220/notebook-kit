@@ -21,6 +21,7 @@ interface UserModalProps {
 
 export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModalProps) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState<"admin" | "user">("user");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +34,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
       setRole(user.role);
     } else {
       setEmail("");
+      setPassword("");
       setRole("user");
     }
     setError(null);
@@ -54,22 +56,11 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
         const response = await fetch('https://admincreateuser-awar5h73rq-uc.a.run.app', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, role })
+          body: JSON.stringify({ email, password, role })
         });
         
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Failed to create user account.");
-
-        // Send the reset link via your email route
-        await fetch('/api/email', {
-          method: 'POST',
-          body: JSON.stringify({
-            to: email,
-            subject: "Welcome to Notebook Kit - Set your password",
-            text: `Welcome! An admin has created an account for you. Please set your password here: ${data.resetLink}`,
-            html: `<h1>Welcome!</h1><p>An admin has created an account for you. Please set your password <a href="${data.resetLink}">here</a>.</p>`
-          })
-        });
       }
       onSuccess();
       onClose();
@@ -123,6 +114,20 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
                 className="w-full h-12 px-4 rounded-xl border border-input bg-muted/20 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
               />
             </div>
+
+            {!isEdit && (
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground ml-1">Initial Password</label>
+                <input 
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full h-12 px-4 rounded-xl border border-input bg-muted/20 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+                />
+              </div>
+            )}
 
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground ml-1">System Role</label>

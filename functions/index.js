@@ -15,20 +15,17 @@ exports.adminCreateUser = onRequest({ cors: true }, async (req, res) => {
     return res.status(405).send('Method Not Allowed');
   }
 
-  const { email, role } = req.body;
+  const { email, password, role } = req.body;
 
   try {
-    // 1. Create the user in Auth with a random placeholder password
+    // 1. Create the user in Auth with the admin-specified password
     const userRecord = await admin.auth().createUser({
       email,
-      password: Math.random().toString(36).slice(-16) + "A1!", 
+      password,
       emailVerified: true,
     });
 
-    // 2. Generate Password Reset Link
-    const resetLink = await admin.auth().generatePasswordResetLink(email);
-
-    // 3. Create the profile in Firestore
+    // 2. Create the profile in Firestore
     await admin.firestore().collection("users").doc(userRecord.uid).set({
       email,
       role: role || "user",
@@ -36,7 +33,7 @@ exports.adminCreateUser = onRequest({ cors: true }, async (req, res) => {
       lastLogin: null,
     });
 
-    res.status(200).json({ uid: userRecord.uid, resetLink });
+    res.status(200).json({ uid: userRecord.uid });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
