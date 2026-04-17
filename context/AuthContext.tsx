@@ -44,23 +44,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithEmail = async (email: string, password: string) => {
     const res = await signInWithEmailAndPassword(auth, email, password);
     if (res.user) {
-      await setDoc(doc(db, "users", res.user.uid), {
-        email: res.user.email,
-        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-        lastLogin: serverTimestamp(),
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, "users", res.user.uid), {
+          email: res.user.email,
+          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+          lastLogin: serverTimestamp(),
+        }, { merge: true });
+        console.log("User document updated in Firestore (login)");
+      } catch (err) {
+        console.error("Error updating user document in Firestore:", err);
+      }
     }
   };
 
   const signupWithEmail = async (email: string, password: string) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     if (res.user) {
-      await setDoc(doc(db, "users", res.user.uid), {
-        email: res.user.email,
-        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp(),
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, "users", res.user.uid), {
+          email: res.user.email,
+          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+        }, { merge: true });
+        console.log("User document created in Firestore (signup)");
+      } catch (err) {
+        console.error("Error creating user document in Firestore:", err);
+      }
     }
   };
 
@@ -68,12 +78,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const provider = new GoogleAuthProvider();
     const res = await signInWithPopup(auth, provider);
     if (res.user) {
-      // Use setDoc with merge: true to avoid overwriting existing data if they log in again
-      await setDoc(doc(db, "users", res.user.uid), {
-        email: res.user.email,
-        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-        lastLogin: serverTimestamp(),
-      }, { merge: true });
+      try {
+        // Use setDoc with merge: true to avoid overwriting existing data if they log in again
+        await setDoc(doc(db, "users", res.user.uid), {
+          email: res.user.email,
+          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+          lastLogin: serverTimestamp(),
+        }, { merge: true });
+        console.log("User document updated in Firestore (google login)");
+      } catch (err) {
+        console.error("Error updating user document in Firestore (google):", err);
+      }
     }
   };
 
