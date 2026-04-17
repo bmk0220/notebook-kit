@@ -27,6 +27,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /user_kits/{accessId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
     match /requests/{requestId} {
       allow create: if isSignedIn();
       allow read, write: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);

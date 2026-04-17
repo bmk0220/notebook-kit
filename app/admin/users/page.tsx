@@ -11,11 +11,13 @@ import {
   Mail,
   Clock,
   Loader2,
-  RefreshCcw
+  RefreshCcw,
+  BookOpen
 } from "lucide-react";
 import { collection, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { cn } from "@/lib/utils";
+import AssignKitModal from "@/components/admin/AssignKitModal";
 
 interface UserProfile {
   id: string;
@@ -30,6 +32,7 @@ export default function UsersManagementPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{id: string, email: string} | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -189,6 +192,13 @@ export default function UsersManagementPage() {
                         ) : (
                           <>
                             <button 
+                              onClick={() => setSelectedUser({ id: user.id, email: user.email })}
+                              title="Assign Kit"
+                              className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-primary/10 text-primary transition-all"
+                            >
+                              <BookOpen className="h-4 w-4" />
+                            </button>
+                            <button 
                               onClick={() => toggleRole(user.id, user.role)}
                               title={user.role === 'admin' ? "Demote to User" : "Promote to Admin"}
                               className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-primary hover:text-primary-foreground transition-all"
@@ -221,6 +231,13 @@ export default function UsersManagementPage() {
           </table>
         </div>
       </div>
+
+      <AssignKitModal 
+        isOpen={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+        userId={selectedUser?.id || ""}
+        userEmail={selectedUser?.email || ""}
+      />
 
       {/* Info Card */}
       <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 flex items-start gap-4">

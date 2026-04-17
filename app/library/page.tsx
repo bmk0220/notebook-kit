@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import { Download, BookOpen, Clock, Loader2, Lock } from 'lucide-react';
-import { collection, query, orderBy, where, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 
 interface Kit {
   id: string;
   title: string;
-  createdAt: unknown;
+  createdAt: any;
   fileUrl: string;
   userId: string;
 }
@@ -23,7 +23,6 @@ export default function LibraryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Redirect to login if not authenticated
     if (!authLoading && !user) {
       router.push('/login');
       return;
@@ -31,18 +30,33 @@ export default function LibraryPage() {
 
     if (!user) return;
 
-    async function fetchMyKits() {
+    async function fetchMyLibrary() {
       try {
+        // 1. Query the 'user_kits' table to see what the user has access to
         const q = query(
-          collection(db, "kits"),
+          collection(db, "user_kits"),
           where("userId", "==", user!.uid),
-          orderBy("createdAt", "desc")
+          orderBy("grantedAt", "desc")
         );
+        
         const querySnapshot = await getDocs(q);
-        const fetchedKits = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Kit[];
+        
+        // 2. Fetch the actual kit data for each access record
+        const kitPromises = querySnapshot.docs.map(async (accessDoc) => {
+          const accessData = accessDoc.data();
+          const kitRef = doc(db, "kits", accessData.kitId);
+          const kitSnap = await getDoc(kitRef);
+          
+          if (kitSnap.exists()) {
+            return {
+              id: kitSnap.id,
+              ...kitSnap.data()
+            } as Kit;
+          }
+          return null;
+        });
+
+        const fetchedKits = (await Promise.all(kitPromises)).filter(k => k !== null) as Kit[];
         setKits(fetchedKits);
       } catch (error) {
         console.error("Error fetching library:", error);
@@ -50,10 +64,9 @@ export default function LibraryPage() {
         setLoading(false);
       }
     }
-    fetchMyKits();
+    fetchMyLibrary();
   }, [user, authLoading, router]);
 
-  // Show spinner while auth is resolving
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -62,7 +75,6 @@ export default function LibraryPage() {
     );
   }
 
-  // If not logged in, show nothing (redirect is happening)
   if (!user) return null;
 
   return (
@@ -71,7 +83,7 @@ export default function LibraryPage() {
 
       <main className="flex-1 container max-w-5xl mx-auto px-4 py-12">
         <div className="mb-12">
-          <h1 className="text-4xl font-extrabold tracking-tight mb-2">My Library</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Library</h1>
           <p className="text-muted-foreground font-medium underline decoration-primary decoration-4 underline-offset-4">
             Your personal collection of forged knowledge.
           </p>
@@ -121,7 +133,7 @@ export default function LibraryPage() {
           <div className="py-32 text-center rounded-3xl border-2 border-dashed border-border bg-muted/20">
             <Lock className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-20" />
             <p className="text-muted-foreground font-medium">Your library is empty.</p>
-            <p className="text-sm text-muted-foreground/60 mt-1">Kits purchased from the Marketplace will appear here.</p>
+            <p className="text-sm text-muted-foreground/60 mt-1">Kits purchased or assigned will appear here.</p>
           </div>
         )}
       </main>
