@@ -27,7 +27,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-6 ml-10 text-sm font-medium">
             <Link href="/" className="transition-colors hover:text-primary">Marketplace</Link>
             {isAdmin && (
-              <Link href="/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
+              <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 The Forge
               </Link>
