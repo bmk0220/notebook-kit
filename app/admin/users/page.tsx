@@ -12,12 +12,14 @@ import {
   Clock,
   Loader2,
   RefreshCcw,
-  BookOpen
+  BookOpen,
+  UserPlus
 } from "lucide-react";
 import { collection, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { cn } from "@/lib/utils";
 import AssignKitModal from "@/components/admin/AssignKitModal";
+import UserModal from "@/components/admin/UserModal";
 
 interface UserProfile {
   id: string;
@@ -33,6 +35,8 @@ export default function UsersManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<{id: string, email: string} | null>(null);
+  const [editUser, setEditUser] = useState<UserProfile | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -101,13 +105,22 @@ export default function UsersManagementPage() {
           <p className="text-muted-foreground font-medium mt-1">Audit and manage platform access.</p>
         </div>
         
-        <button 
-          onClick={fetchUsers}
-          className="flex items-center gap-2 h-11 px-6 rounded-xl border border-border bg-card hover:bg-muted font-bold text-sm transition-all self-start"
-        >
-          <RefreshCcw className={cn("h-4 w-4", loading && "animate-spin")} />
-          Refresh
-        </button>
+        <div className="flex items-center gap-3 self-start">
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="flex items-center gap-2 h-11 px-6 rounded-xl bg-primary text-primary-foreground font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+          >
+            <UserPlus className="h-4 w-4" />
+            Add User
+          </button>
+          <button 
+            onClick={fetchUsers}
+            className="flex items-center gap-2 h-11 px-6 rounded-xl border border-border bg-card hover:bg-muted font-bold text-sm transition-all"
+          >
+            <RefreshCcw className={cn("h-4 w-4", loading && "animate-spin")} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Toolbar */}
@@ -199,20 +212,17 @@ export default function UsersManagementPage() {
                               <BookOpen className="h-4 w-4" />
                             </button>
                             <button 
-                              onClick={() => toggleRole(user.id, user.role)}
-                              title={user.role === 'admin' ? "Demote to User" : "Promote to Admin"}
-                              className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-primary hover:text-primary-foreground transition-all"
+                              onClick={() => setEditUser(user)}
+                              title="Edit User"
+                              className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-muted transition-all"
                             >
-                              <ShieldCheck className="h-4 w-4" />
+                              <MoreVertical className="h-4 w-4" />
                             </button>
                             <button 
                               onClick={() => deleteUser(user.id)}
                               className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-destructive hover:text-destructive-foreground transition-all"
                             >
                               <Trash2 className="h-4 w-4" />
-                            </button>
-                            <button className="h-9 w-9 flex items-center justify-center rounded-xl border border-border hover:bg-muted transition-all">
-                              <MoreVertical className="h-4 w-4" />
                             </button>
                           </>
                         )}
@@ -237,6 +247,16 @@ export default function UsersManagementPage() {
         onClose={() => setSelectedUser(null)}
         userId={selectedUser?.id || ""}
         userEmail={selectedUser?.email || ""}
+      />
+
+      <UserModal 
+        isOpen={isAddModalOpen || !!editUser}
+        user={editUser}
+        onClose={() => {
+          setIsAddModalOpen(false);
+          setEditUser(null);
+        }}
+        onSuccess={fetchUsers}
       />
 
       {/* Info Card */}
