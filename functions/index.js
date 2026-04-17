@@ -3,7 +3,14 @@ const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.adminCreateUser = onRequest(async (req, res) => {
+exports.adminCreateUser = onRequest({ cors: true }, async (req, res) => {
+  if (req.method === 'OPTIONS') {
+    res.set('Access-Control-Allow-Methods', 'POST');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).send('');
+    return;
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).send('Method Not Allowed');
   }

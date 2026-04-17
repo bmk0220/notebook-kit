@@ -51,7 +51,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
           updatedAt: serverTimestamp(),
         });
       } else {
-        const response = await fetch('https://us-central1-notebook-kit.cloudfunctions.net/adminCreateUser', {
+        const response = await fetch('https://admincreateuser-awar5h73rq-uc.a.run.app', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password: "TemporaryPassword123!", role })
