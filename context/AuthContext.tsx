@@ -10,7 +10,8 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const ADMIN_EMAIL = "admin@notebookkit.com";
 
@@ -41,16 +42,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   const loginWithEmail = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    if (res.user) {
+      await setDoc(doc(db, "users", res.user.uid), {
+        email: res.user.email,
+        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+        lastLogin: serverTimestamp(),
+      }, { merge: true });
+    }
   };
 
   const signupWithEmail = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (res.user) {
+      await setDoc(doc(db, "users", res.user.uid), {
+        email: res.user.email,
+        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+        createdAt: serverTimestamp(),
+        lastLogin: serverTimestamp(),
+      }, { merge: true });
+    }
   };
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    const res = await signInWithPopup(auth, provider);
+    if (res.user) {
+      // Use setDoc with merge: true to avoid overwriting existing data if they log in again
+      await setDoc(doc(db, "users", res.user.uid), {
+        email: res.user.email,
+        role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
+        lastLogin: serverTimestamp(),
+      }, { merge: true });
+    }
   };
 
   const logout = async () => {

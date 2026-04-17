@@ -47,7 +47,7 @@ export async function generateKit(input: ForgeInput): Promise<ForgeOutput> {
 /**
  * Saves the Kit data to Firestore and uploads the Zipped content to Firebase Storage.
  */
-export async function processAndSaveKit(kitId: string, output: ForgeOutput) {
+export async function processAndSaveKit(kitId: string, output: ForgeOutput, userId: string) {
   // 1. Prepare files for ZIP
   const files = [
     { title: '01_Overview', content: output.content.overview },
@@ -78,6 +78,7 @@ export async function processAndSaveKit(kitId: string, output: ForgeOutput) {
     category: "general",
     status: "published",
     fileUrl: downloadUrl,
+    userId: userId,
     createdAt: serverTimestamp(),
   });
 

@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'admin@notebookkit.com';
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+    }
+
+    match /kits/{kitId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin() || resource.data.status == 'published');
+      allow write: if isAdmin();
+    }
+
+    match /kits_content/{kitId} {
+      // Content is only readable if user owns the kit (has a record in kits or purchases)
+      // For now, simple owner or admin check
+      allow read: if isSignedIn() && (get(/databases/$(database)/documents/kits/$(kitId)).data.userId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /requests/{requestId} {
+      allow create: if isSignedIn();
+      allow read, write: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+  }
+}

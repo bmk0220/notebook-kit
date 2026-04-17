@@ -97,7 +97,7 @@ export default function ForgePage() {
       
       // 2. Process Files, Zip, and Save to Firebase
       const kitId = crypto.randomUUID();
-      const saveResult = await processAndSaveKit(kitId, output);
+      const saveResult = await processAndSaveKit(kitId, output, user!.uid);
       
       setResult(saveResult);
       setStatus('success');
