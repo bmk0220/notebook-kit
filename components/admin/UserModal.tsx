@@ -45,23 +45,19 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
 
     try {
       if (isEdit) {
-        // Update existing
         await updateDoc(doc(db, "users", user.id), {
           email,
           role,
           updatedAt: serverTimestamp(),
         });
       } else {
-        // Create new (Note: Manual creation uses a random ID or email-based ID)
-        // In this case, we'll use a random ID as placeholder until they sign up
-        const newId = crypto.randomUUID();
-        await setDoc(doc(db, "users", newId), {
-          email,
-          role,
-          createdAt: serverTimestamp(),
-          lastLogin: null,
-          isManual: true, // Flag to indicate admin-created
+        const response = await fetch('https://us-central1-notebook-kit.cloudfunctions.net/adminCreateUser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password: "TemporaryPassword123!", role })
         });
+        
+        if (!response.ok) throw new Error("Failed to create user account.");
       }
       onSuccess();
       onClose();
