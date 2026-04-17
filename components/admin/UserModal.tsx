@@ -54,10 +54,22 @@ export default function UserModal({ isOpen, onClose, onSuccess, user }: UserModa
         const response = await fetch('https://admincreateuser-awar5h73rq-uc.a.run.app', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password: "TemporaryPassword123!", role })
+          body: JSON.stringify({ email, role })
         });
         
-        if (!response.ok) throw new Error("Failed to create user account.");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to create user account.");
+
+        // Send the reset link via your email route
+        await fetch('/api/email', {
+          method: 'POST',
+          body: JSON.stringify({
+            to: email,
+            subject: "Welcome to Notebook Kit - Set your password",
+            text: `Welcome! An admin has created an account for you. Please set your password here: ${data.resetLink}`,
+            html: `<h1>Welcome!</h1><p>An admin has created an account for you. Please set your password <a href="${data.resetLink}">here</a>.</p>`
+          })
+        });
       }
       onSuccess();
       onClose();
