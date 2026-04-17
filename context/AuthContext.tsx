@@ -11,7 +11,7 @@ import {
   User,
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 
 const ADMIN_EMAIL = "admin@notebookkit.com";
 
@@ -31,10 +31,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Central function to sync user data to Firestore
+  const syncUserToFirestore = async (u: User) => {
+    try {
+      const userRef = doc(db, "users", u.uid);
+      const userDoc = await getDoc(userRef);
+      
+      const userData: any = {
+        email: u.email,
+        role: u.email === ADMIN_EMAIL ? "admin" : "user",
+        lastLogin: serverTimestamp(),
+      };
+
+      // Only set createdAt if it doesn't exist yet
+      if (!userDoc.exists()) {
+        userData.createdAt = serverTimestamp();
+      }
+
+      await setDoc(userRef, userData, { merge: true });
+    } catch (err) {
+      console.error("Firestore sync failed:", err);
+    }
+  };
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
+      
+      if (u) {
+        syncUserToFirestore(u);
+      }
     });
     return unsub;
   }, []);
@@ -42,54 +69,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   const loginWithEmail = async (email: string, password: string) => {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    if (res.user) {
-      try {
-        await setDoc(doc(db, "users", res.user.uid), {
-          email: res.user.email,
-          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-          lastLogin: serverTimestamp(),
-        }, { merge: true });
-        console.log("User document updated in Firestore (login)");
-      } catch (err) {
-        console.error("Error updating user document in Firestore:", err);
-      }
-    }
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   const signupWithEmail = async (email: string, password: string) => {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    if (res.user) {
-      try {
-        await setDoc(doc(db, "users", res.user.uid), {
-          email: res.user.email,
-          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-          createdAt: serverTimestamp(),
-          lastLogin: serverTimestamp(),
-        }, { merge: true });
-        console.log("User document created in Firestore (signup)");
-      } catch (err) {
-        console.error("Error creating user document in Firestore:", err);
-      }
-    }
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    const res = await signInWithPopup(auth, provider);
-    if (res.user) {
-      try {
-        // Use setDoc with merge: true to avoid overwriting existing data if they log in again
-        await setDoc(doc(db, "users", res.user.uid), {
-          email: res.user.email,
-          role: res.user.email === ADMIN_EMAIL ? "admin" : "user",
-          lastLogin: serverTimestamp(),
-        }, { merge: true });
-        console.log("User document updated in Firestore (google login)");
-      } catch (err) {
-        console.error("Error updating user document in Firestore (google):", err);
-      }
-    }
+    await signInWithPopup(auth, provider);
   };
 
   const logout = async () => {

@@ -23,8 +23,6 @@ service cloud.firestore {
     }
 
     match /kits_content/{kitId} {
-      // Content is only readable if user owns the kit (has a record in kits or purchases)
-      // For now, simple owner or admin check
       allow read: if isSignedIn() && (get(/databases/$(database)/documents/kits/$(kitId)).data.userId == request.auth.uid || isAdmin());
       allow write: if isAdmin();
     }

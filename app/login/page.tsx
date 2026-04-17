@@ -28,8 +28,8 @@ export default function LoginPage() {
         await signupWithEmail(email, password);
       }
       router.push("/library");
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Authentication failed.";
+    } catch (err: any) {
+      const msg = err.message || "Authentication failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
     } finally {
       setLoading(false);
@@ -42,8 +42,8 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       router.push("/library");
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Google sign-in failed.";
+    } catch (err: any) {
+      const msg = err.message || "Google sign-in failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
     } finally {
       setLoading(false);
