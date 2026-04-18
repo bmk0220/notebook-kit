@@ -25,7 +25,7 @@ export default function Header() {
             <span className="text-xl font-bold tracking-tight">Notebook <span className="text-primary italic">Kit</span></span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 ml-10 text-sm font-medium">
-            <Link href="/" className="transition-colors hover:text-primary">Marketplace</Link>
+            <Link href="/marketplace" className="transition-colors hover:text-primary">Marketplace</Link>
             {isAdmin && (
               <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
                 <ShieldCheck className="h-3.5 w-3.5" />
@@ -33,7 +33,7 @@ export default function Header() {
               </Link>
             )}
             {user && (
-              <Link href="/library" className="transition-colors hover:text-primary font-bold">My Library</Link>
+              <Link href="/kits" className="transition-colors hover:text-primary font-bold">My Kits</Link>
             )}
           </nav>
         </div>

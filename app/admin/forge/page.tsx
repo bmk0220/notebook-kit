@@ -110,13 +110,13 @@ export default function ForgePage() {
             body: JSON.stringify({
               to: notificationEmail,
               subject: `Your Notebook Kit is Ready: ${topic}`,
-              text: `Hello! Your knowledge kit for "${topic}" has been forged and is ready for download. \n\nView it in your library: ${window.location.origin}/library`,
+              text: `Hello! Your knowledge kit for "${topic}" has been forged and is ready for download. \n\nView it in your kits collection: ${window.location.origin}/kits`,
               html: `
                 <div style="font-family: sans-serif; padding: 20px;">
                   <h2 style="color: #6366f1;">Your Kit is Ready!</h2>
                   <p>The Forge has completed the knowledge bundle for: <strong>${topic}</strong></p>
                   <p>Target Audience: ${audience}</p>
-                  <a href="${window.location.origin}/library" style="display: inline-block; padding: 12px 24px; background: #6366f1; color: white; text-decoration: none; rounded: 8px;">View in Library</a>
+                  <a href="${window.location.origin}/kits" style="display: inline-block; padding: 12px 24px; background: #6366f1; color: white; text-decoration: none; rounded: 8px;">View My Kits</a>
                 </div>
               `
             })

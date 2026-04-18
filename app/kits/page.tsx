@@ -83,9 +83,9 @@ export default function LibraryPage() {
 
       <main className="flex-1 container max-w-5xl mx-auto px-4 py-12">
         <div className="mb-12">
-          <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Library</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Kits</h1>
           <p className="text-muted-foreground font-medium underline decoration-primary decoration-4 underline-offset-4">
-            Your personal collection of forged knowledge.
+            Your personal collection of forged Notebook Kits.
           </p>
         </div>
 

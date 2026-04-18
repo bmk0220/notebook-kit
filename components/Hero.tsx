@@ -1,4 +1,4 @@
-import { Sparkles, Hammer } from 'lucide-react';
+import { Sparkles, Hammer, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -24,14 +24,15 @@ export default function Hero() {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/forge">
+          <Link href="/admin/forge">
             <button className="h-12 px-8 rounded-full bg-primary text-primary-foreground font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2">
               <Hammer className="h-5 w-5" />
               Enter The Forge
             </button>
           </Link>
-          <Link href="#marketplace">
-            <button className="h-12 px-8 rounded-full border border-border bg-background/50 backdrop-blur font-bold text-lg hover:bg-muted/50 transition-all">
+          <Link href="/marketplace">
+            <button className="h-12 px-8 rounded-full border border-border bg-background/50 backdrop-blur font-bold text-lg hover:bg-muted/50 transition-all flex items-center gap-2">
+              <ShoppingCart className="h-5 w-5" />
               Explore Marketplace
             </button>
           </Link>

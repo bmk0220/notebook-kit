@@ -27,7 +27,7 @@ export default function LoginPage() {
       } else {
         await signupWithEmail(email, password);
       }
-      router.push("/library");
+      router.push("/kits");
     } catch (err: any) {
       const msg = err.message || "Authentication failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
@@ -41,7 +41,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await loginWithGoogle();
-      router.push("/library");
+      router.push("/kits");
     } catch (err: any) {
       const msg = err.message || "Google sign-in failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
@@ -74,8 +74,8 @@ export default function LoginPage() {
           </h1>
           <p className="text-muted-foreground mt-2 text-sm">
             {mode === "login"
-              ? "Sign in to access your knowledge library."
-              : "Join and start building your AI-curated library."}
+              ? "Sign in to access your knowledge kits."
+              : "Join and start building your AI-curated collection."}
           </p>
         </div>
 
