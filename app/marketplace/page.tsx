@@ -78,7 +78,7 @@ export default function MarketplacePage() {
                   type="text"
                   placeholder="Search the collection..."
                   value={searchQuery}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full h-12 md:h-14 pl-12 pr-4 rounded-2xl border border-border bg-background shadow-sm focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm font-medium"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function MarketplacePage() {
                 <div className="py-24 md:py-32 text-center rounded-3xl border-2 border-dashed border-border bg-background/50 px-6">
                   <p className="text-muted-foreground font-medium mb-4">No kits match your current filters.</p>
                   <button 
-                    onClick={() => {setSelectedCategory("All"); setSearchTerm("");}}
+                    onClick={() => {setSelectedCategory("All"); setSearchQuery("");}}
                     className="text-primary font-bold hover:underline"
                   >
                     Clear all filters
