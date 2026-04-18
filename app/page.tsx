@@ -116,7 +116,7 @@ export default function Home() {
                 <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center shadow-sm border border-border/50 text-primary">
                   <Zap className="h-6 w-6" />
                 </div>
-                <h4 className="text-xl font-bold">Notebook Ready</h4>
+                <h4 className="text-xl font-bold">NotebookLM Ready</h4>
                 <p className="text-muted-foreground">Perfectly formatted markdown bundles optimized for NotebookLM's ingestion engine.</p>
               </div>
               <div className="space-y-4">
@@ -133,7 +133,7 @@ export default function Home() {
 
       <footer className="py-12 border-t border-border/40 bg-background">
         <div className="container max-w-7xl mx-auto px-4 text-center text-muted-foreground text-sm">
-          <p>© 2026 Notebook Kit Platform. Built for the future of knowledge.</p>
+          <p>© 2026 Notebook Kit. Building Super-Charged NotebookLM Knowledge Kits.</p>
         </div>
       </footer>
     </div>
