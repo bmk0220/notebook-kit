@@ -16,9 +16,13 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils'; // I will check if this exists or create it
 
-export default function Sidebar() {
+export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+
+  const handleLinkClick = () => {
+    if (onLinkClick) onLinkClick();
+  };
 
   const menuGroups = [
     {
@@ -71,6 +75,7 @@ export default function Sidebar() {
                   <Link
                     key={link.name}
                     href={link.disabled ? '#' : link.href}
+                    onClick={handleLinkClick}
                     className={cn(
                       "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-all group",
                       isActive 

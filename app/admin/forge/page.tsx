@@ -135,59 +135,59 @@ export default function ForgePage() {
     <div className="flex flex-col min-h-screen bg-muted/20">
       <Header />
       
-      <main className="flex-1 container max-w-4xl mx-auto px-4 py-12">
+      <main className="flex-1 container max-w-4xl mx-auto px-4 py-8 md:py-12">
         <div className="flex items-center gap-3 mb-8">
-          <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
+          <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20 shrink-0">
             <Hammer className="h-6 w-6 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-3xl font-black tracking-tight uppercase">The Forge</h1>
-            <p className="text-muted-foreground text-sm font-medium tracking-wide">Generate Pro Knowledge Kits Instantly</p>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight uppercase">The Forge</h1>
+            <p className="text-muted-foreground text-xs md:text-sm font-medium tracking-wide">Generate Pro Knowledge Kits Instantly</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Form */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">
+            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-sm">
               <form onSubmit={handleForge} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Topic / Subject</label>
+                  <label className="text-[10px] md:text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Topic / Subject</label>
                   <input 
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
                     placeholder="e.g. 2026 Art Grant Guide" 
-                    className="w-full h-12 rounded-xl border border-input bg-muted/30 px-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+                    className="w-full h-11 md:h-12 rounded-xl border border-input bg-muted/30 px-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Target Audience</label>
+                  <label className="text-[10px] md:text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Target Audience</label>
                   <input 
                     value={audience}
                     onChange={(e) => setAudience(e.target.value)}
                     placeholder="e.g. Professional Digital Artists" 
-                    className="w-full h-12 rounded-xl border border-input bg-muted/30 px-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+                    className="w-full h-11 md:h-12 rounded-xl border border-input bg-muted/30 px-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Notification Email</label>
+                  <label className="text-[10px] md:text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Notification Email</label>
                   <input 
                     type="email"
                     value={notificationEmail}
                     onChange={(e) => setNotificationEmail(e.target.value)}
                     placeholder="Where should we send the kit link? (Optional)" 
-                    className="w-full rounded-xl border border-input bg-muted/30 p-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+                    className="w-full rounded-xl border border-input bg-muted/30 p-3 md:p-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
                   />
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex flex-col space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Manual Research & Resources</label>
-                    <div className="flex gap-2">
+                    <label className="text-[10px] md:text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Manual Research & Resources</label>
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <input 
                         type="url"
                         value={scrapeUrl}
@@ -196,9 +196,10 @@ export default function ForgePage() {
                         className="flex-1 rounded-lg border border-input bg-muted/20 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary"
                       />
                       <button 
+                        type="button"
                         onClick={handleScrape}
                         disabled={isScraping || !scrapeUrl}
-                        className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-xs font-bold uppercase hover:bg-secondary/80 disabled:opacity-50 transition-all"
+                        className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-xs font-bold uppercase hover:bg-secondary/80 disabled:opacity-50 transition-all shrink-0"
                       >
                         {isScraping ? 'Fetching...' : 'Fetch Text'}
                       </button>
@@ -209,18 +210,18 @@ export default function ForgePage() {
                     value={rawContent}
                     onChange={(e) => setRawContent(e.target.value)}
                     placeholder="Paste URLs, source text, or raw research data here. The Forge will synthesize this into your Kit." 
-                    className="w-full h-64 rounded-xl border border-input bg-muted/30 p-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all resize-none font-mono text-xs"
+                    className="w-full h-48 md:h-64 rounded-xl border border-input bg-muted/30 p-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all resize-none font-mono text-[10px] md:text-xs"
                   />
                 </div>
 
                 <button 
                   disabled={status !== 'idle' && status !== 'success' && status !== 'error'}
-                  className="w-full h-14 rounded-full bg-primary text-primary-foreground font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-2"
+                  className="w-full h-12 md:h-14 rounded-full bg-primary text-primary-foreground font-black text-base md:text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-2"
                 >
                   {status === 'generating' || status === 'saving' ? (
-                    <Loader2 className="h-6 w-6 animate-spin" />
+                    <Loader2 className="h-5 w-5 md:h-6 md:w-6 animate-spin" />
                   ) : (
-                    <Sparkles className="h-5 w-5 fill-primary-foreground" />
+                    <Sparkles className="h-4 w-4 md:h-5 md:w-5 fill-primary-foreground" />
                   )}
                   {status === 'generating' ? 'IGNITING ENGINE...' : 
                    status === 'saving' ? 'TEMPERING ZIP...' : 
@@ -233,12 +234,12 @@ export default function ForgePage() {
           {/* Status / Output Panel */}
           <div className="space-y-6">
             <div className="bg-card border border-border rounded-2xl p-6 shadow-sm overflow-hidden relative">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Forge Output</h2>
+              <h2 className="text-[10px] md:text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Forge Output</h2>
               
               {status === 'idle' && (
-                <div className="py-12 flex flex-col items-center justify-center opacity-40">
-                  <Hammer className="h-12 w-12 mb-4" />
-                  <p className="text-xs font-bold px-8 text-center">Engine is cold. <br /> Fill in details to start forge.</p>
+                <div className="py-8 md:py-12 flex flex-col items-center justify-center opacity-40">
+                  <Hammer className="h-10 w-10 md:h-12 md:w-12 mb-4" />
+                  <p className="text-[10px] md:text-xs font-bold px-4 md:px-8 text-center uppercase tracking-tight">Engine is cold. <br /> Fill in details to start forge.</p>
                 </div>
               )}
 

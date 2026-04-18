@@ -2,17 +2,21 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { NotebookIcon, Search, LogIn, LogOut, Loader2, ShieldCheck } from 'lucide-react';
+import { NotebookIcon, Search, LogIn, LogOut, Loader2, ShieldCheck, Menu, X, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useState } from 'react';
 
 export default function Header() {
   const { user, loading, isAdmin, logout } = useAuth();
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
     router.push('/');
   };
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -26,14 +30,20 @@ export default function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-6 ml-10 text-sm font-medium">
             <Link href="/marketplace" className="transition-colors hover:text-primary">Marketplace</Link>
-            {isAdmin && (
-              <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                The Forge
-              </Link>
-            )}
             {user && (
               <Link href="/kits" className="transition-colors hover:text-primary font-bold">My Kits</Link>
+            )}
+            {isAdmin && (
+              <>
+                <Link href="/admin" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+                  <LayoutDashboard className="h-3.5 w-3.5" />
+                  Admin
+                </Link>
+                <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  The Forge
+                </Link>
+              </>
             )}
           </nav>
         </div>
@@ -59,12 +69,12 @@ export default function Header() {
                     Admin
                   </span>
                 )}
-                <span className="truncate max-w-[140px]">{user.email}</span>
+                <span className="truncate max-w-[140px] font-medium">{user.email}</span>
               </div>
               <button
                 id="logout-btn"
                 onClick={handleLogout}
-                className="flex items-center gap-2 h-9 px-4 rounded-full border border-border bg-muted/20 hover:bg-muted/50 font-semibold text-xs transition-all"
+                className="hidden sm:flex items-center gap-2 h-9 px-4 rounded-full border border-border bg-muted/20 hover:bg-muted/50 font-semibold text-xs transition-all"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 Sign Out
@@ -74,14 +84,95 @@ export default function Header() {
             <Link
               id="login-btn"
               href="/login"
-              className="flex items-center gap-2 h-9 px-4 rounded-full bg-primary text-primary-foreground font-semibold text-xs hover:opacity-90 transition-all"
+              className="hidden sm:flex items-center gap-2 h-9 px-4 rounded-full bg-primary text-primary-foreground font-semibold text-xs hover:opacity-90 transition-all"
             >
               <LogIn className="h-3.5 w-3.5" />
               Sign In
             </Link>
           )}
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            onClick={toggleMenu}
+            aria-label="Toggle Menu"
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur animate-in slide-in-from-top-4 duration-200">
+          <nav className="flex flex-col p-4 space-y-4 text-sm font-medium">
+            <Link 
+              href="/marketplace" 
+              className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Marketplace
+            </Link>
+            {user && (
+              <Link 
+                href="/kits" 
+                className="px-4 py-3 rounded-xl hover:bg-muted transition-colors font-bold flex items-center gap-3"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                My Kits
+              </Link>
+            )}
+            {isAdmin && (
+              <>
+                <Link 
+                  href="/admin" 
+                  className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 font-bold text-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Admin Dashboard
+                </Link>
+                <Link 
+                  href="/admin/forge" 
+                  className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 text-primary/80"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <ShieldCheck className="h-5 w-5" />
+                  The Forge
+                </Link>
+              </>
+            )}
+            <div className="border-t border-border/40 pt-4 mt-2">
+              {user ? (
+                <div className="space-y-4">
+                  <div className="px-4 py-2 text-xs text-muted-foreground flex items-center gap-2 bg-muted/30 rounded-lg">
+                    <span className="truncate">{user.email}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors text-left font-bold"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 px-4 py-4 rounded-xl bg-primary text-primary-foreground font-black text-center shadow-lg shadow-primary/20"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LogIn className="h-5 w-5" />
+                  Sign In
+                </Link>
+              )}
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
