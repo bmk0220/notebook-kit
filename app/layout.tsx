@@ -3,8 +3,8 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "Notebook Kit | AI Marketplace & Forge",
-  description: "Generate and discover professional NotebookLM-ready kits.",
+  title: "Notebook Kit | AI Knowledge Marketplace",
+  description: "Discover and collect professional NotebookLM-ready source kits.",
 };
 
 export default function RootLayout({

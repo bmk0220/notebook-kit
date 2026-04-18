@@ -118,10 +118,10 @@ export default function MarketplacePage() {
                 <Sparkles className="h-8 w-8 text-primary" />
                 <h3 className="font-bold text-lg">Custom Request?</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Need a specific domain not listed here? Our team can forge a custom kit for you in minutes.
+                  Need a specific domain not listed here? Our team can generate a specialized bundle for you.
                 </p>
                 <button className="w-full py-2.5 rounded-xl bg-foreground text-background text-xs font-black uppercase hover:opacity-90 transition-opacity">
-                  Contact Forge
+                  Request a Kit
                 </button>
               </div>
             </aside>

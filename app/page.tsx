@@ -79,23 +79,23 @@ export default function Home() {
                   <KitCard key={kit.id} {...kit} />
                 ))}
                 
-                {/* Forge Call to Action */}
+                {/* Custom Request Call to Action */}
                 <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-border rounded-2xl bg-muted/20 text-center">
                   <div className="bg-primary/10 p-4 rounded-full mb-4">
                     <Sparkles className="h-8 w-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Need something custom?</h3>
-                  <p className="text-sm text-muted-foreground mb-6">Can&apos;t find what you need? Use The Forge to generate a custom kit instantly.</p>
-                  <Link href="/admin/forge" className="w-full">
+                  <p className="text-sm text-muted-foreground mb-6">Our team can generate a specialized bundle for any domain. Contact us to request a custom kit.</p>
+                  <Link href="/marketplace" className="w-full">
                     <button className="w-full py-3 rounded-full bg-foreground text-background font-bold hover:scale-[1.02] transition-transform">
-                      Start Forging
+                      Request Custom Kit
                     </button>
                   </Link>
                 </div>
               </>
             ) : (
               <div className="col-span-full py-20 text-center border-2 border-dashed border-border rounded-3xl bg-muted/20">
-                <p className="text-muted-foreground font-medium">No results found. Be the first to forge one.</p>
+                <p className="text-muted-foreground font-medium">No results found. Check back soon for new arrivals.</p>
               </div>
             )}
           </div>

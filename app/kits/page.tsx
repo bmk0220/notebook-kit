@@ -85,7 +85,7 @@ export default function LibraryPage() {
         <div className="mb-12">
           <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Kits</h1>
           <p className="text-muted-foreground font-medium underline decoration-primary decoration-4 underline-offset-4">
-            Your personal collection of forged Notebook Kits.
+            Your personal collection of specialized Notebook Kits.
           </p>
         </div>
 
