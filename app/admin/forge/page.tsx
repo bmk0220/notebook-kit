@@ -152,7 +152,7 @@ export default function ForgePage() {
             <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">
               <form onSubmit={handleForge} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Topic / Domain</label>
+                  <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Topic / Subject</label>
                   <input 
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
