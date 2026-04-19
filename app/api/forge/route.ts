@@ -45,37 +45,37 @@ export async function POST(req: Request) {
             { role: "system", content: "You are a professional technical strategist specialized in high-performance knowledge systems." },
             { role: "user", content: blueprintPrompt }
           ],
-          response_format: { type: "json_object" }
-        })
-      });
+          response_format: { type: "json_object" },
+          max_tokens: 2048
+          })
+          });
+        const data = await response.json();
 
-      const data = await response.json();
-      
-      if (!data.choices || !data.choices[0]) {
-        console.error('OpenRouter API Error - Invalid Response Structure:', JSON.stringify(data, null, 2));
-        throw new Error('Received invalid response structure from AI provider.');
-      }
-      
-      const result = JSON.parse(data.choices[0].message.content);
-      return NextResponse.json(result);
-    }
+        if (!data.choices || !data.choices[0]) {
+        console.error('OpenRouter Full Response Log:', JSON.stringify(data, null, 2));
+        throw new Error(`AI Provider Error: ${data.error?.message || 'Invalid response structure'}`);
+        }
 
-    // Default: Full Generation Mode using the Blueprint
-    const forgePrompt = `
-      You are the "Forge Engine", a specialized AI for creating professional NotebookLM-ready Kits.
-      Your goal is to generate a comprehensive, structured Kit about: "${topic}" for an audience of "${audience}".
-      
-      CRITICAL: You MUST follow this approved Blueprint for the generation:
-      Angle: ${blueprint.angle}
-      
-      Section Focus Points:
-      ${Object.entries(blueprint.sections).map(([k, v]) => `${k}: ${(v as string[]).join(', ')}`).join('\n')}
+        const result = JSON.parse(data.choices[0].message.content);
+        return NextResponse.json(result);
+        }
 
-      Research Context:
-      ${raw_content}
+        // Default: Full Generation Mode using the Blueprint
+        const forgePrompt = `
+        You are the "Forge Engine", a specialized AI for creating professional NotebookLM-ready Kits.
+        Your goal is to generate a comprehensive, structured Kit about: "${topic}" for an audience of "${audience}".
 
-      You MUST return a JSON object with this EXACT structure:
-      {
+        CRITICAL: You MUST follow this approved Blueprint for the generation:
+        Angle: ${blueprint.angle}
+
+        Section Focus Points:
+        ${Object.entries(blueprint.sections).map(([k, v]) => `${k}: ${(v as string[]).join(', ')}`).join('\n')}
+
+        Research Context:
+        ${raw_content}
+
+        You MUST return a JSON object with this EXACT structure:
+        {
         "title": "Clear Title",
         "slug": "url-friendly-slug",
         "description": "One sentence punchy description",
@@ -89,25 +89,25 @@ export async function POST(req: Request) {
           "tips": "Markdown content",
           "system_instructions": "Technical AI instructions"
         }
-      }
-    `;
+        }
+        `;
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
         "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+        },
+        body: JSON.stringify({
         model: model,
         messages: [
           { role: "system", content: "You are a professional technical writer and data scientist. Return ONLY valid JSON." },
           { role: "user", content: forgePrompt }
         ],
-        response_format: { type: "json_object" }
-      })
-    });
-
+        response_format: { type: "json_object" },
+        max_tokens: 8192
+        })
+        });
     const data = await response.json();
     const result = JSON.parse(data.choices[0].message.content);
 
