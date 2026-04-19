@@ -41,7 +41,12 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
 
   const storagePath = `kits/${kitId}/${metadata.slug}.zip`;
   const storageRef = ref(storage, storagePath);
-  await uploadBytes(storageRef, zipBlob);
+  try {
+    await uploadBytes(storageRef, zipBlob);
+  } catch (error: unknown) {
+    console.error('Firebase Storage Upload Failed:', error);
+    throw error;
+  }
   const downloadUrl = await getDownloadURL(storageRef);
 
   await setDoc(doc(db, "kits", kitId), {

@@ -11,11 +11,31 @@ export default function ForgePage() {
   const { user, loading: authLoading, isAdmin } = useAuth();
   const router = useRouter();
 
-  const [metadata, setMetadata] = useState<KitMetadata>({ title: '', slug: '', description: '' });
-  const [content, setContent] = useState<KitContent>({
-    main_source: '', overview: '', key_concepts: '', step_by_step: '', resources: '',
-    faq: '', checklists: '', tips: '', system_instructions: ''
+  const [metadata, setMetadata] = useState<KitMetadata>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('forge-metadata');
+      return saved ? JSON.parse(saved) : { title: '', slug: '', description: '' };
+    }
+    return { title: '', slug: '', description: '' };
   });
+
+  const [content, setContent] = useState<KitContent>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('forge-content');
+      return saved ? JSON.parse(saved) : {
+        main_source: '', overview: '', key_concepts: '', step_by_step: '', resources: '',
+        faq: '', checklists: '', tips: '', system_instructions: ''
+      };
+    }
+    return {
+      main_source: '', overview: '', key_concepts: '', step_by_step: '', resources: '',
+      faq: '', checklists: '', tips: '', system_instructions: ''
+    };
+  });
+
+  // Persist state changes
+  const updateMetadata = (m: KitMetadata) => { setMetadata(m); localStorage.setItem('forge-metadata', JSON.stringify(m)); };
+  const updateContent = (c: KitContent) => { setContent(c); localStorage.setItem('forge-content', JSON.stringify(c)); };
 
   const [status, setStatus] = useState<'idle' | 'publishing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -87,10 +107,10 @@ export default function ForgePage() {
             <section className="bg-white p-6 rounded-2xl shadow-sm border">
               <h3 className="font-bold mb-4">Kit Metadata</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required placeholder="Title" className="p-3 border rounded-xl" onChange={e => setMetadata({...metadata, title: e.target.value})} />
-                <input required placeholder="Slug" className="p-3 border rounded-xl" onChange={e => setMetadata({...metadata, slug: e.target.value})} />
+                <input required placeholder="Title" value={metadata.title} className="p-3 border rounded-xl" onChange={e => updateMetadata({...metadata, title: e.target.value})} />
+                <input required placeholder="Slug" value={metadata.slug} className="p-3 border rounded-xl" onChange={e => updateMetadata({...metadata, slug: e.target.value})} />
               </div>
-              <textarea required placeholder="Description" className="w-full mt-4 p-3 border rounded-xl" onChange={e => setMetadata({...metadata, description: e.target.value})} />
+              <textarea required placeholder="Description" value={metadata.description} className="w-full mt-4 p-3 border rounded-xl" onChange={e => updateMetadata({...metadata, description: e.target.value})} />
             </section>
 
             <section className="bg-white p-6 rounded-2xl shadow-sm border">
@@ -108,7 +128,7 @@ export default function ForgePage() {
                     value={content[key]}
                     placeholder={key.replace('_', ' ').toUpperCase()}
                     className="p-3 border rounded-xl h-32 font-mono text-xs"
-                    onChange={e => setContent({...content, [key]: e.target.value})}
+                    onChange={e => updateContent({...content, [key]: e.target.value})}
                   />
                 ))}
               </div>
