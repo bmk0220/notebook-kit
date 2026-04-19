@@ -13,12 +13,37 @@ export default function ForgePage() {
 
   const [metadata, setMetadata] = useState<KitMetadata>({ title: '', slug: '', description: '' });
   const [content, setContent] = useState<KitContent>({
-    overview: '', key_concepts: '', step_by_step: '', resources: '',
+    main_source: '', overview: '', key_concepts: '', step_by_step: '', resources: '',
     faq: '', checklists: '', tips: '', system_instructions: ''
   });
 
   const [status, setStatus] = useState<'idle' | 'publishing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target?.result as string;
+        const filename = file.name.toLowerCase();
+        
+        // Auto-mapping logic
+        if (filename.includes('main')) setContent(prev => ({...prev, main_source: text}));
+        else if (filename.includes('overview')) setContent(prev => ({...prev, overview: text}));
+        else if (filename.includes('concept')) setContent(prev => ({...prev, key_concepts: text}));
+        else if (filename.includes('step')) setContent(prev => ({...prev, step_by_step: text}));
+        else if (filename.includes('resource')) setContent(prev => ({...prev, resources: text}));
+        else if (filename.includes('faq')) setContent(prev => ({...prev, faq: text}));
+        else if (filename.includes('checklist')) setContent(prev => ({...prev, checklists: text}));
+        else if (filename.includes('tip')) setContent(prev => ({...prev, tips: text}));
+        else if (filename.includes('system')) setContent(prev => ({...prev, system_instructions: text}));
+      };
+      reader.readAsText(file);
+    });
+  };
 
   if (authLoading) return <div className="flex min-h-screen items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-primary/50" /></div>;
   if (!user || !isAdmin) return <div className="p-12 text-center text-destructive">Access Restricted</div>;
@@ -69,12 +94,18 @@ export default function ForgePage() {
             </section>
 
             <section className="bg-white p-6 rounded-2xl shadow-sm border">
-              <h3 className="font-bold mb-4">Content Components (Markdown)</h3>
+              <h3 className="font-bold mb-4">Resource Ingestion</h3>
+              <input type="file" multiple onChange={handleFileUpload} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90" />
+            </section>
+
+            <section className="bg-white p-6 rounded-2xl shadow-sm border">
+              <h3 className="font-bold mb-4">Content Components</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(Object.keys(content) as Array<keyof KitContent>).map(key => (
                   <textarea 
                     key={key} 
                     required
+                    value={content[key]}
                     placeholder={key.replace('_', ' ').toUpperCase()}
                     className="p-3 border rounded-xl h-32 font-mono text-xs"
                     onChange={e => setContent({...content, [key]: e.target.value})}

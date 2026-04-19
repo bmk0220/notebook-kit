@@ -4,6 +4,7 @@ import { db, storage } from "@/lib/firebase";
 import { createNotebookZip } from "./zip";
 
 export type KitContent = {
+  main_source: string;
   overview: string;
   key_concepts: string;
   step_by_step: string;
@@ -25,6 +26,7 @@ export type KitMetadata = {
  */
 export async function publishKit(kitId: string, metadata: KitMetadata, content: KitContent, userId: string) {
   const files = [
+    { title: '00_Main_Source', content: content.main_source },
     { title: '01_Overview', content: content.overview },
     { title: '02_Key_Concepts', content: content.key_concepts },
     { title: '03_Step_by_Step', content: content.step_by_step },
