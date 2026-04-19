@@ -7,7 +7,15 @@ export type ForgeInput = {
   topic: string;
   audience: string;
   raw_content?: string;
-  useSearch?: boolean;
+  mode?: 'blueprint' | 'generate';
+  blueprint?: Blueprint;
+};
+
+export type Blueprint = {
+  angle: string;
+  sections: {
+    [key: string]: string[];
+  };
 };
 
 export type ForgeOutput = {
@@ -27,10 +35,9 @@ export type ForgeOutput = {
 };
 
 /**
- * Placeholder for AI generation. 
- * In a real implementation, this would call an API route that interacts with OpenRouter.
+ * Calls the Forge API for either Blueprinting or Generation.
  */
-export async function generateKit(input: ForgeInput): Promise<ForgeOutput> {
+export async function generateKit(input: ForgeInput): Promise<Blueprint | ForgeOutput> {
   const response = await fetch('/api/forge', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -38,7 +45,8 @@ export async function generateKit(input: ForgeInput): Promise<ForgeOutput> {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to generate Kit');
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to generate');
   }
 
   return await response.json();

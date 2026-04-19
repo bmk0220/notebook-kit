@@ -117,7 +117,7 @@ export default function Home() {
                   <Zap className="h-6 w-6" />
                 </div>
                 <h4 className="text-xl font-bold">NotebookLM Ready</h4>
-                <p className="text-muted-foreground">Perfectly formatted markdown bundles optimized for NotebookLM's ingestion engine.</p>
+                <p className="text-muted-foreground">Perfectly formatted markdown bundles optimized for NotebookLM&apos;s ingestion engine.</p>
               </div>
               <div className="space-y-4">
                 <div className="h-12 w-12 rounded-2xl bg-background flex items-center justify-center shadow-sm border border-border/50 text-primary">
