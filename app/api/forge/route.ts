@@ -50,6 +50,12 @@ export async function POST(req: Request) {
       });
 
       const data = await response.json();
+      
+      if (!data.choices || !data.choices[0]) {
+        console.error('OpenRouter API Error - Invalid Response Structure:', JSON.stringify(data, null, 2));
+        throw new Error('Received invalid response structure from AI provider.');
+      }
+      
       const result = JSON.parse(data.choices[0].message.content);
       return NextResponse.json(result);
     }
