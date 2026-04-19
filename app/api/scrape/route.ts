@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
-import pdf from 'pdf-parse';
 import { YoutubeTranscript } from 'youtube-transcript';
+
+// Dynamic import of pdf-parse to avoid build-time issues
+async function parsePdf(buffer: Buffer) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const pdfParse = require('pdf-parse');
+  return await pdfParse(buffer);
+}
 
 export async function POST(req: Request) {
   try {
@@ -34,7 +40,7 @@ export async function POST(req: Request) {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Failed to fetch PDF: ${response.statusText}`);
       const buffer = await response.arrayBuffer();
-      const data = await pdf(Buffer.from(buffer));
+      const data = await parsePdf(Buffer.from(buffer));
       cleanText = data.text;
       title = url.split('/').pop() || 'PDF Document';
     } else {
