@@ -49,20 +49,25 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
   }
   const downloadUrl = await getDownloadURL(storageRef);
 
-  await setDoc(doc(db, "kits", kitId), {
-    ...metadata,
-    price: 49,
-    category: "general",
-    status: "published",
-    fileUrl: downloadUrl,
-    userId: userId,
-    createdAt: serverTimestamp(),
-  });
+  try {
+    await setDoc(doc(db, "kits", kitId), {
+      ...metadata,
+      price: 49,
+      category: "general",
+      status: "published",
+      fileUrl: downloadUrl,
+      userId: userId,
+      createdAt: serverTimestamp(),
+    });
 
-  await setDoc(doc(db, "kits_content", kitId), {
-    ...content,
-    updatedAt: serverTimestamp(),
-  });
+    await setDoc(doc(db, "kits_content", kitId), {
+      ...content,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error: unknown) {
+    console.error('Firebase Firestore Write Failed:', error);
+    throw new Error('Database write failed. Check server logs.');
+  }
 
   return { kitId, downloadUrl };
-}
+  }
