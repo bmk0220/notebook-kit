@@ -1,4 +1,5 @@
 import { adminDb, adminStorage } from "@/lib/firebase-admin";
+import { FieldValue } from "firebase-admin/firestore";
 import { createNotebookZip } from "./zip";
 
 export type KitContent = {
@@ -35,7 +36,11 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
     { title: '08_System_Instructions', content: content.system_instructions },
   ];
 
-  const zipBuffer = await createNotebookZip(files);
+  const zipBlob = await createNotebookZip(files);
+  // Convert Blob to Buffer for Node.js/Admin SDK compatibility
+  const arrayBuffer = await zipBlob.arrayBuffer();
+  const zipBuffer = Buffer.from(arrayBuffer);
+  
   const storagePath = `kits/${kitId}/${metadata.slug}.zip`;
   const file = adminStorage.file(storagePath);
   
@@ -68,12 +73,12 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
       status: "published",
       fileUrl: downloadUrl,
       userId: userId,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
     });
 
     await adminDb.collection("kits_content").doc(kitId).set({
       ...content,
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
     });
   } catch (error: unknown) {
     console.error('Firebase Admin Firestore Write Failed:', error);
