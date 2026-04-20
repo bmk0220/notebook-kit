@@ -24,54 +24,49 @@ function getAdminApp(): App | null {
   // Handle the newline characters in the private key correctly
   const privateKey = process.env.FB_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-  if (!projectId || !clientEmail || !privateKey) {
-    // Detailed logging for what's missing (only on the server)
-    if (typeof window === 'undefined') {
-      const missing = [];
-      if (!projectId) missing.push('FB_ADMIN_PROJECT_ID');
-      if (!clientEmail) missing.push('FB_ADMIN_CLIENT_EMAIL');
-      if (!privateKey) missing.push('FB_ADMIN_PRIVATE_KEY');
-      
-      console.warn(`Firebase Admin: Missing credentials (${missing.join(', ')}).`);
-      
-      if (process.env.NODE_ENV === 'production') {
-        console.error('CRITICAL: Firebase Admin credentials missing in production environment. Ensure they are set in the Firebase project configuration.');
-      }
+  // If manual credentials are provided, use them (best for local dev)
+  if (projectId && clientEmail && privateKey) {
+    try {
+      adminApp = initializeApp({
+        credential: cert({
+          projectId,
+          clientEmail,
+          privateKey,
+        }),
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      }, 'manual'); // Named instance to avoid conflict
+      console.log('Firebase Admin: Initialized with manual credentials.');
+      return adminApp;
+    } catch (error) {
+      console.error('Firebase Admin: Manual initialization failed:', error);
     }
-    return null;
   }
 
+  // Fallback: Default initialization (best for production/Cloud environment)
   try {
     adminApp = initializeApp({
-      credential: cert({
-        projectId,
-        clientEmail,
-        privateKey,
-      }),
       storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
-    console.log('Firebase Admin: SDK initialized successfully.');
+    console.log('Firebase Admin: Initialized with default Cloud credentials.');
     return adminApp;
   } catch (error) {
-    console.error('Firebase Admin: Initialization failed:', error);
+    console.error('Firebase Admin: Default initialization failed:', error);
     return null;
   }
 }
 
 /**
  * Exported services as Proxies.
- * These will trigger initialization only when a property (like .collection or .file) is accessed.
  */
 export const adminDb = new Proxy({} as Firestore, {
   get(_target, prop) {
-    // Avoid crashing during library inspection or Next.js internals checks
     if (typeof prop === 'symbol' || (typeof prop === 'string' && (prop.startsWith('__') || prop === 'toJSON'))) {
       return undefined;
     }
     
     if (!cachedDb) {
       const app = getAdminApp();
-      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      if (!app) throw new Error('Firebase Admin SDK not initialized. No credentials available.');
       cachedDb = getFirestore(app);
     }
     const value = (cachedDb as any)[prop];
@@ -90,7 +85,7 @@ export const adminStorage = new Proxy({} as any, {
 
     if (!cachedBucket) {
       const app = getAdminApp();
-      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      if (!app) throw new Error('Firebase Admin SDK not initialized. No credentials available.');
       cachedBucket = getStorage(app).bucket();
     }
     const value = (cachedBucket as any)[prop];
@@ -109,7 +104,7 @@ export const adminAuth = new Proxy({} as Auth, {
 
     if (!cachedAuth) {
       const app = getAdminApp();
-      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      if (!app) throw new Error('Firebase Admin SDK not initialized. No credentials available.');
       cachedAuth = getAuth(app);
     }
     const value = (cachedAuth as any)[prop];
