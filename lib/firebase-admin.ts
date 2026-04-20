@@ -25,9 +25,18 @@ function getAdminApp(): App | null {
   const privateKey = process.env.FB_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
   if (!projectId || !clientEmail || !privateKey) {
-    // Only log warning during runtime, keep quiet during build unless accessed
-    if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
-      console.warn('Firebase Admin: Missing credentials. This is expected during build but check your env vars if this happens at runtime.');
+    // Detailed logging for what's missing (only on the server)
+    if (typeof window === 'undefined') {
+      const missing = [];
+      if (!projectId) missing.push('FB_ADMIN_PROJECT_ID');
+      if (!clientEmail) missing.push('FB_ADMIN_CLIENT_EMAIL');
+      if (!privateKey) missing.push('FB_ADMIN_PRIVATE_KEY');
+      
+      console.warn(`Firebase Admin: Missing credentials (${missing.join(', ')}).`);
+      
+      if (process.env.NODE_ENV === 'production') {
+        console.error('CRITICAL: Firebase Admin credentials missing in production environment. Ensure they are set in the Firebase project configuration.');
+      }
     }
     return null;
   }
@@ -41,6 +50,7 @@ function getAdminApp(): App | null {
       }),
       storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
+    console.log('Firebase Admin: SDK initialized successfully.');
     return adminApp;
   } catch (error) {
     console.error('Firebase Admin: Initialization failed:', error);
@@ -54,6 +64,11 @@ function getAdminApp(): App | null {
  */
 export const adminDb = new Proxy({} as Firestore, {
   get(_target, prop) {
+    // Avoid crashing during library inspection or Next.js internals checks
+    if (typeof prop === 'symbol' || (typeof prop === 'string' && (prop.startsWith('__') || prop === 'toJSON'))) {
+      return undefined;
+    }
+    
     if (!cachedDb) {
       const app = getAdminApp();
       if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
@@ -69,6 +84,10 @@ export const adminDb = new Proxy({} as Firestore, {
 
 export const adminStorage = new Proxy({} as any, {
   get(_target, prop) {
+    if (typeof prop === 'symbol' || (typeof prop === 'string' && (prop.startsWith('__') || prop === 'toJSON'))) {
+      return undefined;
+    }
+
     if (!cachedBucket) {
       const app = getAdminApp();
       if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
@@ -84,6 +103,10 @@ export const adminStorage = new Proxy({} as any, {
 
 export const adminAuth = new Proxy({} as Auth, {
   get(_target, prop) {
+    if (typeof prop === 'symbol' || (typeof prop === 'string' && (prop.startsWith('__') || prop === 'toJSON'))) {
+      return undefined;
+    }
+
     if (!cachedAuth) {
       const app = getAdminApp();
       if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
