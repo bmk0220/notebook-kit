@@ -316,3 +316,13 @@
 [debug] [2026-04-20T09:09:59.207Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
 [debug] [2026-04-20T09:09:59.207Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
 [debug] [2026-04-20T09:09:59.207Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-20T09:10:00.842Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-20T09:10:00.842Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-20T09:10:00.843Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T09:10:00.843Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T09:10:00.843Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions [none]
+[debug] [2026-04-20T09:10:02.510Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions 200
+[debug] [2026-04-20T09:10:02.510Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions {}
+[debug] [2026-04-20T09:10:02.511Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T09:10:02.511Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T09:10:02.511Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/-/functions filter=environment%3D%22GEN_2%22
