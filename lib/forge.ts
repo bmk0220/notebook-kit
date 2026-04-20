@@ -36,16 +36,13 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
     { title: '08_System_Instructions', content: content.system_instructions },
   ];
 
-  const zipBlob = await createNotebookZip(files);
-  // Convert Blob to Buffer for Node.js/Admin SDK compatibility
-  const arrayBuffer = await zipBlob.arrayBuffer();
-  const zipBuffer = Buffer.from(arrayBuffer);
+  const zipBuffer = await createNotebookZip(files);
   
   const storagePath = `kits/${kitId}/${metadata.slug}.zip`;
   const file = adminStorage.file(storagePath);
   
   try {
-    await file.save(zipBuffer, {
+    await file.save(Buffer.from(zipBuffer), {
       contentType: 'application/zip',
       metadata: {
         metadata: {

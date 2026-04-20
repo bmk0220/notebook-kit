@@ -8,9 +8,9 @@ interface MarkdownFile {
 /**
  * Creates a ZIP file containing markdown files.
  * @param files Array of MarkdownFile objects
- * @returns Promise<Blob> The ZIP file as a Blob
+ * @returns Promise<Uint8Array> The ZIP file as a Uint8Array
  */
-export async function createNotebookZip(files: MarkdownFile[]): Promise<Blob> {
+export async function createNotebookZip(files: MarkdownFile[]): Promise<Uint8Array> {
   const zip = new JSZip();
 
   files.forEach((file) => {
@@ -19,5 +19,5 @@ export async function createNotebookZip(files: MarkdownFile[]): Promise<Blob> {
     zip.file(fileName, file.content);
   });
 
-  return await zip.generateAsync({ type: 'blob' });
+  return await zip.generateAsync({ type: 'uint8array' });
 }

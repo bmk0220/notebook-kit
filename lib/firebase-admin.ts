@@ -10,6 +10,9 @@ import { getAuth, Auth } from 'firebase-admin/auth';
  * preventing 'Missing Project ID' errors during the Next.js build process.
  */
 let adminApp: App | null = null;
+let cachedDb: Firestore | null = null;
+let cachedBucket: any | null = null;
+let cachedAuth: Auth | null = null;
 
 function getAdminApp(): App | null {
   if (getApps().length > 0) {
@@ -51,27 +54,45 @@ function getAdminApp(): App | null {
  */
 export const adminDb = new Proxy({} as Firestore, {
   get(_target, prop) {
-    const app = getAdminApp();
-    if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
-    const db = getFirestore(app);
-    return (db as any)[prop];
+    if (!cachedDb) {
+      const app = getAdminApp();
+      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      cachedDb = getFirestore(app);
+    }
+    const value = (cachedDb as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(cachedDb);
+    }
+    return value;
   }
 });
 
 export const adminStorage = new Proxy({} as any, {
   get(_target, prop) {
-    const app = getAdminApp();
-    if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
-    const bucket = getStorage(app).bucket();
-    return (bucket as any)[prop];
+    if (!cachedBucket) {
+      const app = getAdminApp();
+      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      cachedBucket = getStorage(app).bucket();
+    }
+    const value = (cachedBucket as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(cachedBucket);
+    }
+    return value;
   }
 });
 
 export const adminAuth = new Proxy({} as Auth, {
   get(_target, prop) {
-    const app = getAdminApp();
-    if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
-    const auth = getAuth(app);
-    return (auth as any)[prop];
+    if (!cachedAuth) {
+      const app = getAdminApp();
+      if (!app) throw new Error('Firebase Admin SDK not initialized. Check your environment variables.');
+      cachedAuth = getAuth(app);
+    }
+    const value = (cachedAuth as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(cachedAuth);
+    }
+    return value;
   }
 });

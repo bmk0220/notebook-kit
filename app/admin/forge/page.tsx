@@ -78,10 +78,18 @@ export default function ForgePage() {
         body: JSON.stringify({ kitId: crypto.randomUUID(), metadata, content, userId: user.uid })
       });
       
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error);
-      
-      setStatus('success');
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || `Server error: ${res.status}`);
+        }
+        setStatus('success');
+      } else {
+        const text = await res.text();
+        console.error("Non-JSON response:", text);
+        throw new Error(`Server returned non-JSON response (${res.status}). Check server logs.`);
+      }
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : 'Publishing failed');
       setStatus('error');
