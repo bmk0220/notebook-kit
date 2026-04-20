@@ -1,0 +1,620 @@
+[debug] [2026-04-20T08:47:21.085Z] ----------------------------------------------------------------------
+[debug] [2026-04-20T08:47:21.087Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\mattk\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-04-20T08:47:21.087Z] CLI Version:   15.11.0
+[debug] [2026-04-20T08:47:21.087Z] Platform:      win32
+[debug] [2026-04-20T08:47:21.087Z] Node Version:  v22.22.2
+[debug] [2026-04-20T08:47:21.087Z] Time:          Mon Apr 20 2026 16:47:21 GMT+0800 (GMT+08:00)
+[debug] [2026-04-20T08:47:21.087Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-20T08:47:22.301Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T08:47:22.301Z] > authorizing via signed-in user (bmk0220@gmail.com)
+[debug] [2026-04-20T08:47:22.302Z] [iam] checking project notebook-kit for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-04-20T08:47:22.302Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:22.303Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:22.303Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
+[debug] [2026-04-20T08:47:22.303Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
+[debug] [2026-04-20T08:47:22.303Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-20T08:47:24.330Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-20T08:47:24.331Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-20T08:47:24.331Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:24.332Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:24.332Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit [none]
+[debug] [2026-04-20T08:47:25.470Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit 200
+[debug] [2026-04-20T08:47:25.471Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit {"projectId":"notebook-kit","projectNumber":"859362233686","displayName":"Notebook Kit","name":"projects/notebook-kit","resources":{"hostingSite":"notebook-kit"},"state":"ACTIVE","etag":"1_d272f1e3-568c-4ba3-9918-9d9e16afdea6"}
+[debug] [2026-04-20T08:47:27.045Z] defaultcredentials: writing to file C:\Users\mattk\AppData\Roaming\firebase\bmk0220_gmail_com_application_default_credentials.json
+[debug] [2026-04-20T08:47:27.047Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:27.047Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:27.047Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites pageToken=&pageSize=10
+[debug] [2026-04-20T08:47:28.686Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites 200
+[debug] [2026-04-20T08:47:28.686Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites {"sites":[{"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}]}
+[debug] [2026-04-20T08:47:28.687Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:28.687Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:28.687Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config [none]
+[debug] [2026-04-20T08:47:29.188Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config 200
+[debug] [2026-04-20T08:47:29.188Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config {"projectId":"notebook-kit","appId":"1:859362233686:web:4a959657bf832aaf38daf7","storageBucket":"notebook-kit.firebasestorage.app","apiKey":"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c","authDomain":"notebook-kit.firebaseapp.com","messagingSenderId":"859362233686","measurementId":"G-PFMWJMY85C","projectNumber":"859362233686","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-04-20T08:47:34.245Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:34.246Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:34.246Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit [none]
+[debug] [2026-04-20T08:47:35.184Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit 200
+[debug] [2026-04-20T08:47:35.184Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit {"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}
+[info] ▲ Next.js 16.2.4 (Turbopack)
+
+[info] - Environments: .env.local
+
+
+[info]   Creating an optimized production build ...
+
+[info] ✓ Compiled successfully in 2.8s
+
+[info]   Running TypeScript ...
+
+[info]   Finished TypeScript in 2.6s ...
+
+[info]   Collecting page data using 13 workers ...
+
+[info]   Generating static pages using 13 workers (0/12) ...
+
+[info]   Generating static pages using 13 workers (3/12) 
+
+[info]   Generating static pages using 13 workers (6/12) 
+
+[info]   Generating static pages using 13 workers (9/12) 
+
+[info] ✓ Generating static pages using 13 workers (12/12) in 1184ms
+
+[info]   Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin
+├ ○ /admin/forge
+├ ○ /admin/users
+├ ƒ /api/email
+├ ƒ /api/kit/publish
+├ ○ /kits
+├ ○ /login
+└ ○ /marketplace
+
+
+
+[info] ○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /api/email/route
+[info]  • non-static component /api/kit/publish/route
+[info] 
+[debug] [2026-04-20T08:47:48.831Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:48.831Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:47:48.831Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit [none]
+[debug] [2026-04-20T08:47:49.994Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit 200
+[debug] [2026-04-20T08:47:49.994Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit {"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}
+[debug] [2026-04-20T08:48:28.644Z] [web frameworks] effective firebase.json:  {
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "notebook-kit",
+      "rewrites": [
+        {
+          "source": "**",
+          "function": {
+            "functionId": "ssrnotebookkit",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
+      ],
+      "redirects": [],
+      "headers": [
+        {
+          "source": "/_not-found",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found"
+            }
+          ]
+        },
+        {
+          "source": "/admin/users",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/users/layout,_N_T_/admin/users/page,_N_T_/admin/users"
+            }
+          ]
+        },
+        {
+          "source": "/admin/forge",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/forge/layout,_N_T_/admin/forge/page,_N_T_/admin/forge"
+            }
+          ]
+        },
+        {
+          "source": "/kits",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/kits/layout,_N_T_/kits/page,_N_T_/kits"
+            }
+          ]
+        },
+        {
+          "source": "/_global-error",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_global-error/layout,_N_T_/_global-error/page,_N_T_/_global-error"
+            }
+          ]
+        },
+        {
+          "source": "/favicon.ico",
+          "headers": [
+            {
+              "key": "cache-control",
+              "value": "public, max-age=0, must-revalidate"
+            },
+            {
+              "key": "content-type",
+              "value": "image/x-icon"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico"
+            }
+          ]
+        },
+        {
+          "source": "/marketplace",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/marketplace/layout,_N_T_/marketplace/page,_N_T_/marketplace"
+            }
+          ]
+        },
+        {
+          "source": "/login",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/login/layout,_N_T_/login/page,_N_T_/login"
+            }
+          ]
+        },
+        {
+          "source": "/admin",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/page,_N_T_/admin"
+            }
+          ]
+        },
+        {
+          "source": "**/*.[jt]s",
+          "headers": [
+            {
+              "key": "Set-Cookie",
+              "value": "__FIREBASE_DEFAULTS__=eyJjb25maWciOnsicHJvamVjdElkIjoibm90ZWJvb2sta2l0IiwiYXBwSWQiOiIxOjg1OTM2MjIzMzY4Njp3ZWI6NGE5NTk2NTdiZjgzMmFhZjM4ZGFmNyIsInN0b3JhZ2VCdWNrZXQiOiJub3RlYm9vay1raXQuZmlyZWJhc2VzdG9yYWdlLmFwcCIsImFwaUtleSI6IkFJemFTeUJ6c0NkWWs4d2JMOVVQX2xKSHE5ZEROUGVGZGo0X1MwYyIsImF1dGhEb21haW4iOiJub3RlYm9vay1raXQuZmlyZWJhc2VhcHAuY29tIiwibWVzc2FnaW5nU2VuZGVySWQiOiI4NTkzNjIyMzM2ODYiLCJtZWFzdXJlbWVudElkIjoiRy1QRk1XSk1ZODVDIiwicHJvamVjdE51bWJlciI6Ijg1OTM2MjIzMzY4NiIsInZlcnNpb24iOiIyIn0sIl9hdXRoVG9rZW5TeW5jVVJMIjoiL19fc2Vzc2lvbiJ9; SameSite=Strict; Expires=2028-03-14T19:28:28.644Z; Path=/;"
+            }
+          ]
+        }
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "public": ".firebase\\notebook-kit\\hosting",
+      "webFramework": "next_ssr"
+    }
+  ],
+  "functions": [
+    {
+      "source": "functions",
+      "runtime": "nodejs22"
+    },
+    {
+      "source": ".firebase\\notebook-kit\\functions",
+      "codebase": "firebase-frameworks-notebook-kit"
+    }
+  ]
+}
+[debug] [2026-04-20T08:48:28.644Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T08:48:28.644Z] > authorizing via signed-in user (bmk0220@gmail.com)
+[debug] [2026-04-20T08:48:28.644Z] [iam] checking project notebook-kit for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-04-20T08:48:28.645Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:28.645Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:28.645Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
+[debug] [2026-04-20T08:48:28.645Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
+[debug] [2026-04-20T08:48:28.645Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-20T08:48:29.316Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-20T08:48:29.317Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-20T08:48:29.317Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:29.317Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:29.317Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions [none]
+[debug] [2026-04-20T08:48:31.258Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions 200
+[debug] [2026-04-20T08:48:31.258Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/notebook-kit/locations/-/functions {}
+[debug] [2026-04-20T08:48:31.258Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:31.258Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:31.259Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2026-04-20T08:48:31.983Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/-/functions 200
+[debug] [2026-04-20T08:48:31.983Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/-/functions {"functions":[{"name":"projects/notebook-kit/locations/us-central1/functions/adminCreateUser","buildConfig":{"build":"projects/859362233686/locations/us-central1/builds/73ddc995-965f-43ff-a73b-cb4fa8e43a0a","runtime":"nodejs22","entryPoint":"adminCreateUser","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"adminCreateUser/function-source.zip","generation":"1776674492507130"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"adminCreateUser/function-source.zip","generation":"1776674492507130"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/admincreateuser","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/adminCreateUser","FUNCTION_TARGET":"adminCreateUser","LOG_EXECUTION_ID":"true"},"maxInstanceCount":20,"ingressSettings":"ALLOW_ALL","uri":"https://admincreateuser-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"admincreateuser-00007-cos","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-04-20T08:42:23.823842013Z","labels":{"firebase-functions-hash":"403d6a57c7ee89dda72b3b8913820b4ba58c90c4","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/adminCreateUser","createTime":"2026-04-17T06:20:47.961147413Z","satisfiesPzi":true},{"name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"build":"projects/859362233686/locations/us-central1/builds/33adcfea-3044-467a-bf80-d9c310e5ff17","runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"maxInstanceCount":20,"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-04-20T07:46:26.843352416Z","labels":{"firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"b34c114fe12b037828dc58bdb5ca304a281a8a47","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","createTime":"2026-04-16T13:25:23.555016729Z","satisfiesPzi":true}]}
+[info] i  hosting: The following function(s) are pinned to site notebook-kit and will be deployed as well: ssrnotebookkit 
+[info] 
+[info] === Deploying to 'notebook-kit'...
+[info] 
+[info] i  deploying functions, hosting 
+[debug] [2026-04-20T08:48:31.990Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:31.990Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:31.990Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit [none]
+[debug] [2026-04-20T08:48:32.811Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit 200
+[debug] [2026-04-20T08:48:32.811Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit {"projectNumber":"859362233686","projectId":"notebook-kit","lifecycleState":"ACTIVE","name":"Notebook Kit","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-04-14T08:22:36.870Z"}
+[info] i  functions: preparing codebase firebase-frameworks-notebook-kit for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-04-20T08:48:32.816Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:32.816Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:32.816Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit/adminSdkConfig [none]
+[debug] [2026-04-20T08:48:33.626Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit/adminSdkConfig 200
+[debug] [2026-04-20T08:48:33.626Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit/adminSdkConfig {"projectId":"notebook-kit","storageBucket":"notebook-kit.firebasestorage.app"}
+[debug] [2026-04-20T08:48:33.627Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:33.627Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:33.627Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/notebook-kit/configs [none]
+[debug] [2026-04-20T08:48:34.748Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/notebook-kit/configs 200
+[debug] [2026-04-20T08:48:34.749Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/notebook-kit/configs {}
+[debug] [2026-04-20T08:48:34.750Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-20T08:48:36.946Z] > [functions] package.json contents: {
+  "name": "notebook-kit",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.99",
+    "@opentelemetry/api": "^1.9.1",
+    "@types/nodemailer": "^8.0.0",
+    "clsx": "^2.1.1",
+    "firebase": "^12.12.0",
+    "firebase-admin": "^13.8.0",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.474.0",
+    "next": "16.2.4",
+    "nodemailer": "^8.0.5",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwind-merge": "^3.5.0",
+    "firebase-frameworks": "^0.11.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "main": "server.js"
+}
+[debug] [2026-04-20T08:48:36.946Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase firebase-frameworks-notebook-kit to determine what to deploy 
+[debug] [2026-04-20T08:48:36.947Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-20T08:48:36.954Z] Found firebase-functions binary at 'C:\appprojects\notebook-kit\.firebase\notebook-kit\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8844
+
+[debug] [2026-04-20T08:48:43.813Z] Got response from /__/functions.yaml {"endpoints":{"ssrnotebookkit":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"ssrnotebookkit"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2026-04-20T08:48:47.857Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-20T08:48:47.858Z] > authorizing via signed-in user (bmk0220@gmail.com)
+[debug] [2026-04-20T08:48:47.858Z] [iam] checking project notebook-kit for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2026-04-20T08:48:47.858Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:47.858Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:47.858Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
+[debug] [2026-04-20T08:48:47.858Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
+[debug] [2026-04-20T08:48:47.858Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-04-20T08:48:48.534Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-20T08:48:48.534Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-04-20T08:48:48.535Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:48.535Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:48.535Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/notebook-kit/instances pageSize=100&pageToken=
+[debug] [2026-04-20T08:48:50.502Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/notebook-kit/instances 200
+[debug] [2026-04-20T08:48:50.503Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/notebook-kit/instances {}
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing .firebase\notebook-kit\functions directory for uploading... 
+[info] i  functions: packaged C:\appprojects\notebook-kit\.firebase\notebook-kit\functions (5.64 MB) for uploading 
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2026-04-20T08:48:59.192Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:59.192Z] Checked if tokens are valid: true, expires at: 1776677238712
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2026-04-20T08:48:59.193Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:59.193Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:48:59.193Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-04-20T08:48:59.193Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/pubsub.googleapis.com:generateServiceIdentity  x-goog-user-project=859362233686
+[debug] [2026-04-20T08:48:59.193Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/pubsub.googleapis.com:generateServiceIdentity {}
+[debug] [2026-04-20T08:48:59.194Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-04-20T08:48:59.194Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/eventarc.googleapis.com:generateServiceIdentity  x-goog-user-project=859362233686
+[debug] [2026-04-20T08:48:59.194Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/eventarc.googleapis.com:generateServiceIdentity {}
+[debug] [2026-04-20T08:49:00.471Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2026-04-20T08:49:00.472Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-859362233686@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"113910549374577666320"}}
+[debug] [2026-04-20T08:49:00.528Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2026-04-20T08:49:00.528Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/859362233686/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-859362233686@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"113628057184211719276"}}
+[debug] [2026-04-20T08:49:00.530Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:00.530Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:00.530Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit [none]
+[debug] [2026-04-20T08:49:01.261Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit 200
+[debug] [2026-04-20T08:49:01.262Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit {"projectNumber":"859362233686","projectId":"notebook-kit","lifecycleState":"ACTIVE","name":"Notebook Kit","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-04-14T08:22:36.870Z"}
+[debug] [2026-04-20T08:49:01.262Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:01.262Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:01.262Z] >>> [apiv2][query] GET https://compute.googleapis.com/compute/v1/projects/859362233686 [none]
+[debug] [2026-04-20T08:49:02.676Z] <<< [apiv2][status] GET https://compute.googleapis.com/compute/v1/projects/859362233686 403
+[debug] [2026-04-20T08:49:02.676Z] <<< [apiv2][body] GET https://compute.googleapis.com/compute/v1/projects/859362233686 {"error":{"code":403,"message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"consumer":"projects/859362233686","serviceTitle":"Compute Engine API","containerInfo":"859362233686","service":"compute.googleapis.com","activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686"}]}]}}
+[debug] [2026-04-20T08:49:02.677Z] unable to look up default compute service account. Falling back to 859362233686-compute@developer.gserviceaccount.com. Error: {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"consumer":"projects/859362233686","serviceTitle":"Compute Engine API","containerInfo":"859362233686","service":"compute.googleapis.com","activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686"}]}]}},"response":{"statusCode":403}},"exit":1,"message":"Request to https://compute.googleapis.com/compute/v1/projects/859362233686 had HTTP Error: 403, Compute Engine API has not been used in project 859362233686 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=859362233686 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","status":403}
+[debug] [2026-04-20T08:49:02.683Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:02.683Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:02.683Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/notebook-kit/versions [none]
+[debug] [2026-04-20T08:49:02.683Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/notebook-kit/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-04-20T08:49:04.225Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/notebook-kit/versions 200
+[debug] [2026-04-20T08:49:04.225Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/notebook-kit/versions {"name":"projects/859362233686/sites/notebook-kit/versions/8d1d32c654e8f416","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-04-20T08:49:04.226Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:04.226Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:04.226Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/notebook-kit/billingInfo [none]
+[debug] [2026-04-20T08:49:05.291Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/notebook-kit/billingInfo 200
+[debug] [2026-04-20T08:49:05.292Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/notebook-kit/billingInfo {"name":"projects/notebook-kit/billingInfo","projectId":"notebook-kit","billingAccountName":"billingAccounts/01D693-95A091-7539FA","billingEnabled":true}
+[debug] [2026-04-20T08:49:05.293Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:05.293Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:05.293Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2026-04-20T08:49:06.278Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2026-04-20T08:49:06.278Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com/e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip?GoogleAccessId=service-859362233686@gcf-admin-robot.iam.gserviceaccount.com&Expires=1776676745&Signature=fayCcZ1KigUq7NR%2BIeyQdD3fn7ITpuT32Ul9NAPhxHYgUQY74Yl6RLe3YoQDXV2OP3nxkcX4qmxv1V0dn7D0wXJinmWmWNJ33uavgNORCcGsNp2Qb6LaO5hFTNqkXuljOPdzQm6wDqfaxSPPEOh1rF9VAexTZ8DM0XIeDXv2YH%2FtwmLSHqxw5vRgPijlkAHKlB6BWlcKthbrhoBPoDLoI7igjzeP%2Fhql4D1EBNlc86U9axOW1IEOgEiZg%2F18XBWgauy%2BUecaYTfL4vFAMLKpiIyW6yS3WKcIrssH3ri7sFzJNc%2FZGhHEB%2FTYe6PlJ8MyFjjwGi5c87zLe1z%2FxOtuaA%3D%3D","storageSource":{"bucket":"gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com","object":"e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip"}}
+[debug] [2026-04-20T08:49:06.280Z] >>> [apiv2][query] PUT https://storage.googleapis.com/gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com/e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip GoogleAccessId=service-859362233686%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1776676745&Signature=fayCcZ1KigUq7NR%2BIeyQdD3fn7ITpuT32Ul9NAPhxHYgUQY74Yl6RLe3YoQDXV2OP3nxkcX4qmxv1V0dn7D0wXJinmWmWNJ33uavgNORCcGsNp2Qb6LaO5hFTNqkXuljOPdzQm6wDqfaxSPPEOh1rF9VAexTZ8DM0XIeDXv2YH%2FtwmLSHqxw5vRgPijlkAHKlB6BWlcKthbrhoBPoDLoI7igjzeP%2Fhql4D1EBNlc86U9axOW1IEOgEiZg%2F18XBWgauy%2BUecaYTfL4vFAMLKpiIyW6yS3WKcIrssH3ri7sFzJNc%2FZGhHEB%2FTYe6PlJ8MyFjjwGi5c87zLe1z%2FxOtuaA%3D%3D
+[debug] [2026-04-20T08:49:06.280Z] >>> [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com/e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip [stream]
+[debug] [2026-04-20T08:49:20.349Z] <<< [apiv2][status] PUT https://storage.googleapis.com/gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com/e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip 200
+[debug] [2026-04-20T08:49:20.349Z] <<< [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com/e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip [omitted]
+[info] +  functions: .firebase\notebook-kit\functions source uploaded successfully 
+[info] i  hosting[notebook-kit]: beginning deploy... 
+[info] i  hosting[notebook-kit]: found 41 files in .firebase\notebook-kit\hosting 
+[debug] [2026-04-20T08:49:20.374Z] [hosting] uploading with 200 concurrency
+[debug] [2026-04-20T08:49:20.375Z] [hosting] hash cache [LmZpcmViYXNlXG5vdGVib29rLWtpdFxob3N0aW5n] not populated
+[debug] [2026-04-20T08:49:21.921Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:21.921Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:21.923Z] [hosting] hash cache [LmZpcmViYXNlXG5vdGVib29rLWtpdFxob3N0aW5n] stored for 41 files
+[debug] [2026-04-20T08:49:21.923Z] [hosting][hash queue][FINAL] {"max":1539,"min":677,"avg":705.0487804878048,"active":0,"complete":41,"success":41,"errored":0,"retried":0,"total":41,"elapsed":1547}
+[debug] [2026-04-20T08:49:21.924Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/859362233686/sites/notebook-kit/versions/8d1d32c654e8f416:populateFiles [none]
+[debug] [2026-04-20T08:49:21.924Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/859362233686/sites/notebook-kit/versions/8d1d32c654e8f416:populateFiles {"files":{"/window.svg":"6bd2003bd35bb32c1c0d99ab3aeac0cc1edaefd79f27df1d954bc87184048d74","/vercel.svg":"529a1a21b4a82475a82db26173c28d7b27e2dc9d4b900eaf1c5329d96eea4ddd","/next.svg":"0665b9ab4493aa9d7e988b57024e28772ae543e804b8cf6b0a3633854b7c3c7f","/_not-found.html":"c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec","/login.html":"488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf","/_global-error.html":"a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619","/globe.svg":"6502a3e6120bf2d6e8417e7c40bb57fb8a6954de9c86d3f43076a75b60cd23a2","/file.svg":"5a09df6187e21aa9a7d05094389385876ac93c818e1dcbb77a26a8fe408bf79c","/marketplace.html":"eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f","/favicon.ico":"36eaaa9259cda5765c4061fa8b7bf61c74dbda3a2a721a0811c73f5dae61a2e9","/kits.html":"9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb","/index.html":"8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a","/500.html":"a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619","/_next/static/media/favicon.0x3dzn~oxb6tn.ico":"36eaaa9259cda5765c4061fa8b7bf61c74dbda3a2a721a0811c73f5dae61a2e9","/_next/static/jy-8dEoMytZ1ep3yqqHMW/_ssgManifest.js":"dc28a4dc92fe352ed5d2201bd3972ce47691bc8e89e0400a68d1541d0567c6d5","/_next/static/jy-8dEoMytZ1ep3yqqHMW/_clientMiddlewareManifest.js":"5e57f6166b702492ab9551af57e4546546c184673a4c0432f73b96f62820f7eb","/_next/static/jy-8dEoMytZ1ep3yqqHMW/_buildManifest.js":"dcbe1c9b9159ca21caea98e1bad364012ae284e9551375ca62b83d2811efac91","/admin.html":"2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8","/_next/static/chunks/0yunxpezqp0h3.js":"233954da8623fcf80ce5a0ae22afb762fcca7b6cbe0b0c58d4b9e66b88b5fb82","/_next/static/chunks/0q4ce~~3zft9_.js":"53e4783f54f30087c4def990db916dc4c3cdab99936e3dbeb6a2da7a6b69f2b2","/_next/static/chunks/turbopack-0.di4s0uypphh.js":"81416f3b4e96bcfa1fb2ce7cd82ac53931009c27b40283f1c25100f805854dc6","/_next/static/chunks/0u~_d6hws6.wo.js":"73afdd4708380cd3ba8343bc5525d2dc25980352404f2728fcdc390292a790a8","/404.html":"c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec","/_next/static/chunks/0pqt~8bl3ukh4.js":"4abd627468d725439c15c278481cf6778688788f0ae05b8c237a23e43adfb539","/_next/static/chunks/0m.tr2f.x6ep9.js":"5d5fb917e959c26de7c203d0e3ab80dcaa19a88a73725f13f27d5f927ff95f67","/_next/static/chunks/0obp845xam21..js":"f1a3c4221dac873c605321fed1e145acc7ca08279198eb94912290700d48a138","/_next/static/chunks/0jn5b_0fqo3ri.css":"7da683249faf7ffb96d21594ba3c466ab398ec895924d757c711b3212e9c0194","/_next/static/chunks/0ebfwuyr92eav.js":"720e215152f7e594c9ccbf46b8f1d8f7bf65efbb7e1167bfe4bc67cfa0290f98","/_next/static/chunks/0dg9jzemm_740.js":"7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33","/_next/static/chunks/0d3shmwh5_nmn.js":"0c1d636e6085992b3d74f44688c20861c3644b89675b31cbc95a5dea5de4e1b8","/_next/static/chunks/0bzupvr5gt3k9.js":"6ce5e11d1b03596fc34aedce04633f41c3d2fa3669bedede51be7b8a00a2633d","/_next/static/chunks/0a49rg1.ofitg.js":"cf19f9deb9164cae7dfcfbb756a6ea9ef99bfd65266aaa59d0e5fca0020fc81b","/_next/static/chunks/04m9cxr.w_dx9.js":"0717f82ae57db736d3e0ff6a6e4eb81d3bc81cbe3a46d2302b6e135f65f9368f","/_next/static/chunks/03j3zkb15syta.js":"670aaca4a4c4022ba76955495eb25f8c832894fd4d1a7d16cb534eccdf3d99c5","/_next/static/chunks/01xlw8hd842-c.js":"713a16172228e978ae302281c6866c5f8020fafd75b833b2184962f8bb8d2123","/_next/static/chunks/0257pdz1-imal.js":"a5a05a8c6076f62aa59fe0eaa4eff468bd59ed97bc3d44b0a04bf80dd6efe7c1","/_next/static/chunks/0n~dq4kpx9xxx.js":"af0b8b748bccb915d2867af6caecfd9d7c60674e8d57c3bf8263949fdeeb062e","/admin/users.html":"4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b","/_next/static/chunks/0ktcd6va8js6t.js":"2eda4a30841cdc654fec2eb4ea4e87fdaa058f637e42d8cd0933d075adb519fb","/admin/forge.html":"e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603","/_next/static/chunks/03~yq9q893hmn.js":"18e28d3214eda45048d80d3925ea7627b809e69ad2e95f7f98459e9146a61c3d"}}
+[debug] [2026-04-20T08:49:23.234Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/859362233686/sites/notebook-kit/versions/8d1d32c654e8f416:populateFiles 200
+[debug] [2026-04-20T08:49:23.234Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/859362233686/sites/notebook-kit/versions/8d1d32c654e8f416:populateFiles {"uploadRequiredHashes":["488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf","c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec","2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8","4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b","eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f","8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a","a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619","e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603","9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb","7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files"}
+[debug] [2026-04-20T08:49:23.234Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.234Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:23.235Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf [none]
+[debug] [2026-04-20T08:49:23.235Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf [stream]
+[debug] [2026-04-20T08:49:23.236Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec [none]
+[debug] [2026-04-20T08:49:23.237Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec [stream]
+[debug] [2026-04-20T08:49:23.238Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8 [none]
+[debug] [2026-04-20T08:49:23.238Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8 [stream]
+[debug] [2026-04-20T08:49:23.239Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b [none]
+[debug] [2026-04-20T08:49:23.239Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b [stream]
+[debug] [2026-04-20T08:49:23.241Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f [none]
+[debug] [2026-04-20T08:49:23.241Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f [stream]
+[debug] [2026-04-20T08:49:23.242Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a [none]
+[debug] [2026-04-20T08:49:23.242Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a [stream]
+[debug] [2026-04-20T08:49:23.243Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619 [none]
+[debug] [2026-04-20T08:49:23.243Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619 [stream]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603 [none]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603 [stream]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb [none]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb [stream]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33 [none]
+[debug] [2026-04-20T08:49:23.244Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33 [stream]
+[debug] [2026-04-20T08:49:23.245Z] [hosting][populate queue][FINAL] {"max":1315,"min":1315,"avg":1315,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1325}
+[debug] [2026-04-20T08:49:23.245Z] [hosting] uploads queued: 10
+[debug] [2026-04-20T08:49:24.778Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec 200
+[debug] [2026-04-20T08:49:24.778Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/c014ac68d36334d65349dea703e609203972c22cf09a41d343c09bbcc4c791ec [stream]
+[debug] [2026-04-20T08:49:24.857Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a 200
+[debug] [2026-04-20T08:49:24.857Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/8f6490a2d7795b39a14e3128427d03f3ab86569f4242c7a40cbadb0f7b9bc99a [stream]
+[debug] [2026-04-20T08:49:24.903Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33 200
+[debug] [2026-04-20T08:49:24.903Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/7fe987c387f1112d5f85a632c88fca1cf6165cc6e5852ee3d36b7ebdfd896d33 [stream]
+[debug] [2026-04-20T08:49:24.916Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603 200
+[debug] [2026-04-20T08:49:24.916Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/e62933670d9c4214e446255935898baa1372db1c6ca9b044c36506d0d2039603 [stream]
+[debug] [2026-04-20T08:49:24.943Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb 200
+[debug] [2026-04-20T08:49:24.943Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/9df3db848d7f55b3898844f40760271639adeea129aaef253853aba6e2b5e0bb [stream]
+[debug] [2026-04-20T08:49:24.967Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8 200
+[debug] [2026-04-20T08:49:24.967Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/2b2bb37a62e20db7c9bad2d26ece4fdbaf84f08c2d38ea9bc2422b5ca137ada8 [stream]
+[debug] [2026-04-20T08:49:25.089Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b 200
+[debug] [2026-04-20T08:49:25.089Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/4064dface530ed89dcb97fd80a1bd5f46accaf40ebedd7f9088645de5b75087b [stream]
+[debug] [2026-04-20T08:49:25.217Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f 200
+[debug] [2026-04-20T08:49:25.217Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/eed6bb55de1e41f76de1aefaa8c0d1a0481789547f8a7496e57fa714a480144f [stream]
+[debug] [2026-04-20T08:49:25.476Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619 200
+[debug] [2026-04-20T08:49:25.477Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/a1c6ca4d2ed3076bfa493760ae1057dacf2c055988067ee2dba66da720752619 [stream]
+[debug] [2026-04-20T08:49:25.601Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf 200
+[debug] [2026-04-20T08:49:25.601Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/notebook-kit/versions/8d1d32c654e8f416/files/488dc083c7b8223406807fd1a56078743a54f102b2e6762bc75f561698863bcf [stream]
+[debug] [2026-04-20T08:49:25.602Z] [hosting][upload queue][FINAL] {"max":2367,"min":1544,"avg":1840,"active":0,"complete":10,"success":10,"errored":0,"retried":0,"total":10,"elapsed":2368}
+[info] +  hosting[notebook-kit]: file upload complete 
+[debug] [2026-04-20T08:49:25.603Z] [hosting] deploy completed after 5248ms
+[info] i  functions: updating Node.js 22 (2nd Gen) function firebase-frameworks-notebook-kit:ssrnotebookkit(us-central1)... 
+[debug] [2026-04-20T08:49:25.609Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:25.609Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:25.609Z] >>> [apiv2][query] PATCH https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit updateMask=name%2CbuildConfig.runtime%2CbuildConfig.entryPoint%2CbuildConfig.source.storageSource.bucket%2CbuildConfig.source.storageSource.object%2CbuildConfig.environmentVariables%2CbuildConfig.sourceToken%2CserviceConfig.environmentVariables%2CserviceConfig.ingressSettings%2CserviceConfig.timeoutSeconds%2CserviceConfig.serviceAccountEmail%2CserviceConfig.availableMemory%2CserviceConfig.minInstanceCount%2CserviceConfig.maxInstanceCount%2CserviceConfig.maxInstanceRequestConcurrency%2CserviceConfig.availableCpu%2CserviceConfig.vpcConnector%2CserviceConfig.vpcConnectorEgressSettings%2CserviceConfig.directVpcNetworkInterface%2CserviceConfig.directVpcEgress%2Clabels
+[debug] [2026-04-20T08:49:25.609Z] >>> [apiv2][body] PATCH https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit {"name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-uploads-859362233686.us-central1.cloudfunctions.appspot.com","object":"e6a1e0ec-c2b9-4706-aa57-366cbcc0b792.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":null,"timeoutSeconds":null,"serviceAccountEmail":null,"availableMemory":"256Mi","minInstanceCount":null,"maxInstanceCount":null,"maxInstanceRequestConcurrency":80,"availableCpu":"1","vpcConnector":null,"vpcConnectorEgressSettings":null,"directVpcNetworkInterface":null,"directVpcEgress":null},"labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"}}
+[debug] [2026-04-20T08:49:28.299Z] <<< [apiv2][status] PATCH https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit 200
+[debug] [2026-04-20T08:49:28.299Z] <<< [apiv2][body] PATCH https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2"},"done":false}
+[debug] [2026-04-20T08:49:28.300Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:28.300Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:28.300Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:28.791Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:28.791Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:29.304Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:29.305Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:29.305Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:29.305Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:29.809Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:29.809Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:30.812Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:30.812Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:30.813Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:30.813Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:31.302Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:31.303Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:33.307Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:33.308Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:33.308Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:33.308Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:33.925Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:33.925Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:37.938Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:37.939Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:37.939Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:37.939Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:38.559Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:38.559Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:46.571Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:46.571Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:46.572Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:46.572Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:47.458Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:47.458Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:49:57.468Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:49:57.468Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:57.468Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:49:57.468Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:49:59.139Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:49:59.139Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:50:09.144Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:50:09.144Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:09.145Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:09.145Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:50:10.004Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:50:10.004Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:50:20.015Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:50:20.016Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:20.016Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:20.016Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:50:20.930Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:50:20.931Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:50:30.945Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:50:30.945Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:30.945Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:30.945Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:50:31.873Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:50:31.874Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:50:41.884Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:50:41.884Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:41.884Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:41.885Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:50:42.746Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:50:42.746Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:50:52.747Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:50:52.747Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:52.747Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:50:52.747Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:50:53.925Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:50:53.926Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
+[debug] [2026-04-20T08:51:03.937Z] [update-firebase-frameworks-notebook-kit-us-central1-ssrnotebookkit] Retrying task index 0
+[debug] [2026-04-20T08:51:03.938Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:51:03.938Z] Checked if tokens are valid: true, expires at: 1776677238712
+[debug] [2026-04-20T08:51:03.938Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 [none]
+[debug] [2026-04-20T08:51:04.848Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 200
+[debug] [2026-04-20T08:51:04.848Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073 {"name":"projects/notebook-kit/locations/us-central1/operations/operation-1776674966507-64fe060429071-60f9daa0-0ac85073","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2026-04-20T08:49:27.384437531Z","target":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/notebook-kit/locations/us-central1/functions/ssrnotebookkit","buildConfig":{"runtime":"nodejs22","entryPoint":"ssrnotebookkit","source":{"storageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776674967323705"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/notebook-kit/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-859362233686-us-central1","object":"ssrnotebookkit/function-source.zip","generation":"1776671047804898"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/notebook-kit/serviceAccounts/859362233686-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","timeoutSeconds":60,"environmentVariables":{"VERCEL_URL":"notebook-kit.web.app","__FIREBASE_FRAMEWORKS_ENTRY__":"next.js","__FIREBASE_DEFAULTS__":"{\"config\":{\"projectId\":\"notebook-kit\",\"appId\":\"1:859362233686:web:4a959657bf832aaf38daf7\",\"storageBucket\":\"notebook-kit.firebasestorage.app\",\"apiKey\":\"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c\",\"authDomain\":\"notebook-kit.firebaseapp.com\",\"messagingSenderId\":\"859362233686\",\"measurementId\":\"G-PFMWJMY85C\",\"projectNumber\":\"859362233686\",\"version\":\"2\"},\"_authTokenSyncURL\":\"/__session\"}","FIREBASE_CONFIG":"{\"projectId\":\"notebook-kit\",\"storageBucket\":\"notebook-kit.firebasestorage.app\"}","GCLOUD_PROJECT":"notebook-kit","EVENTARC_CLOUD_EVENT_SOURCE":"projects/notebook-kit/locations/us-central1/services/ssrnotebookkit","FUNCTION_TARGET":"ssrnotebookkit","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://ssrnotebookkit-awar5h73rq-uc.a.run.app","serviceAccountEmail":"859362233686-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"ssrnotebookkit-00060-hiq","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-codebase":"firebase-frameworks-notebook-kit","firebase-functions-hash":"c9c4700622e81123f1d8831c9b4fedb1c0d49234"},"environment":"GEN_2","url":"https://us-central1-notebook-kit.cloudfunctions.net/ssrnotebookkit","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/8b998e30-97e9-4ce4-bee5-f57782a97ddc?project=859362233686"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/859362233686/locations/us-central1/builds/8b998e30-97e9-4ce4-bee5-f57782a97ddc"},"done":false}
