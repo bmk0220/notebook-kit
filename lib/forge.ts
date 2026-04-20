@@ -1,6 +1,4 @@
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "@/lib/firebase";
+import { adminDb, adminStorage } from "@/lib/firebase-admin";
 import { createNotebookZip } from "./zip";
 
 export type KitContent = {
@@ -37,37 +35,50 @@ export async function publishKit(kitId: string, metadata: KitMetadata, content: 
     { title: '08_System_Instructions', content: content.system_instructions },
   ];
 
-  const zipBlob = await createNotebookZip(files);
-
+  const zipBuffer = await createNotebookZip(files);
   const storagePath = `kits/${kitId}/${metadata.slug}.zip`;
-  const storageRef = ref(storage, storagePath);
+  const file = adminStorage.file(storagePath);
+  
   try {
-    await uploadBytes(storageRef, zipBlob);
+    await file.save(zipBuffer, {
+      contentType: 'application/zip',
+      metadata: {
+        metadata: {
+          kitId,
+          userId,
+        }
+      }
+    });
+    
+    // Make the file public or generate a signed URL if needed
+    // For now, simple save.
+    await file.makePublic();
   } catch (error: unknown) {
-    console.error('Firebase Storage Upload Failed:', error);
+    console.error('Firebase Admin Storage Upload Failed:', error);
     throw error;
   }
-  const downloadUrl = await getDownloadURL(storageRef);
+  
+  const downloadUrl = `https://storage.googleapis.com/${adminStorage.name}/${storagePath}`;
 
   try {
-    await setDoc(doc(db, "kits", kitId), {
+    await adminDb.collection("kits").doc(kitId).set({
       ...metadata,
       price: 49,
       category: "general",
       status: "published",
       fileUrl: downloadUrl,
       userId: userId,
-      createdAt: serverTimestamp(),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    await setDoc(doc(db, "kits_content", kitId), {
+    await adminDb.collection("kits_content").doc(kitId).set({
       ...content,
-      updatedAt: serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     });
   } catch (error: unknown) {
-    console.error('Firebase Firestore Write Failed:', error);
+    console.error('Firebase Admin Firestore Write Failed:', error);
     throw new Error('Database write failed. Check server logs.');
   }
 
   return { kitId, downloadUrl };
-  }
+}
