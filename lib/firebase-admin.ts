@@ -11,11 +11,17 @@ function getAdminApp(): App {
   }
 
   // Production environment configuration
-  // These variables are injected by Firebase Secrets/Cloud environment
+  // The secret is stored with escaped newlines (\\n). We need to unescape them.
+  let privateKey = process.env.FB_ADMIN_PRIVATE_KEY;
+  if (privateKey) {
+    // If the key is wrapped in quotes or has escaped characters, clean it
+    privateKey = privateKey.replace(/\\n/g, '\n').replace(/^["']|["']$/g, '');
+  }
+
   const serviceAccount = {
     projectId: process.env.FB_ADMIN_PROJECT_ID,
     clientEmail: process.env.FB_ADMIN_CLIENT_EMAIL,
-    privateKey: process.env.FB_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    privateKey: privateKey,
   };
 
   if (!serviceAccount.projectId || !serviceAccount.clientEmail || !serviceAccount.privateKey) {
