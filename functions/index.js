@@ -2,13 +2,14 @@ const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 const { FieldValue } = require("firebase-admin/firestore");
 const { getStorage } = require("firebase-admin/storage");
-const JSZip = require("jszip");
 
 admin.initializeApp();
 
 exports.kitPublish = onRequest({ region: "us-central1" }, async (req, res) => {
-  const authHeader = req.headers.authorization || "";
+  // Only lazily load the heavy non-admin dependency
+  const JSZip = require("jszip");
 
+  const authHeader = req.headers.authorization || "";
   if (!authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -27,7 +28,7 @@ exports.kitPublish = onRequest({ region: "us-central1" }, async (req, res) => {
 
     console.log("kitPublish: Attempting to publish kit", { userId, kitId });
 
-    // --- Publishing Logic (from lib/forge.ts) ---
+    // --- Publishing Logic ---
     const files = [
       { title: '00_Main_Source', content: content.main_source },
       { title: '01_Overview', content: content.overview },
@@ -57,7 +58,8 @@ exports.kitPublish = onRequest({ region: "us-central1" }, async (req, res) => {
     
     const downloadUrl = `https://storage.googleapis.com/${bucket.name}/${storagePath}`;
 
-    await admin.firestore().collection("kits").doc(kitId).set({
+    const db = admin.firestore();
+    await db.collection("kits").doc(kitId).set({
       ...metadata,
       price: 49,
       category: "general",
@@ -67,7 +69,7 @@ exports.kitPublish = onRequest({ region: "us-central1" }, async (req, res) => {
       createdAt: FieldValue.serverTimestamp(),
     });
 
-    await admin.firestore().collection("kits_content").doc(kitId).set({
+    await db.collection("kits_content").doc(kitId).set({
       ...content,
       updatedAt: FieldValue.serverTimestamp(),
     });
