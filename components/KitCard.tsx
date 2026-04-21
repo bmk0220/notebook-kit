@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 interface KitCardProps {
   id: string;
+  slug: string;
   title: string;
   description: string;
   price: number;
@@ -10,7 +11,7 @@ interface KitCardProps {
   isNew?: boolean;
 }
 
-export default function KitCard({ id, title, description, price, category, isNew }: KitCardProps) {
+export default function KitCard({ id, slug, title, description, price, category, isNew }: KitCardProps) {
   return (
     <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:bg-muted/30 hover:shadow-xl hover:-translate-y-1">
       {isNew && (
@@ -34,7 +35,7 @@ export default function KitCard({ id, title, description, price, category, isNew
           <span className="text-[10px] text-muted-foreground uppercase font-bold">Price</span>
           <span className="text-xl font-black">${price}</span>
         </div>
-        <Link href={`/kit/${id}`}>
+        <Link href={`/marketplace/${slug}`}>
           <button className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-110 active:scale-95">
             <ShoppingCart className="h-5 w-5" />
           </button>

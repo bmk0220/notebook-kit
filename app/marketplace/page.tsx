@@ -10,6 +10,7 @@ import { db } from "@/lib/firebase";
 interface Kit {
   id: string;
   title: string;
+  slug: string;
   description: string;
   price: number;
   category: string;
