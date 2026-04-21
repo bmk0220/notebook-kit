@@ -36,15 +36,15 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       title: "Forge Engine",
       links: [
         { name: "The Forge", href: "/admin/forge", icon: Hammer },
-        { name: "Custom Requests", href: "/admin/requests", icon: MessageSquare },
+        { name: "Custom Requests", href: "/admin/requests", icon: MessageSquare, disabled: true },
       ]
     },
     {
       title: "System",
       links: [
-        { name: "Manage Kits", href: "/admin/kits", icon: NotebookIcon },
+        { name: "Manage Kits", href: "/admin/kits", icon: NotebookIcon, disabled: true },
         { name: "Users", href: "/admin/users", icon: Users },
-        { name: "Settings", href: "/admin/settings", icon: Settings },
+        { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
       ]
     }
   ];

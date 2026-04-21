@@ -70,11 +70,17 @@ export default function ForgePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
+
     setStatus('publishing');
     try {
+      const token = await user.getIdToken();
       const res = await fetch('/api/kit/publish', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ kitId: crypto.randomUUID(), metadata, content, userId: user.uid })
       });
       
