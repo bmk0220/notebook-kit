@@ -12,7 +12,11 @@ interface Kit {
   category: string;
 }
 
-export default async function KitPage({ params }: { params: { slug: string } }) {
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function KitPage({ params }: PageProps) {
   const { slug } = await params;
 
   // 1. Fetch Kit by slug
