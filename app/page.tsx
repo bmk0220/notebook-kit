@@ -12,6 +12,7 @@ import Link from "next/link";
 interface Kit {
   id: string;
   title: string;
+  slug: string;
   description: string;
   price: number;
   category: string;
