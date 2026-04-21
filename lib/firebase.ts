@@ -3,6 +3,9 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
+// Guard: Only initialize if API key is present
+const hasConfig = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
@@ -10,11 +13,10 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app = hasConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : (getApps()[0] || null);
 
-export const db = getFirestore(app);
-export const storage = getStorage(app, `gs://${firebaseConfig.storageBucket}`);
-export const auth = getAuth(app);
+export const db = app ? getFirestore(app) : ({} as any);
+export const storage = app ? getStorage(app, `gs://${firebaseConfig.storageBucket}`) : ({} as any);
+export const auth = app ? getAuth(app) : ({} as any);
