@@ -40,7 +40,7 @@ export default async function KitPage({ params }: { params: { slug: string } }) 
         <p className="text-xl text-muted-foreground mb-8">{kit.description}</p>
         
         <div className="bg-white p-8 rounded-3xl shadow-sm border mb-8">
-          <h2 className="text-2xl font-bold mb-4">What's Inside</h2>
+          <h2 className="text-2xl font-bold mb-4">What&apos;s Inside</h2>
           {content ? (
             <div className="space-y-6">
               {Object.entries(content).map(([key, value]) => {
