@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import { Hammer, Loader2, Save, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { KitContent, KitMetadata } from '@/lib/forge';
+import { KitContent, KitMetadata } from '@/lib/types';
 
 export default function ForgePage() {
   const { user, loading: authLoading, isAdmin } = useAuth();
