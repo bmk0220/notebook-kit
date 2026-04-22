@@ -2,6 +2,7 @@ import { doc, getDoc, collection, query, where, getDocs } from "firebase/firesto
 import { db } from "@/lib/firebase";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
+import { Download } from "lucide-react";
 
 interface Kit {
   id: string;
@@ -10,6 +11,7 @@ interface Kit {
   description: string;
   price: number;
   category: string;
+  fileUrl: string;
 }
 
 type PageProps = {
@@ -62,9 +64,20 @@ export default async function KitPage({ params }: PageProps) {
           )}
         </div>
 
-        <button className="w-full h-14 bg-primary text-white font-bold rounded-2xl hover:opacity-90">
-          Purchase Kit - ${kit.price}
-        </button>
+        {kit.fileUrl ? (
+          <a 
+            href={kit.fileUrl} 
+            download
+            className="w-full h-14 bg-primary text-white font-bold rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-lg shadow-primary/20 transition-all"
+          >
+            <Download className="h-6 w-6" />
+            DOWNLOAD KIT ZIP
+          </a>
+        ) : (
+          <div className="p-4 bg-muted text-center rounded-2xl font-bold text-muted-foreground">
+            Download currently unavailable for this kit.
+          </div>
+        )}
       </main>
     </div>
   );
