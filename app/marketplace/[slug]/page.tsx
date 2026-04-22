@@ -31,12 +31,34 @@ export default async function KitPage({ params }: PageProps) {
   }
 
   const kitDoc = querySnapshot.docs[0];
-  const kit = { id: kitDoc.id, ...kitDoc.data() } as Kit;
+  const kitData = kitDoc.data();
+  
+  if (!kitData || !kitData.title || !kitData.slug) {
+    console.error("PDP: Document has invalid schema", { id: kitDoc.id, slug });
+    notFound();
+  }
+
+  // Define local interface for this page to match expected Firestore structure
+  const kit = { 
+    id: kitDoc.id, 
+    title: String(kitData.title),
+    description: String(kitData.description || "No description provided."),
+    price: Number(kitData.price || 49),
+    fileUrl: kitData.fileUrl ? String(kitData.fileUrl) : null,
+    slug: String(kitData.slug),
+  };
 
   // 2. Fetch Content
-  const contentRef = doc(db, "kits_content", kit.id);
-  const contentSnap = await getDoc(contentRef);
-  const content = contentSnap.exists() ? contentSnap.data() : null;
+  let content = null;
+  try {
+    const contentRef = doc(db, "kits_content", kit.id);
+    const contentSnap = await getDoc(contentRef);
+    if (contentSnap.exists()) {
+      content = contentSnap.data();
+    }
+  } catch (err) {
+    console.error("PDP CONTENT FETCH ERROR:", err);
+  }
 
   return (
     <div className="min-h-screen bg-muted/20">
@@ -54,7 +76,9 @@ export default async function KitPage({ params }: PageProps) {
                 return (
                   <div key={key}>
                     <h3 className="font-bold capitalize">{key.replace('_', ' ')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1 whitespace-pre-line">{value as string}</p>
+                    <div className="text-sm text-muted-foreground mt-1 whitespace-pre-line">
+                      {typeof value === 'string' ? value : JSON.stringify(value)}
+                    </div>
                   </div>
                 );
               })}

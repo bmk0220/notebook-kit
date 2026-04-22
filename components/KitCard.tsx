@@ -12,12 +12,31 @@ interface KitCardProps {
 }
 
 export default function KitCard({ id: _id, slug, title, description, price, category, isNew }: KitCardProps) {
-  // Use slug if available, fallback to id for the link to ensure it's always clickable
-  const linkHref = slug ? `/marketplace/${slug}` : `/marketplace/id/${_id}`;
+  // Enforce slug-based routing only. If slug is missing, the card should not be a navigation element.
+  if (!slug) {
+    return (
+      <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 opacity-60 grayscale cursor-not-allowed">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{category}</span>
+          <div className="rounded-full bg-muted p-2 text-muted-foreground">
+            <Zap className="h-4 w-4" />
+          </div>
+        </div>
+        <h3 className="mb-2 text-xl font-bold tracking-tight text-muted-foreground">{title} (Unpublished)</h3>
+        <p className="mb-6 text-sm text-muted-foreground line-clamp-3">{description}</p>
+        <div className="mt-auto flex items-center justify-between">
+          <span className="text-xl font-black text-muted-foreground">${price}</span>
+          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-muted text-muted-foreground">
+            <ShoppingCart className="h-5 w-5" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Link 
-      href={linkHref} 
+      href={`/marketplace/${slug}`} 
       className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:bg-muted/30 hover:shadow-xl hover:-translate-y-1 cursor-pointer block"
     >
       {isNew && (
