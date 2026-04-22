@@ -14,6 +14,8 @@ interface Kit {
   description: string;
   price: number;
   category: string;
+  fileUrl: string;
+  status: string;
   isNew?: boolean;
 }
 
@@ -30,11 +32,14 @@ export default function MarketplacePage() {
       try {
         const q = query(collection(db, "kits"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
-        const fetchedKits = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Kit[];
-        console.log("Fetched Kits in Marketplace:", fetchedKits);
+        const fetchedKits = querySnapshot.docs
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          } as Kit))
+          .filter(kit => kit.title && kit.slug && kit.fileUrl && kit.status === "published");
+        
+        console.log("Fetched Valid Kits in Marketplace:", fetchedKits);
         setKits(fetchedKits);
       } catch (error) {
         console.error("Error fetching kits:", error);
