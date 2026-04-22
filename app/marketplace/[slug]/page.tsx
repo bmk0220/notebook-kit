@@ -4,22 +4,20 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import { Download } from "lucide-react";
 
-interface Kit {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  price: number;
-  category: string;
-  fileUrl: string;
-}
-
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export default async function KitPage({ params }: PageProps) {
   const { slug } = await params;
+
+  if (!db) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="font-bold text-destructive">Database Connection Error. Please check server configuration.</p>
+      </div>
+    );
+  }
 
   // 1. Fetch Kit by slug
   const kitsRef = collection(db, "kits");
@@ -30,26 +28,29 @@ export default async function KitPage({ params }: PageProps) {
     notFound();
   }
 
-  const kitDoc = querySnapshot.docs[0];
-  const kitData = kitDoc.data();
-  
-  if (!kitData || !kitData.title || !kitData.slug) {
-    console.error("PDP: Document has invalid schema", { id: kitDoc.id, slug });
+  const validDoc = querySnapshot.docs.find(doc => {
+    const d = doc.data();
+    return d && d.title && d.slug && d.fileUrl;
+  });
+
+  if (!validDoc) {
+    console.error("PDP: No valid kit found for slug:", slug, querySnapshot.docs.map(d => ({ id: d.id, ...d.data() })));
     notFound();
   }
 
-  // Define local interface for this page to match expected Firestore structure
+  const data = validDoc.data();
+
   const kit = { 
-    id: kitDoc.id, 
-    title: String(kitData.title),
-    description: String(kitData.description || "No description provided."),
-    price: Number(kitData.price || 49),
-    fileUrl: kitData.fileUrl ? String(kitData.fileUrl) : null,
-    slug: String(kitData.slug),
+    id: validDoc.id, 
+    title: String(data.title),
+    description: String(data.description || "No description provided."),
+    price: Number(data.price || 49),
+    fileUrl: String(data.fileUrl),
+    slug: String(data.slug),
   };
 
   // 2. Fetch Content
-  let content = null;
+  let content: any = {};
   try {
     const contentRef = doc(db, "kits_content", kit.id);
     const contentSnap = await getDoc(contentRef);
@@ -58,6 +59,7 @@ export default async function KitPage({ params }: PageProps) {
     }
   } catch (err) {
     console.error("PDP CONTENT FETCH ERROR:", err);
+    // We fall back to an empty object to prevent render crashes
   }
 
   return (
