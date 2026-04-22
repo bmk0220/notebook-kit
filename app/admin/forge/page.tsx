@@ -9,7 +9,6 @@ import { KitContent, KitMetadata } from '@/lib/types';
 
 export default function ForgePage() {
   const { user, loading: authLoading, isAdmin } = useAuth();
-  const router = useRouter();
 
   const [metadata, setMetadata] = useState<KitMetadata>(() => {
     if (typeof window !== 'undefined') {
@@ -87,7 +86,7 @@ export default function ForgePage() {
       const contentType = res.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const data = await res.json();
-        if (!res.ok || !data.success) {
+        if (!res.ok || !data.ok) {
           throw new Error(data.error || `Server error: ${res.status}`);
         }
         setStatus('success');

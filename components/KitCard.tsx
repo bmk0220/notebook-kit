@@ -11,7 +11,7 @@ interface KitCardProps {
   isNew?: boolean;
 }
 
-export default function KitCard({ id, slug, title, description, price, category, isNew }: KitCardProps) {
+export default function KitCard({ id: _id, slug, title, description, price, category, isNew }: KitCardProps) {
   return (
     <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:bg-muted/30 hover:shadow-xl hover:-translate-y-1">
       {isNew && (
