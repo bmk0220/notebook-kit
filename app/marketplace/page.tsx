@@ -34,6 +34,7 @@ export default function MarketplacePage() {
           id: doc.id,
           ...doc.data()
         })) as Kit[];
+        console.log("Fetched Kits in Marketplace:", fetchedKits);
         setKits(fetchedKits);
       } catch (error) {
         console.error("Error fetching kits:", error);
