@@ -15,8 +15,8 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
 };
 
-const app = hasConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : (getApps()[0] || null);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-export const db = app ? getFirestore(app) : null;
-export const storage = app ? getStorage(app, `gs://${firebaseConfig.storageBucket}`) : null;
-export const auth = app ? getAuth(app) : null;
+export const db = getFirestore(app);
+export const storage = getStorage(app, `gs://${firebaseConfig.storageBucket}`);
+export const auth = getAuth(app);

@@ -11,14 +11,6 @@ type PageProps = {
 export default async function KitPage({ params }: PageProps) {
   const { slug } = await params;
 
-  if (!db) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="font-bold text-destructive">Database Connection Error. Please check server configuration.</p>
-      </div>
-    );
-  }
-
   // 1. Fetch Kit by slug
   const kitsRef = collection(db, "kits");
   const q = query(kitsRef, where("slug", "==", slug));
