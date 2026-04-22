@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  experimental: {
-    // Explicitly disable Turbopack to prevent module resolution failures in Firebase Cloud Functions
-    turbo: undefined,
-  },
+  /* config options here */
 };
 
 export default nextConfig;
