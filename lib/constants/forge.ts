@@ -4,6 +4,7 @@
  */
 
 export const FORGE_REQUIRED_FILES = [
+  { id: 'description', filename: 'DESCRIPTION.md', label: 'Product Description' },
   { id: 'instructions', filename: 'INSTRUCTIONS.md', label: 'Instructions' },
   { id: 'custom', filename: 'CUSTOM.md', label: 'Custom' },
   { id: 'source', filename: '00_source.md', label: 'Source Material' },

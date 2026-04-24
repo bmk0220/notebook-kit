@@ -139,6 +139,7 @@ export default function ForgePage() {
       // Construct the final object for validation
       const submissionData = {
         ...data,
+        description: fileContents.description || data.description || '',
         id: uuidv4(),
         userId: user?.uid || 'anonymous',
         slug: data.slug || data.title?.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '') || '',
