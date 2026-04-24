@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import { Download, Loader2, AlertCircle } from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
 import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
+import ReactMarkdown from "react-markdown";
 
 interface Kit {
   id: string;
@@ -194,9 +195,9 @@ export default function KitPage() {
                 </div>
               </div>
 
-              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
-                {kit.description}
-              </p>
+              <div className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium markdown-content">
+                <ReactMarkdown>{kit.description}</ReactMarkdown>
+              </div>
             </div>
 
             <div className="bg-card p-8 rounded-3xl border border-border shadow-sm">

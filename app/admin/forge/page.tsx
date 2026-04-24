@@ -104,9 +104,17 @@ export default function ForgePage() {
         const content = await file.text();
         newContents[match.id] = content;
 
-        // Auto-populate description from DESCRIPTION.md
+        // Auto-populate title and description from DESCRIPTION.md
         if (match.id === 'description') {
-          setValue('description', content.trim());
+          // Extract title (First H1)
+          const titleMatch = content.match(/^#\s+(.+)$/m);
+          if (titleMatch && titleMatch[1]) {
+            setValue('title', titleMatch[1].trim());
+          }
+
+          // Set description (remove title header if present to avoid duplication)
+          const descriptionBody = content.replace(/^#\s+.+$/m, '').trim();
+          setValue('description', descriptionBody);
         }
       }
     }
@@ -347,7 +355,7 @@ export default function ForgePage() {
                     />
                     {errors.description && <span className="text-error text-xs mt-1">{errors.description.message}</span>}
                     <label className="label">
-                      <span className="label-text-alt text-muted-foreground">Auto-extracted from 01_overview.md if uploaded.</span>
+                      <span className="label-text-alt text-muted-foreground">Auto-extracted from DESCRIPTION.md if uploaded.</span>
                     </label>
                   </div>
 
