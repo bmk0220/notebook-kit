@@ -1,5 +1,6 @@
 import { ShoppingCart, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { KIT_ICONS } from '@/lib/constants/forge';
 
 interface KitCardProps {
   id: string;
@@ -7,19 +8,26 @@ interface KitCardProps {
   title: string;
   description: string;
   price: number;
-  category: string;
+  categories?: string[];
+  assets?: {
+    iconSvgName: string;
+  };
   isNew?: boolean;
 }
 
-export default function KitCard({ id: _id, slug, title, description, price, category, isNew }: KitCardProps) {
+export default function KitCard({ id: _id, slug, title, description, price, categories, assets, isNew }: KitCardProps) {
+  // Resolve icon component
+  const IconComponent = assets?.iconSvgName && KIT_ICONS[assets.iconSvgName] ? KIT_ICONS[assets.iconSvgName] : Zap;
+  const primaryCategory = categories && categories.length > 0 ? categories[0] : "General";
+
   // Enforce slug-based routing only. If slug is missing, the card should not be a navigation element.
   if (!slug) {
     return (
       <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 opacity-60 grayscale cursor-not-allowed">
         <div className="mb-4 flex items-center justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{category}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{primaryCategory}</span>
           <div className="rounded-full bg-muted p-2 text-muted-foreground">
-            <Zap className="h-4 w-4" />
+            <IconComponent className="h-4 w-4" />
           </div>
         </div>
         <h3 className="mb-2 text-xl font-bold tracking-tight text-muted-foreground">{title} (Unpublished)</h3>
@@ -46,9 +54,9 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
       )}
       
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-primary/70">{category}</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest text-primary/70">{primaryCategory}</span>
         <div className="rounded-full bg-primary/10 p-2 text-primary">
-          <Zap className="h-4 w-4 fill-primary" />
+          <IconComponent className="h-4 w-4 fill-primary" />
         </div>
       </div>
       

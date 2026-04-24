@@ -15,7 +15,15 @@ interface Kit {
   slug: string;
   description: string;
   price: number;
-  category: string;
+  category?: string;
+  categories?: string[];
+  createdAt?: string;
+  metadata?: {
+    createdAt: string;
+  };
+  assets?: {
+    iconSvgName: string;
+  };
   isNew?: boolean;
 }
 
@@ -26,13 +34,26 @@ export default function Home() {
   useEffect(() => {
     async function fetchKits() {
       try {
-        const q = query(collection(db, "kits"), orderBy("createdAt", "desc"), limit(3));
+        // Fetch all kits and filter for published ones in-memory to ensure 
+        // we catch items with different timestamp structures and avoid index issues.
+        const q = query(collection(db, "kits"));
         const querySnapshot = await getDocs(q);
-        const fetchedKits = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Kit[];
-        setKits(fetchedKits);
+        const fetchedKits = querySnapshot.docs
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          } as Kit))
+          .filter(kit => (kit as any).status === 'published');
+
+        // Sort by date (top-level or metadata fallback)
+        const sortedKits = fetchedKits.sort((a, b) => {
+          const dateA = a.createdAt || a.metadata?.createdAt || "";
+          const dateB = b.createdAt || b.metadata?.createdAt || "";
+          return dateB.localeCompare(dateA);
+        });
+
+        // Limit to 3 for the featured section
+        setKits(sortedKits.slice(0, 3));
       } catch (error) {
         console.error("Error fetching kits:", error);
       } finally {

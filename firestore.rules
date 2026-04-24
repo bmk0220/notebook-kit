@@ -18,7 +18,7 @@ service cloud.firestore {
     }
 
     match /kits/{kitId} {
-      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin() || resource.data.status == 'published');
+      allow read: if resource.data.status == 'published' || (isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin()));
       allow write: if isAdmin();
     }
 

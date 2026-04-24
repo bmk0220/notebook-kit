@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import KitCard from "@/components/KitCard";
 import { TrendingUp, Loader2, Sparkles, Search, Filter } from "lucide-react";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
 
 interface Kit {
   id: string;
@@ -13,13 +14,20 @@ interface Kit {
   slug: string;
   description: string;
   price: number;
-  category: string;
-  fileUrl: string;
+  categories?: string[];
+  assets: {
+    iconSvgName: string;
+    coverImageUrl?: string;
+  };
   status: string;
+  createdAt?: string;
+  metadata?: {
+    createdAt: string;
+  };
   isNew?: boolean;
 }
 
-const CATEGORIES = ["All", "Business", "Technology", "Education", "Health", "Lifestyle"];
+const CATEGORIES = ["All", ...Object.keys(KIT_CATEGORIES)];
 
 export default function MarketplacePage() {
   const [kits, setKits] = useState<Kit[]>([]);
@@ -30,17 +38,32 @@ export default function MarketplacePage() {
   useEffect(() => {
     async function fetchKits() {
       try {
-        const q = query(collection(db, "kits"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        const fetchedKits = querySnapshot.docs
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          } as Kit))
-          .filter(kit => kit.title && kit.slug && kit.fileUrl && kit.status === "published");
+        // Query published kits. 
+        // Note: Removed orderBy from server-side for now to avoid the 'Missing Index' crash.
+        // We will sort in-memory until the index is created.
+        const q = query(
+          collection(db, "kits"), 
+          where("status", "==", "published")
+        );
         
-        console.log("Fetched Valid Kits in Marketplace:", fetchedKits);
-        setKits(fetchedKits);
+        const querySnapshot = await getDocs(q);
+        const fetchedKits = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data
+          } as Kit;
+        });
+
+        // Sort in-memory: use top-level createdAt or metadata.createdAt as fallback
+        const sortedKits = fetchedKits.sort((a, b) => {
+          const dateA = a.createdAt || a.metadata?.createdAt || "";
+          const dateB = b.createdAt || b.metadata?.createdAt || "";
+          return dateB.localeCompare(dateA);
+        });
+        
+        console.log("Fetched Marketplace Kits:", sortedKits);
+        setKits(sortedKits);
       } catch (error) {
         console.error("Error fetching kits:", error);
       } finally {
@@ -53,7 +76,7 @@ export default function MarketplacePage() {
   const filteredKits = kits.filter(kit => {
     const matchesSearch = kit.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          kit.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || kit.category === selectedCategory;
+    const matchesCategory = selectedCategory === "All" || kit.categories?.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
 

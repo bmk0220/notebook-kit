@@ -8,6 +8,8 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+import { KIT_ICONS } from "@/lib/constants/forge";
+
 export default async function KitPage({ params }: PageProps) {
   const { slug } = await params;
 
@@ -20,16 +22,7 @@ export default async function KitPage({ params }: PageProps) {
     notFound();
   }
 
-  const validDoc = querySnapshot.docs.find(doc => {
-    const d = doc.data();
-    return d && d.title && d.slug && d.fileUrl;
-  });
-
-  if (!validDoc) {
-    console.error("PDP: No valid kit found for slug:", slug, querySnapshot.docs.map(d => ({ id: d.id, ...d.data() })));
-    notFound();
-  }
-
+  const validDoc = querySnapshot.docs[0];
   const data = validDoc.data();
 
   const kit = { 
@@ -37,8 +30,10 @@ export default async function KitPage({ params }: PageProps) {
     title: String(data.title),
     description: String(data.description || "No description provided."),
     price: Number(data.price || 49),
-    fileUrl: String(data.fileUrl),
+    fileUrl: String(data.assets?.fileUrl || ""),
     slug: String(data.slug),
+    iconSvgName: String(data.assets?.iconSvgName || "Package"),
+    categories: (data.categories as string[]) || [],
   };
 
   // 2. Fetch Content
@@ -51,51 +46,90 @@ export default async function KitPage({ params }: PageProps) {
     }
   } catch (err) {
     console.error("PDP CONTENT FETCH ERROR:", err);
-    // We fall back to an empty object to prevent render crashes
   }
+  
+  const IconComponent = KIT_ICONS[kit.iconSvgName] || Download;
 
   return (
-    <div className="min-h-screen bg-muted/20">
+    <div className="min-h-screen bg-muted/10">
       <Header />
-      <main className="container max-w-4xl mx-auto py-12 px-4">
-        <h1 className="text-4xl font-black mb-4">{kit.title}</h1>
-        <p className="text-xl text-muted-foreground mb-8">{kit.description}</p>
-        
-        <div className="bg-white p-8 rounded-3xl shadow-sm border mb-8">
-          <h2 className="text-2xl font-bold mb-4">What&apos;s Inside</h2>
-          {content ? (
-            <div className="space-y-6">
-              {Object.entries(content).map(([key, value]) => {
-                if (key === 'updatedAt') return null;
-                return (
-                  <div key={key}>
-                    <h3 className="font-bold capitalize">{key.replace('_', ' ')}</h3>
-                    <div className="text-sm text-muted-foreground mt-1 whitespace-pre-line">
-                      {typeof value === 'string' ? value : JSON.stringify(value)}
-                    </div>
-                  </div>
-                );
-              })}
+      <main className="container max-w-5xl mx-auto py-12 px-4">
+        <div className="flex flex-col md:flex-row gap-12">
+          {/* Left Column: Info & Action */}
+          <div className="flex-1 space-y-8">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                {kit.categories.map(cat => (
+                  <span key={cat} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-primary rounded-2xl text-primary-foreground shadow-lg shadow-primary/20">
+                  <IconComponent className="h-8 w-8" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight">{kit.title}</h1>
+              </div>
+              <p className="text-xl text-muted-foreground leading-relaxed">{kit.description}</p>
             </div>
-          ) : (
-            <p>Content preview unavailable.</p>
-          )}
-        </div>
 
-        {kit.fileUrl ? (
-          <a 
-            href={kit.fileUrl} 
-            download
-            className="w-full h-14 bg-primary text-white font-bold rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-lg shadow-primary/20 transition-all"
-          >
-            <Download className="h-6 w-6" />
-            DOWNLOAD KIT ZIP
-          </a>
-        ) : (
-          <div className="p-4 bg-muted text-center rounded-2xl font-bold text-muted-foreground">
-            Download currently unavailable for this kit.
+            <div className="bg-card p-8 rounded-3xl border border-border shadow-sm">
+              <h2 className="text-2xl font-bold mb-6">Kit Manifest</h2>
+              {content ? (
+                <div className="grid grid-cols-1 gap-4">
+                  {Object.keys(content).filter(k => k !== 'updatedAt').map((key) => (
+                    <div key={key} className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 border border-border/50">
+                      <div className="h-2 w-2 rounded-full bg-primary" />
+                      <span className="text-sm font-bold capitalize">{key.replace('_', ' ')}</span>
+                      <span className="ml-auto text-[10px] text-muted-foreground uppercase font-bold">Included</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>Content manifest unavailable.</p>
+              )}
+            </div>
           </div>
-        )}
+
+          {/* Right Column: Pricing & Download */}
+          <div className="w-full md:w-80">
+            <div className="sticky top-24 space-y-6">
+              <div className="bg-card p-8 rounded-3xl border border-border shadow-xl">
+                <div className="space-y-1 mb-6">
+                  <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Ownership Price</span>
+                  <div className="text-4xl font-black">${kit.price}</div>
+                </div>
+                
+                {kit.fileUrl ? (
+                  <a 
+                    href={kit.fileUrl} 
+                    download
+                    className="w-full h-14 bg-foreground text-background font-black rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 mb-4"
+                  >
+                    <Download className="h-5 w-5" />
+                    DOWNLOAD NOW
+                  </a>
+                ) : (
+                  <div className="p-4 bg-muted text-center rounded-2xl font-bold text-muted-foreground mb-4">
+                    Processing Asset...
+                  </div>
+                )}
+                
+                <p className="text-[10px] text-center text-muted-foreground leading-tight">
+                  Deterministic Build. Optimized for immediate NotebookLM ingestion.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
+                <h4 className="text-xs font-bold uppercase mb-2">Instructions</h4>
+                <div className="text-[11px] text-muted-foreground line-clamp-4 overflow-hidden italic">
+                  {content.instructions || "Check the INSTRUCTIONS.md file included in the ZIP for detailed setup guides."}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
