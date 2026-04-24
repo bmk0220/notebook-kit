@@ -121,7 +121,7 @@ export default function KitPage() {
             <p className="text-muted-foreground mb-8 leading-relaxed">
               We encountered a problem accessing this kit. This could be due to restricted permissions or a connectivity issue.
             </p>
-            <button 
+            <button
               onClick={() => window.location.reload()}
               className="w-full h-12 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all"
             >
@@ -143,8 +143,8 @@ export default function KitPage() {
   };
 
   const RawIcon = KIT_ICONS[kit.iconSvgName] || Download;
-  const IconComponent = (RawIcon && (typeof RawIcon === 'function' || (typeof RawIcon === 'object' && RawIcon.$$typeof))) 
-    ? RawIcon 
+  const IconComponent = (RawIcon && (typeof RawIcon === 'function' || (typeof RawIcon === 'object' && RawIcon.$$typeof)))
+    ? RawIcon
     : Download;
 
   return (
@@ -158,17 +158,17 @@ export default function KitPage() {
               <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
                 {/* Hero Icon Container */}
                 <div className="relative shrink-0">
-                  <div 
+                  <div
                     className="absolute inset-0 blur-3xl opacity-20 rounded-full"
                     style={{ backgroundColor: categoryConfig.color }}
                   />
-                  <div 
+                  <div
                     className="relative w-24 h-24 md:w-32 md:h-32 rounded-[2.5rem] flex items-center justify-center border border-white/10 shadow-2xl backdrop-blur-sm"
                     style={{ backgroundColor: categoryConfig.bgLight }}
                   >
-                    <IconComponent 
-                      className="h-12 w-12 md:h-16 md:w-16 drop-shadow-lg" 
-                      style={{ color: categoryConfig.color }} 
+                    <IconComponent
+                      className="h-12 w-12 md:h-16 md:w-16 drop-shadow-lg"
+                      style={{ color: categoryConfig.color }}
                     />
                   </div>
                 </div>
@@ -176,11 +176,11 @@ export default function KitPage() {
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-2">
                     {kit.categories.map(cat => (
-                      <span 
-                        key={cat} 
+                      <span
+                        key={cat}
                         className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border"
-                        style={{ 
-                          backgroundColor: categoryConfig.bgLight, 
+                        style={{
+                          backgroundColor: categoryConfig.bgLight,
                           color: categoryConfig.color,
                           borderColor: `${categoryConfig.color}20`
                         }}
@@ -236,16 +236,16 @@ export default function KitPage() {
                   <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Ownership Price</span>
                   <div className="text-4xl font-black">${kit.price}</div>
                 </div>
-                
-                <PurchaseControl 
+
+                <PurchaseControl
                   kitId={kit.id}
                   kitSlug={kit.slug}
                   price={kit.price}
                   fileUrl={kit.fileUrl}
                 />
-                
+
                 <p className="text-[10px] text-center text-muted-foreground leading-tight mt-4">
-                  Deterministic Build. Optimized for immediate NotebookLM ingestion.
+                  Optimized for NotebookLM.
                 </p>
               </div>
 
