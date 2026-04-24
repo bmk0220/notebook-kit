@@ -104,12 +104,9 @@ export default function ForgePage() {
         const content = await file.text();
         newContents[match.id] = content;
 
-        // Auto-extract description from overview
-        if (match.id === 'overview' && !watch('description')) {
-          const preview = content.slice(0, 500).replace(/[#*`]/g, '').trim();
-          if (preview.length > 20) {
-            setValue('description', preview);
-          }
+        // Auto-populate description from DESCRIPTION.md
+        if (match.id === 'description') {
+          setValue('description', content.trim());
         }
       }
     }
