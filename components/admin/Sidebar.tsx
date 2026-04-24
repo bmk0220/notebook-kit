@@ -42,7 +42,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
     {
       title: "System",
       links: [
-        { name: "Manage Kits", href: "/admin/kits", icon: NotebookIcon, disabled: true },
+        { name: "Manage Kits", href: "/admin/kits", icon: NotebookIcon },
         { name: "Users", href: "/admin/users", icon: Users },
         { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
       ]
