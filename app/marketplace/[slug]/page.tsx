@@ -5,7 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Header from "@/components/Header";
-import { Loader2, AlertCircle, Notebook } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
 import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
 import ReactMarkdown from "react-markdown";
@@ -142,10 +142,8 @@ export default function KitPage() {
     bgLight: 'rgba(107, 114, 128, 0.1)',
   };
 
-  const RawIcon = KIT_ICONS[kit.iconSvgName] || Notebook;
-  const IconComponent = (RawIcon && (typeof RawIcon === 'function' || (typeof RawIcon === 'object' && RawIcon.$$typeof)))
-    ? RawIcon
-    : Notebook;
+  const iconName = kit.iconSvgName || 'Notebook';
+  const IconComponent = (KIT_ICONS[iconName] || (LucideIcons as any)[iconName] || LucideIcons.Notebook) as any;
 
   return (
     <div className="min-h-screen bg-muted/10">

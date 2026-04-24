@@ -109,10 +109,10 @@ export default function ForgePage() {
 
           // Clean description:
           // 1. Remove filename header if present (e.g., ### DESCRIPTION.md)
-          // 2. Remove Title Header (# Title)
+          // 2. Remove all headers at the top of the file to reach the prose
           const cleanBody = content
             .replace(/^###\s+DESCRIPTION\.md.*$/im, '')
-            .replace(/^#\s+.+$/m, '')
+            .replace(/^[#]+\s+.+$/gm, '') // Remove all # level headers
             .trim();
             
           setValue('description', cleanBody);
@@ -145,7 +145,7 @@ export default function ForgePage() {
       // Construct the final object for validation
       const submissionData = {
         ...data,
-        description: fileContents.description || data.description || '',
+        description: data.description || fileContents.description || '',
         id: uuidv4(),
         userId: user?.uid || 'anonymous',
         slug: data.slug || data.title?.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '') || '',
