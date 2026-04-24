@@ -22,6 +22,7 @@ export const kitSchema = z.object({
     .min(1, "At least one category is required"),
   tags: z.array(z.string()).default([]),
   price: z.number().min(0, "Price cannot be negative"),
+  manifest: z.array(z.string()).optional(),
   createdAt: z.string().datetime().optional(),
   updatedAt: z.string().datetime().optional(),
   metadata: z.object({

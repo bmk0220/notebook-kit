@@ -14,9 +14,24 @@ export default async function KitPage({ params }: PageProps) {
   const { slug } = await params;
 
   // 1. Fetch Kit by slug
-  const kitsRef = collection(db, "kits");
-  const q = query(kitsRef, where("slug", "==", slug));
-  const querySnapshot = await getDocs(q);
+  let querySnapshot;
+  try {
+    const kitsRef = collection(db, "kits");
+    const q = query(kitsRef, where("slug", "==", slug));
+    querySnapshot = await getDocs(q);
+  } catch (err: any) {
+    console.error("PDP FETCH ERROR:", err);
+    // If we can't even query the kit, it's likely a permission or network issue
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/10 p-4 text-center">
+        <div className="card bg-card border border-border p-8 max-w-md shadow-xl">
+          <h1 className="text-2xl font-bold text-error mb-2">Access Denied</h1>
+          <p className="text-muted-foreground mb-4">You do not have permission to view this kit, or the database is currently unreachable.</p>
+          <a href="/marketplace" className="btn btn-primary">Return to Marketplace</a>
+        </div>
+      </div>
+    );
+  }
 
   if (querySnapshot.empty) {
     notFound();
@@ -34,21 +49,29 @@ export default async function KitPage({ params }: PageProps) {
     slug: String(data.slug),
     iconSvgName: String(data.assets?.iconSvgName || "Package"),
     categories: (data.categories as string[]) || [],
+    manifest: (data.manifest as string[]) || [],
   };
 
-  // 2. Fetch Content
-  let content: any = {};
-  try {
-    const contentRef = doc(db, "kits_content", kit.id);
-    const contentSnap = await getDoc(contentRef);
-    if (contentSnap.exists()) {
-      content = contentSnap.data();
+  // 2. Fetch Content (Optional for manifest display if manifest field is present)
+  let content: any = null;
+  if (!kit.manifest || kit.manifest.length === 0) {
+    try {
+      const contentRef = doc(db, "kits_content", kit.id);
+      const contentSnap = await getDoc(contentRef);
+      if (contentSnap.exists()) {
+        content = contentSnap.data();
+      }
+    } catch (err) {
+      console.warn("PDP CONTENT FETCH BLOCKED (Expected for public users):", err);
     }
-  } catch (err) {
-    console.error("PDP CONTENT FETCH ERROR:", err);
   }
   
-  const IconComponent = KIT_ICONS[kit.iconSvgName] || Download;
+  // Safe Icon Resolver
+  const RawIcon = KIT_ICONS[kit.iconSvgName] || Download;
+  // Ensure the icon is a valid React component to avoid "Objects are not valid as a React child"
+  const IconComponent = (RawIcon && (typeof RawIcon === 'function' || (typeof RawIcon === 'object' && RawIcon.$$typeof))) 
+    ? RawIcon 
+    : Download;
 
   return (
     <div className="min-h-screen bg-muted/10">
@@ -86,8 +109,18 @@ export default async function KitPage({ params }: PageProps) {
                     </div>
                   ))}
                 </div>
+              ) : kit.manifest && kit.manifest.length > 0 ? (
+                <div className="grid grid-cols-1 gap-4">
+                  {kit.manifest.map((filename) => (
+                    <div key={filename} className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 border border-border/50">
+                      <div className="h-2 w-2 rounded-full bg-primary" />
+                      <span className="text-sm font-bold">{filename}</span>
+                      <span className="ml-auto text-[10px] text-muted-foreground uppercase font-bold">Included</span>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <p>Content manifest unavailable.</p>
+                <p className="text-sm text-muted-foreground italic">Content manifest temporarily unavailable.</p>
               )}
             </div>
           </div>
