@@ -5,7 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Header from "@/components/Header";
-import { Download, Loader2, AlertCircle } from "lucide-react";
+import { Download, Loader2, AlertCircle, Notebook } from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
 import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
 import ReactMarkdown from "react-markdown";
@@ -142,10 +142,10 @@ export default function KitPage() {
     bgLight: 'rgba(107, 114, 128, 0.1)',
   };
 
-  const RawIcon = KIT_ICONS[kit.iconSvgName] || Download;
+  const RawIcon = KIT_ICONS[kit.iconSvgName] || Notebook;
   const IconComponent = (RawIcon && (typeof RawIcon === 'function' || (typeof RawIcon === 'object' && RawIcon.$$typeof)))
     ? RawIcon
-    : Download;
+    : Notebook;
 
   return (
     <div className="min-h-screen bg-muted/10">

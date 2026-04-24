@@ -1,4 +1,4 @@
-import { ShoppingCart, Zap } from 'lucide-react';
+import { ShoppingCart, Zap, Notebook } from 'lucide-react';
 import Link from 'next/link';
 import { KIT_ICONS, KIT_CATEGORIES } from '@/lib/constants/forge';
 
@@ -24,7 +24,13 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
   };
 
   // Resolve icon component
-  const IconComponent = assets?.iconSvgName && KIT_ICONS[assets.iconSvgName] ? KIT_ICONS[assets.iconSvgName] : Zap;
+  const IconComponent = assets?.iconSvgName && KIT_ICONS[assets.iconSvgName] ? KIT_ICONS[assets.iconSvgName] : Notebook;
+
+  // Clean description for snippet (strip markdown)
+  const cleanDescription = description
+    .replace(/[#*`_~\[\]()]/g, '')
+    .replace(/\n+/g, ' ')
+    .trim();
 
   // Enforce slug-based routing only. If slug is missing, the card should not be a navigation element.
   if (!slug) {
@@ -42,7 +48,7 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
             <h3 className="text-lg font-bold tracking-tight text-muted-foreground line-clamp-1">{title} (Draft)</h3>
           </div>
         </div>
-        <p className="mb-6 text-sm text-muted-foreground line-clamp-2">{description}</p>
+        <p className="mb-6 text-sm text-muted-foreground line-clamp-2">{cleanDescription}</p>
         <div className="mt-auto flex items-center justify-between">
           <span className="text-xl font-black text-muted-foreground">${price}</span>
           <div className="h-10 w-10 flex items-center justify-center rounded-full bg-muted text-muted-foreground">
@@ -84,7 +90,7 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
         </div>
       </div>
       
-      <p className="mb-6 text-sm text-muted-foreground line-clamp-3 leading-relaxed">{description}</p>
+      <p className="mb-6 text-sm text-muted-foreground line-clamp-3 leading-relaxed">{cleanDescription}</p>
       
       <div className="mt-auto pt-6 border-t border-border/50 flex items-center justify-between">
         <div className="flex flex-col">

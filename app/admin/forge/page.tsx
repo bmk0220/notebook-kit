@@ -69,13 +69,13 @@ export default function ForgePage() {
       categories: [],
       tags: [],
       assets: {
-        iconSvgName: 'Package',
+        iconSvgName: 'Notebook',
         fileUrl: '',
       }
     }
   });
 
-  const selectedIconName = watch('assets.iconSvgName') || 'Package';
+  const selectedIconName = watch('assets.iconSvgName') || 'Notebook';
   const title = watch('title');
   const selectedCategories = watch('categories') || [];
 
@@ -112,9 +112,15 @@ export default function ForgePage() {
             setValue('title', titleMatch[1].trim());
           }
 
-          // Set description (remove title header if present to avoid duplication)
-          const descriptionBody = content.replace(/^#\s+.+$/m, '').trim();
-          setValue('description', descriptionBody);
+          // Clean description:
+          // 1. Remove filename header if present (e.g., ### DESCRIPTION.md)
+          // 2. Remove Title Header (# Title)
+          const cleanBody = content
+            .replace(/^###\s+DESCRIPTION\.md.*$/im, '')
+            .replace(/^#\s+.+$/m, '')
+            .trim();
+            
+          setValue('description', cleanBody);
         }
       }
     }
