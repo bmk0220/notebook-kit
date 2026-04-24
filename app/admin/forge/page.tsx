@@ -25,7 +25,6 @@ import { twMerge } from 'tailwind-merge';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
 import { FORGE_REQUIRED_FILES, KIT_CATEGORIES } from '@/lib/constants/forge';
 import { useAuth } from '@/context/AuthContext';
-import { ingestKit } from './actions';
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -36,18 +35,14 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const COMMON_ICONS = [
-  'Book', 'FileText', 'Cpu', 'Database', 'Globe',
-  'Zap', 'Settings', 'Shield', 'FlaskConical', 'Layers',
-  'Code', 'Layout', 'Terminal', 'Brain', 'Workflow'
-];
+
 
 export default function ForgePage() {
   const router = useRouter();
   const { user, loading: authLoading, isAdmin } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
   const [fileContents, setFileContents] = useState<Record<string, string>>({});
-  const [isReading, setIsReading] = useState(false);
+  const [_isReading, setIsReading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishedKitId, setPublishedKitId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -130,7 +125,7 @@ export default function ForgePage() {
     setIsReading(false);
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, fileId: string) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, _fileId: string) => {
     const file = e.target.files?.[0];
     if (file) {
       handleBulkUpload([file]);

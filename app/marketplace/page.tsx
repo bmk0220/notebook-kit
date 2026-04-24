@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import KitCard from "@/components/KitCard";
 import { TrendingUp, Loader2, Sparkles, Search, Filter } from "lucide-react";
-import { collection, query, orderBy, getDocs, where } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
+import { KIT_CATEGORIES } from "@/lib/constants/forge";
 
 interface Kit {
   id: string;

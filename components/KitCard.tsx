@@ -1,4 +1,4 @@
-import { ShoppingCart, Zap, Notebook } from 'lucide-react';
+import { ShoppingCart, Notebook } from 'lucide-react';
 import Link from 'next/link';
 import { KIT_ICONS, KIT_CATEGORIES } from '@/lib/constants/forge';
 
@@ -28,7 +28,7 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
 
   // Clean description for snippet (strip markdown)
   const cleanDescription = description
-    .replace(/[#*`_~\[\]()]/g, '')
+    .replace(/[#*`_~[\]()]/g, '')
     .replace(/\n+/g, ' ')
     .trim();
 

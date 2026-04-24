@@ -5,7 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Header from "@/components/Header";
-import { Download, Loader2, AlertCircle, Notebook } from "lucide-react";
+import { Loader2, AlertCircle, Notebook } from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
 import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
 import ReactMarkdown from "react-markdown";
@@ -74,7 +74,7 @@ export default function KitPage() {
           if (contentSnap.exists()) {
             setContent(contentSnap.data());
           }
-        } catch (err) {
+        } catch (_err) {
           console.warn("Public user access to kits_content blocked - falling back to manifest.");
         }
 
