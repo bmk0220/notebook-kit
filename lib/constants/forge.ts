@@ -53,13 +53,57 @@ export const KIT_CATEGORIES = {
 export type KitCategory = keyof typeof KIT_CATEGORIES;
 
 import { 
-  Zap, Brain, Rocket, Book, Terminal, Briefcase, 
-  Cpu, Database, Layout, Shield, Target, Award,
-  Beaker, Code, FlaskConical, Globe, Lightbulb
+  // Core & Marketplace
+  Notebook, FileText, Layout, Package, Star, Zap, Rocket,
+  
+  // Arts & Creative
+  Palette, Music, Camera, Brush, Languages, Image,
+  
+  // Business & Finance
+  Briefcase, TrendingUp, BarChart, PieChart, Globe, 
+  DollarSign, CreditCard, Wallet, Banknote, Landmark,
+  
+  // Education & Learning
+  GraduationCap, BookOpen, Pencil, School, Library, Brain,
+  
+  // Technology & Technical
+  Cpu, Database, Terminal, Code, Wifi, Smartphone, 
+  Settings, Shield, Workflow, Layers,
+  
+  // Health & Wellness
+  Heart, Activity, Stethoscope, Trees, Dumbbell,
+  
+  // Organization
+  List, Calendar, Clock, ClipboardList,
+  
+  // UI Elements
+  CheckCircle, AlertCircle, Loader2, Download, Search, Info
 } from 'lucide-react';
 
 export const KIT_ICONS: Record<string, any> = {
-  Zap, Brain, Rocket, Book, Terminal, Briefcase,
-  Cpu, Database, Layout, Shield, Target, Award,
-  Beaker, Code, FlaskConical, Globe, Lightbulb
+  // Core
+  Notebook, FileText, Layout, Package, Star, Zap, Rocket,
+  
+  // Arts
+  Palette, Music, Camera, Brush, Languages, Image,
+  
+  // Business
+  Briefcase, TrendingUp, BarChart, PieChart, Globe,
+  DollarSign, CreditCard, Wallet, Banknote, Landmark,
+  
+  // Education
+  GraduationCap, BookOpen, Pencil, School, Library, Brain,
+  
+  // Technical
+  Cpu, Database, Terminal, Code, Wifi, Smartphone,
+  Settings, Shield, Workflow, Layers,
+  
+  // Health
+  Heart, Activity, Stethoscope, Trees, Dumbbell,
+  
+  // Organization
+  List, Calendar, Clock, ClipboardList,
+  
+  // UI
+  CheckCircle, AlertCircle, Loader2, Download, Search, Info
 };

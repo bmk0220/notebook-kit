@@ -1,5 +1,4 @@
 import { ShoppingCart, Notebook } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
 import Link from 'next/link';
 import { KIT_ICONS, KIT_CATEGORIES } from '@/lib/constants/forge';
 
@@ -25,8 +24,7 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
   };
 
   // Resolve icon component
-  const iconName = assets?.iconSvgName || 'Notebook';
-  const IconComponent = (KIT_ICONS[iconName] || (LucideIcons as any)[iconName] || Notebook) as any;
+  const IconComponent = (assets?.iconSvgName && KIT_ICONS[assets.iconSvgName]) || Notebook;
 
   // Clean description for snippet (strip markdown)
   const cleanDescription = description

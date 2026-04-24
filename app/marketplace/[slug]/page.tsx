@@ -5,7 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Header from "@/components/Header";
-import * as LucideIcons from "lucide-react";
+import { Loader2, AlertCircle, Notebook } from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
 import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
 import ReactMarkdown from "react-markdown";
@@ -94,7 +94,7 @@ export default function KitPage() {
       <div className="min-h-screen bg-muted/10 flex flex-col">
         <Header />
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
-          <LucideIcons.Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
           <p className="text-sm font-black uppercase tracking-widest text-muted-foreground animate-pulse">
             Loading Knowledge Kit...
           </p>
@@ -115,7 +115,7 @@ export default function KitPage() {
         <div className="flex-1 flex items-center justify-center p-4 text-center">
           <div className="bg-card border border-border p-8 rounded-3xl max-w-md shadow-xl">
             <div className="bg-red-500/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
-              <LucideIcons.AlertCircle className="h-8 w-8 text-red-500" />
+              <AlertCircle className="h-8 w-8 text-red-500" />
             </div>
             <h1 className="text-2xl font-black mb-2">Access Error</h1>
             <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -142,8 +142,7 @@ export default function KitPage() {
     bgLight: 'rgba(107, 114, 128, 0.1)',
   };
 
-  const iconName = kit.iconSvgName || 'Notebook';
-  const IconComponent = (KIT_ICONS[iconName] || (LucideIcons as any)[iconName] || LucideIcons.Notebook) as any;
+  const IconComponent = (kit.iconSvgName && KIT_ICONS[kit.iconSvgName]) || Notebook;
 
   return (
     <div className="min-h-screen bg-muted/10">

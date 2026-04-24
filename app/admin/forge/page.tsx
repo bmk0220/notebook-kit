@@ -17,13 +17,14 @@ import {
   DollarSign,
   Info,
   Loader2,
-  Rocket
+  Rocket,
+  Globe
 } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
+
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
-import { FORGE_REQUIRED_FILES, KIT_CATEGORIES } from '@/lib/constants/forge';
+import { FORGE_REQUIRED_FILES, KIT_CATEGORIES, KIT_ICONS } from '@/lib/constants/forge';
 import { useAuth } from '@/context/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '@/lib/firebase';
@@ -248,12 +249,7 @@ export default function ForgePage() {
 
   // Safe icon resolution to prevent runtime crashes with dynamic lookups
   const getIcon = (name: string) => {
-    const Icon = (LucideIcons as any)[name];
-    // Check if it's a valid React component (function or object with render)
-    if (Icon && (typeof Icon === 'function' || (typeof Icon === 'object' && Icon.$$typeof))) {
-      return Icon;
-    }
-    return Package;
+    return KIT_ICONS[name] || Package;
   };
 
   const IconComponent = getIcon(selectedIconName);
@@ -380,7 +376,7 @@ export default function ForgePage() {
                         <span className="label-text font-medium">Download URL (assets.fileUrl)</span>
                       </label>
                       <div className="relative">
-                        <LucideIcons.Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           {...register('assets.fileUrl', {
                             onChange: () => setIsUrlManuallyEdited(true)
@@ -664,17 +660,10 @@ export default function ForgePage() {
                 </div>
 
                 <div className="grid grid-cols-4 gap-2 max-h-[350px] overflow-y-auto p-1 custom-scrollbar">
-                  {Object.keys(LucideIcons)
-                    .filter(name => {
-                      // Only include PascalCase names (icons) and exclude internal utilities
-                      if (!/^[A-Z]/.test(name) || name === 'LucideIcon' || name === 'createLucideIcon') return false;
-                      const Icon = (LucideIcons as any)[name];
-                      const isComponent = Icon && (typeof Icon === 'function' || (typeof Icon === 'object' && Icon.$$typeof));
-                      return isComponent && name.toLowerCase().includes(searchTerm.toLowerCase());
-                    })
-                    .slice(0, 100) // Performance limit for initial render/search
+                  {Object.keys(KIT_ICONS)
+                    .filter(name => name.toLowerCase().includes(searchTerm.toLowerCase()))
                     .map(name => {
-                      const Icon = (LucideIcons as any)[name];
+                      const Icon = KIT_ICONS[name];
                       return (
                         <button
                           key={name}
