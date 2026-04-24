@@ -42,7 +42,7 @@ export default function ForgePage() {
   const { user, loading: authLoading, isAdmin } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
   const [fileContents, setFileContents] = useState<Record<string, string>>({});
-  const [_isReading, setIsReading] = useState(false);
+  const [, setIsReading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishedKitId, setPublishedKitId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

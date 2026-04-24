@@ -74,7 +74,7 @@ export default function KitPage() {
           if (contentSnap.exists()) {
             setContent(contentSnap.data());
           }
-        } catch (_err) {
+        } catch {
           console.warn("Public user access to kits_content blocked - falling back to manifest.");
         }
 
@@ -94,7 +94,7 @@ export default function KitPage() {
       <div className="min-h-screen bg-muted/10 flex flex-col">
         <Header />
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <LucideIcons.Loader2 className="h-10 w-10 animate-spin text-primary" />
           <p className="text-sm font-black uppercase tracking-widest text-muted-foreground animate-pulse">
             Loading Knowledge Kit...
           </p>
@@ -115,7 +115,7 @@ export default function KitPage() {
         <div className="flex-1 flex items-center justify-center p-4 text-center">
           <div className="bg-card border border-border p-8 rounded-3xl max-w-md shadow-xl">
             <div className="bg-red-500/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
-              <AlertCircle className="h-8 w-8 text-red-500" />
+              <LucideIcons.AlertCircle className="h-8 w-8 text-red-500" />
             </div>
             <h1 className="text-2xl font-black mb-2">Access Error</h1>
             <p className="text-muted-foreground mb-8 leading-relaxed">
