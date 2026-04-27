@@ -1,6 +1,9 @@
+"use client";
+
 import { ShoppingCart, Notebook } from 'lucide-react';
 import Link from 'next/link';
 import { KIT_ICONS, KIT_CATEGORIES } from '@/lib/constants/forge';
+import { useCategories } from '@/lib/hooks/useCategories';
 
 interface KitCardProps {
   id: string;
@@ -16,9 +19,10 @@ interface KitCardProps {
 }
 
 export default function KitCard({ id: _id, slug, title, description, price, categories, assets, isNew }: KitCardProps) {
-  // Resolve category-based styles
+  const { categoryMap } = useCategories();
+  // Resolve category-based styles (dynamic map first, then hardcoded, then fallback)
   const primaryCategoryName = categories && categories.length > 0 ? categories[0] : "General";
-  const categoryConfig = KIT_CATEGORIES[primaryCategoryName as keyof typeof KIT_CATEGORIES] || {
+  const categoryConfig = categoryMap[primaryCategoryName] || KIT_CATEGORIES[primaryCategoryName as keyof typeof KIT_CATEGORIES] || {
     color: '#6b7280', // gray-500 default
     bgLight: 'rgba(107, 114, 128, 0.1)',
   };

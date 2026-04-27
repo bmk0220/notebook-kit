@@ -6,7 +6,7 @@ import KitCard from "@/components/KitCard";
 import { TrendingUp, Loader2, Sparkles, Search, Filter } from "lucide-react";
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { KIT_CATEGORIES } from "@/lib/constants/forge";
+import { useCategories } from "@/lib/hooks/useCategories";
 
 interface Kit {
   id: string;
@@ -27,9 +27,11 @@ interface Kit {
   isNew?: boolean;
 }
 
-const CATEGORIES = ["All", ...Object.keys(KIT_CATEGORIES)];
+const FALLBACK_CATEGORIES = ["All"];
 
 export default function MarketplacePage() {
+  const { categories: dynamicCategories } = useCategories();
+  const CATEGORIES = ["All", ...dynamicCategories.map(c => c.name)];
   const [kits, setKits] = useState<Kit[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");

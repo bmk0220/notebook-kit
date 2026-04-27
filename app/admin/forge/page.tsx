@@ -24,8 +24,9 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
-import { FORGE_REQUIRED_FILES, KIT_CATEGORIES, KIT_ICONS } from '@/lib/constants/forge';
+import { FORGE_REQUIRED_FILES, KIT_ICONS } from '@/lib/constants/forge';
 import { useAuth } from '@/context/AuthContext';
+import { useCategories } from '@/lib/hooks/useCategories';
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -41,6 +42,7 @@ function cn(...inputs: ClassValue[]) {
 export default function ForgePage() {
   const router = useRouter();
   const { user, loading: authLoading, isAdmin } = useAuth();
+  const { categories: dynamicCategories, categoryMap } = useCategories();
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
   const [fileContents, setFileContents] = useState<Record<string, string>>({});
   const [, setIsReading] = useState(false);
@@ -393,25 +395,25 @@ export default function ForgePage() {
                         <span className="label-text font-medium">Categories</span>
                       </label>
                       <div className="flex flex-wrap gap-2">
-                        {Object.keys(KIT_CATEGORIES).map((cat) => (
+                        {dynamicCategories.map((cat) => (
                           <button
-                            key={cat}
+                            key={cat.name}
                             type="button"
                             onClick={() => {
                               const current = selectedCategories;
-                              const next = current.includes(cat)
-                                ? current.filter((c: string) => c !== cat)
-                                : [...current, cat];
+                              const next = current.includes(cat.name)
+                                ? current.filter((c: string) => c !== cat.name)
+                                : [...current, cat.name];
                               setValue('categories', next as any);
                             }}
                             className={cn(
                               "badge badge-lg cursor-pointer py-4 px-4 border transition-all",
-                              selectedCategories.includes(cat)
+                              selectedCategories.includes(cat.name)
                                 ? "badge-primary text-white"
                                 : "bg-background border-border text-muted-foreground hover:border-primary/50"
                             )}
                           >
-                            {cat}
+                            {cat.name}
                           </button>
                         ))}
                       </div>
@@ -441,8 +443,8 @@ export default function ForgePage() {
                     <div
                       className="w-12 h-12 rounded-lg flex items-center justify-center"
                       style={{
-                        backgroundColor: selectedCategories[0] ? (KIT_CATEGORIES as any)[selectedCategories[0]].bgLight : 'rgba(0,0,0,0.05)',
-                        color: selectedCategories[0] ? (KIT_CATEGORIES as any)[selectedCategories[0]].color : 'currentColor'
+                        backgroundColor: selectedCategories[0] && categoryMap[selectedCategories[0]] ? categoryMap[selectedCategories[0]].bgLight : 'rgba(0,0,0,0.05)',
+                        color: selectedCategories[0] && categoryMap[selectedCategories[0]] ? categoryMap[selectedCategories[0]].color : 'currentColor'
                       }}
                     >
                       <IconComponent className="w-6 h-6" />

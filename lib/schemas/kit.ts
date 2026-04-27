@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { FORGE_REQUIRED_FILES, KIT_CATEGORIES } from '../constants/forge';
+import { FORGE_REQUIRED_FILES } from '../constants/forge';
 
 /**
  * Forge 2.0 Kit Schema
@@ -18,7 +18,7 @@ export const kitSchema = z.object({
   slug: z.string().min(3, "Slug must be at least 3 characters"),
   title: z.string().min(5, "Title must be at least 5 characters long"),
   description: z.string().min(20, "Product description is too short"),
-  categories: z.array(z.enum(Object.keys(KIT_CATEGORIES) as [string, ...string[]]))
+  categories: z.array(z.string().min(1))
     .min(1, "At least one category is required"),
   tags: z.array(z.string()).default([]),
   price: z.number().min(0, "Price cannot be negative"),
