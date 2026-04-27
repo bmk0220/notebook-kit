@@ -6,6 +6,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   query,
   where,
@@ -21,11 +22,12 @@ import {
   AlertCircle,
   Palette,
   Search,
-  ShieldCheck,
   Notebook,
+  Pencil,
+  X,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { KIT_CATEGORIES } from "@/lib/constants/forge";
 
 interface Category {
   id: string;
@@ -33,7 +35,6 @@ interface Category {
   color: string;
   bgLight: string;
   kitCount: number;
-  isDefault: boolean; // true = from hardcoded constants, false = from Firestore
   createdAt?: any;
 }
 
@@ -73,37 +74,27 @@ export default function CategoriesPage() {
   const [showForm, setShowForm] = useState(false);
   const [formError, setFormError] = useState("");
 
+  // Edit state
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editColor, setEditColor] = useState("");
+  const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState("");
+
   const fetchCategories = useCallback(async () => {
     setLoading(true);
     try {
-      // 1. Load from Firestore
       const snapshot = await getDocs(collection(db, "kit_categories"));
-      const firestoreCategories: Category[] = snapshot.docs.map((d) => ({
+      const allCategories: Category[] = snapshot.docs.map((d) => ({
         id: d.id,
         name: d.data().name,
         color: d.data().color,
         bgLight: d.data().bgLight,
         kitCount: 0,
-        isDefault: false,
         createdAt: d.data().createdAt,
       }));
 
-      // 2. Merge with hardcoded defaults (hardcoded ones not yet in Firestore)
-      const firestoreNames = new Set(firestoreCategories.map((c) => c.name));
-      const defaultCategories: Category[] = Object.entries(KIT_CATEGORIES)
-        .filter(([name]) => !firestoreNames.has(name))
-        .map(([name, config]) => ({
-          id: `default-${name}`,
-          name,
-          color: config.color,
-          bgLight: config.bgLight,
-          kitCount: 0,
-          isDefault: true,
-        }));
-
-      const allCategories = [...firestoreCategories, ...defaultCategories];
-
-      // 3. Count kits per category
+      // Count kits per category
       for (const cat of allCategories) {
         try {
           const q = query(
@@ -113,17 +104,11 @@ export default function CategoriesPage() {
           const countSnap = await getCountFromServer(q);
           cat.kitCount = countSnap.data().count;
         } catch {
-          // Silently handle - might not have index
           cat.kitCount = 0;
         }
       }
 
-      // Sort: defaults first alphabetically, then Firestore ones
-      allCategories.sort((a, b) => {
-        if (a.isDefault !== b.isDefault) return a.isDefault ? -1 : 1;
-        return a.name.localeCompare(b.name);
-      });
-
+      allCategories.sort((a, b) => a.name.localeCompare(b.name));
       setCategories(allCategories);
     } catch (err) {
       console.error("Error fetching categories:", err);
@@ -136,6 +121,7 @@ export default function CategoriesPage() {
     fetchCategories();
   }, [fetchCategories]);
 
+  // --- ADD ---
   const handleAdd = async () => {
     const trimmedName = newName.trim();
     if (!trimmedName) {
@@ -177,14 +163,68 @@ export default function CategoriesPage() {
     }
   };
 
-  const handleDelete = async (cat: Category) => {
-    if (cat.isDefault) {
-      alert(
-        "Default categories are defined in code and cannot be deleted from this interface."
-      );
+  // --- EDIT ---
+  const startEdit = (cat: Category) => {
+    setEditingId(cat.id);
+    setEditName(cat.name);
+    setEditColor(cat.color);
+    setEditError("");
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditName("");
+    setEditColor("");
+    setEditError("");
+  };
+
+  const handleEdit = async () => {
+    if (!editingId) return;
+
+    const trimmedName = editName.trim();
+    if (!trimmedName) {
+      setEditError("Category name is required.");
+      return;
+    }
+    if (trimmedName.length < 2) {
+      setEditError("Name must be at least 2 characters.");
+      return;
+    }
+    // Duplicate check (excluding current)
+    if (
+      categories.some(
+        (c) =>
+          c.id !== editingId &&
+          c.name.toLowerCase() === trimmedName.toLowerCase()
+      )
+    ) {
+      setEditError("A category with this name already exists.");
       return;
     }
 
+    setEditSaving(true);
+    setEditError("");
+
+    try {
+      const bgLight = hexToRgba(editColor, 0.1);
+      await updateDoc(doc(db, "kit_categories", editingId), {
+        name: trimmedName,
+        color: editColor,
+        bgLight,
+      });
+
+      cancelEdit();
+      await fetchCategories();
+    } catch (err) {
+      console.error("Error updating category:", err);
+      setEditError("Failed to save changes.");
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  // --- DELETE ---
+  const handleDelete = async (cat: Category) => {
     if (cat.kitCount > 0) {
       if (
         !confirm(
@@ -225,7 +265,10 @@ export default function CategoriesPage() {
           </p>
         </div>
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            setShowForm(!showForm);
+            if (editingId) cancelEdit();
+          }}
           className={cn(
             "h-12 px-6 rounded-xl font-bold gap-2 flex items-center justify-center transition-all",
             showForm
@@ -386,96 +429,227 @@ export default function CategoriesPage() {
           {filteredCategories.map((cat) => (
             <div
               key={cat.id}
-              className="group relative bg-card border border-border rounded-2xl p-5 transition-all hover:shadow-md hover:border-border"
+              className={cn(
+                "group relative bg-card border rounded-2xl p-5 transition-all",
+                editingId === cat.id
+                  ? "border-primary shadow-lg shadow-primary/10"
+                  : "border-border hover:shadow-md"
+              )}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-4">
-                  {/* Icon */}
-                  <div
-                    className="h-12 w-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
-                    style={{ backgroundColor: cat.bgLight }}
-                  >
-                    <Tags className="h-6 w-6" style={{ color: cat.color }} />
+              {/* EDIT MODE */}
+              {editingId === cat.id ? (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                      Editing Category
+                    </span>
+                    <button
+                      onClick={cancelEdit}
+                      className="h-8 w-8 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
                   </div>
 
-                  <div>
-                    <h3 className="font-bold text-base leading-tight">
-                      {cat.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] font-bold text-muted-foreground">
-                        {cat.kitCount} kit{cat.kitCount !== 1 ? "s" : ""}
-                      </span>
-                      {cat.isDefault && (
-                        <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-tighter text-primary/70">
-                          <ShieldCheck className="h-3 w-3" />
-                          Default
-                        </span>
-                      )}
+                  {/* Edit Name */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => {
+                        setEditName(e.target.value);
+                        setEditError("");
+                      }}
+                      onKeyDown={(e) => e.key === "Enter" && handleEdit()}
+                      className="w-full h-10 px-3 rounded-lg border border-border bg-background font-medium focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
+                      maxLength={30}
+                    />
+                  </div>
+
+                  {/* Edit Color */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                      Color
+                    </label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {COLOR_PRESETS.map((preset) => (
+                        <button
+                          key={preset.color}
+                          onClick={() => setEditColor(preset.color)}
+                          className={cn(
+                            "h-7 w-7 rounded-lg border-2 transition-all hover:scale-110",
+                            editColor === preset.color
+                              ? "border-foreground scale-110"
+                              : "border-transparent"
+                          )}
+                          style={{ backgroundColor: preset.color }}
+                          title={preset.label}
+                        />
+                      ))}
+                      <input
+                        type="color"
+                        value={editColor}
+                        onChange={(e) => setEditColor(e.target.value)}
+                        className="h-7 w-7 rounded-lg cursor-pointer border-none"
+                      />
                     </div>
                   </div>
+
+                  {/* Edit Preview */}
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                    <div
+                      className="h-8 w-8 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: hexToRgba(editColor, 0.1) }}
+                    >
+                      <Tags
+                        className="h-4 w-4"
+                        style={{ color: editColor }}
+                      />
+                    </div>
+                    <span
+                      className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border"
+                      style={{
+                        backgroundColor: hexToRgba(editColor, 0.1),
+                        color: editColor,
+                        borderColor: hexToRgba(editColor, 0.2),
+                      }}
+                    >
+                      {editName || "Preview"}
+                    </span>
+                  </div>
+
+                  {editError && (
+                    <p className="text-xs text-red-500 font-bold flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3" />
+                      {editError}
+                    </p>
+                  )}
+
+                  {/* Save / Cancel */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleEdit}
+                      disabled={editSaving || !editName.trim()}
+                      className="flex-1 h-10 bg-primary text-primary-foreground rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-50"
+                    >
+                      {editSaving ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <Check className="h-3.5 w-3.5" />
+                      )}
+                      {editSaving ? "Saving..." : "Save Changes"}
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="h-10 px-4 bg-muted text-muted-foreground rounded-lg font-bold text-sm hover:bg-muted/80 transition-all"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
+              ) : (
+                /* VIEW MODE */
+                <>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-4">
+                      {/* Icon */}
+                      <div
+                        className="h-12 w-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                        style={{ backgroundColor: cat.bgLight }}
+                      >
+                        <Tags
+                          className="h-6 w-6"
+                          style={{ color: cat.color }}
+                        />
+                      </div>
 
-                {/* Delete */}
-                {!cat.isDefault && (
-                  <button
-                    onClick={() => handleDelete(cat)}
-                    disabled={deletingId === cat.id}
-                    className="h-9 w-9 rounded-lg border border-border bg-background flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-500/10 hover:text-red-500 hover:border-red-200 transition-all shrink-0"
-                    title="Delete category"
+                      <div>
+                        <h3 className="font-bold text-base leading-tight">
+                          {cat.name}
+                        </h3>
+                        <span className="text-[10px] font-bold text-muted-foreground">
+                          {cat.kitCount} kit{cat.kitCount !== 1 ? "s" : ""}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => startEdit(cat)}
+                        className="h-9 w-9 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all shrink-0"
+                        title="Edit category"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(cat)}
+                        disabled={deletingId === cat.id}
+                        className="h-9 w-9 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-red-500/10 hover:text-red-500 hover:border-red-200 transition-all shrink-0"
+                        title="Delete category"
+                      >
+                        {deletingId === cat.id ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-3.5 w-3.5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Color bar */}
+                  <div
+                    className="mt-4 h-1.5 rounded-full"
+                    style={{ backgroundColor: cat.bgLight }}
                   >
-                    {deletingId === cat.id ? (
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                    ) : (
-                      <Trash2 className="h-3.5 w-3.5" />
-                    )}
-                  </button>
-                )}
-              </div>
-
-              {/* Color bar */}
-              <div
-                className="mt-4 h-1.5 rounded-full"
-                style={{ backgroundColor: cat.bgLight }}
-              >
-                <div
-                  className="h-full rounded-full transition-all"
-                  style={{
-                    backgroundColor: cat.color,
-                    width: cat.kitCount > 0 ? `${Math.min(cat.kitCount * 20, 100)}%` : "5%",
-                    opacity: cat.kitCount > 0 ? 1 : 0.3,
-                  }}
-                />
-              </div>
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{
+                        backgroundColor: cat.color,
+                        width:
+                          cat.kitCount > 0
+                            ? `${Math.min(cat.kitCount * 20, 100)}%`
+                            : "5%",
+                        opacity: cat.kitCount > 0 ? 1 : 0.3,
+                      }}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
       ) : (
         <div className="py-24 text-center rounded-3xl border-2 border-dashed border-border bg-background/50">
           <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-            <Search className="h-8 w-8 opacity-20" />
+            <Tags className="h-8 w-8 opacity-20" />
             <p className="font-bold uppercase tracking-widest text-xs">
-              No categories found.
+              {categories.length === 0
+                ? "No categories yet. Create your first one!"
+                : "No categories found."}
             </p>
           </div>
         </div>
       )}
 
       {/* Summary */}
-      <div className="flex items-center justify-between px-2 pt-4 border-t border-border/40">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          {categories.length} total categories •{" "}
-          {categories.filter((c) => c.isDefault).length} defaults •{" "}
-          {categories.filter((c) => !c.isDefault).length} custom
-        </p>
-        <div className="flex items-center gap-2">
-          <Notebook className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-[10px] font-bold text-muted-foreground">
-            {categories.reduce((sum, c) => sum + c.kitCount, 0)} kits
-            categorized
-          </span>
+      {categories.length > 0 && (
+        <div className="flex items-center justify-between px-2 pt-4 border-t border-border/40">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            {categories.length} total categories
+          </p>
+          <div className="flex items-center gap-2">
+            <Notebook className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="text-[10px] font-bold text-muted-foreground">
+              {categories.reduce((sum, c) => sum + c.kitCount, 0)} kits
+              categorized
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

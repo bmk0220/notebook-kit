@@ -7,7 +7,7 @@ import { db } from "@/lib/firebase";
 import Header from "@/components/Header";
 import { Loader2, AlertCircle, Notebook } from "lucide-react";
 import PurchaseControl from "@/components/marketplace/PurchaseControl";
-import { KIT_ICONS, KIT_CATEGORIES } from "@/lib/constants/forge";
+import { KIT_ICONS } from "@/lib/constants/forge";
 import { useCategories } from "@/lib/hooks/useCategories";
 import ReactMarkdown from "react-markdown";
 
@@ -140,7 +140,7 @@ export default function KitPage() {
   const { categoryMap } = useCategories();
 
   const primaryCategoryName = kit.categories.length > 0 ? kit.categories[0] : "General";
-  const categoryConfig = categoryMap[primaryCategoryName] || KIT_CATEGORIES[primaryCategoryName as keyof typeof KIT_CATEGORIES] || {
+  const categoryConfig = categoryMap[primaryCategoryName] || {
     color: '#6b7280',
     bgLight: 'rgba(107, 114, 128, 0.1)',
   };
