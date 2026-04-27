@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import KitCard from "@/components/KitCard";
 import { Sparkles, TrendingUp, Clock, Loader2, Zap, ArrowRight } from "lucide-react";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
 
@@ -36,14 +36,13 @@ export default function Home() {
       try {
         // Fetch all kits and filter for published ones in-memory to ensure 
         // we catch items with different timestamp structures and avoid index issues.
-        const q = query(collection(db, "kits"));
+        const q = query(collection(db, "kits"), where("status", "==", "published"));
         const querySnapshot = await getDocs(q);
         const fetchedKits = querySnapshot.docs
           .map(doc => ({
             id: doc.id,
             ...doc.data()
-          } as Kit))
-          .filter(kit => (kit as any).status === 'published');
+          } as Kit));
 
         // Sort by date (top-level or metadata fallback)
         const sortedKits = fetchedKits.sort((a, b) => {

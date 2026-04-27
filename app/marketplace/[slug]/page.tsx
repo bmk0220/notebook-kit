@@ -43,7 +43,7 @@ export default function KitPage() {
 
         // 1. Fetch Kit by slug
         const kitsRef = collection(db, "kits");
-        const q = query(kitsRef, where("slug", "==", slug));
+        const q = query(kitsRef, where("slug", "==", slug), where("status", "==", "published"));
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
