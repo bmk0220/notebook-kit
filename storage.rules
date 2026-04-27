@@ -2,8 +2,19 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'admin@notebookkit.com';
+    }
+
     match /{allPaths=**} {
-      allow read, write: if request.auth != null;
+      // Allow any signed-in user to read files (marketplace kits are public for auth users)
+      allow read: if isSignedIn();
+      
+      // Restrict all write operations (upload, delete) to administrators only
+      allow write: if isAdmin();
     }
   }
 }

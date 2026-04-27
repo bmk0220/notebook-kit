@@ -27,7 +27,9 @@ import {
   CheckCircle,
   FileEdit,
   Archive,
-  ArrowUpDown
+  ArrowUpDown,
+  AlertTriangle,
+  X
 } from "lucide-react";
 import StatsCard from "@/components/admin/StatsCard";
 import { KIT_ICONS } from "@/lib/constants/forge";
@@ -49,6 +51,8 @@ export default function ManageKitsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [deleteKit, setDeleteKit] = useState<Kit | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchKits();
@@ -60,8 +64,8 @@ export default function ManageKitsPage() {
       const q = query(collection(db, "kits"), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
       const fetchedKits = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        id: doc.id
       })) as Kit[];
       setKits(fetchedKits);
     } catch (err) {
@@ -71,22 +75,19 @@ export default function ManageKitsPage() {
     }
   }
 
-  const handleDelete = async (kit: Kit) => {
+  const handleDeleteClick = (kit: Kit) => {
+    setDeleteKit(kit);
+  };
+
+  const performDelete = async (kit: Kit) => {
+    setIsDeleting(true);
     try {
       // 1. Check if the kit has been purchased
+      console.log(`Checking purchase count for kit ID: ${kit.id}`);
       const q = query(collection(db, "user_kits"), where("kitId", "==", kit.id));
       const accessSnaps = await getDocs(q);
       const purchaseCount = accessSnaps.size;
-
-      if (purchaseCount > 0) {
-        const confirmMsg = `WARNING: This kit is owned by ${purchaseCount} user(s).\n\nIt is highly recommended to use "Archive" instead to keep their access intact. If you proceed with this Hard Delete, you will PERMANENTLY delete the kit, its files, and revoke access for all buyers.\n\nType 'DELETE' to confirm this destructive action.`;
-        const input = prompt(confirmMsg);
-        if (input !== 'DELETE') {
-          return;
-        }
-      } else {
-        if (!confirm(`Are you sure you want to permanently delete "${kit.title}"?`)) return;
-      }
+      console.log(`Found ${purchaseCount} owner(s).`);
 
       // 2. Perform Cascading Delete
       // a) Delete all user_kits access records
@@ -96,35 +97,41 @@ export default function ManageKitsPage() {
           batch.delete(docSnap.ref);
         });
         await batch.commit();
+        console.log(`Successfully revoked access for ${purchaseCount} users.`);
       }
 
-      // b) Delete the .zip file from Storage
+      // b) Delete from Storage
       try {
         if (kit.slug) {
           const storagePath = `kits/${kit.id}/${kit.slug}.zip`;
           const fileRef = ref(storage, storagePath);
           await deleteObject(fileRef);
           console.log(`Successfully deleted storage file: ${storagePath}`);
-        } else {
-          console.warn("Kit has no slug, skipping Storage zip deletion.");
         }
       } catch (e: any) {
-        if (e.code === 'storage/object-not-found') {
-          console.warn("Storage cleanup: Zip file was already missing or never existed.");
-        } else {
+        if (e.code !== 'storage/object-not-found') {
           console.error("Storage cleanup failed:", e);
-          alert(`Warning: The database record was deleted, but the associated ZIP file could not be deleted from Firebase Storage. Error: ${e.message}`);
         }
       }
 
-      // c) Delete the main kits document
+      // c) Delete from kits_content
+      try {
+        await deleteDoc(doc(db, "kits_content", kit.id));
+      } catch (e) {
+        console.warn("kits_content doc not found or delete failed.");
+      }
+
+      // d) Delete main doc
       await deleteDoc(doc(db, "kits", kit.id));
       
-      setKits(kits.filter(k => k.id !== kit.id));
+      setKits(prev => prev.filter(k => k.id !== kit.id));
+      setDeleteKit(null);
       console.log(`Successfully deleted kit: ${kit.title}`);
     } catch (err: any) {
       console.error("Error deleting kit:", err);
-      alert(`Failed to execute deletion process: ${err.message}`);
+      alert(`Deletion failed: ${err.message}`);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -313,7 +320,7 @@ export default function ManageKitsPage() {
                           {kit.status === 'published' ? <Archive className="h-3.5 w-3.5" /> : <CheckCircle className="h-3.5 w-3.5 text-green-600" />}
                         </button>
                         <button 
-                          onClick={() => handleDelete(kit)}
+                          onClick={() => handleDeleteClick(kit)}
                           className="h-8 w-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-red-500/10 hover:text-red-500 transition-colors"
                           title="Hard Delete"
                         >
@@ -336,6 +343,114 @@ export default function ManageKitsPage() {
             </tbody>
           </table>
         </div>
+      </div>
+      </div>
+
+      <DeleteConfirmModal 
+        isOpen={!!deleteKit} 
+        kit={deleteKit} 
+        onClose={() => setDeleteKit(null)} 
+        onConfirm={performDelete}
+        loading={isDeleting}
+      />
+    </div>
+  );
+}
+
+function DeleteConfirmModal({ isOpen, kit, onClose, onConfirm, loading }: { 
+  isOpen: boolean, 
+  kit: Kit | null, 
+  onClose: () => void, 
+  onConfirm: (kit: Kit) => void,
+  loading: boolean
+}) {
+  const [confirmText, setConfirmText] = useState('');
+  const [owners, setOwners] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (isOpen && kit) {
+      setConfirmText('');
+      setOwners(null);
+      // Fetch owners count for the modal
+      const fetchOwners = async () => {
+        const q = query(collection(db, "user_kits"), where("kitId", "==", kit.id));
+        const snap = await getDocs(q);
+        setOwners(snap.size);
+      };
+      fetchOwners();
+    }
+  }, [isOpen, kit]);
+
+  if (!isOpen || !kit) return null;
+
+  const isConfirmed = confirmText === 'DELETE';
+  const hasOwners = owners !== null && owners > 0;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose} />
+      
+      <div className="relative w-full max-w-md bg-card border border-border rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="p-6 text-center space-y-4">
+          <div className="h-16 w-16 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto text-red-500">
+            <AlertTriangle className="h-8 w-8" />
+          </div>
+          
+          <div className="space-y-2">
+            <h2 className="text-xl font-black uppercase tracking-tight text-foreground">Hard Delete Kit?</h2>
+            <p className="text-sm text-muted-foreground px-4">
+              You are about to permanently remove <span className="font-bold text-foreground">"{kit.title}"</span>.
+            </p>
+          </div>
+
+          {owners !== null && owners > 0 && (
+            <div className="p-4 rounded-2xl bg-red-500/5 border border-red-500/10 text-red-600 text-xs font-bold flex items-start gap-3 text-left">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <div>
+                CRITICAL: This kit is owned by {owners} user(s). 
+                Deleting it will revoke their access and delete the source files.
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-4 pt-2">
+            <div className="form-control">
+              <label className="label py-1">
+                <span className="label-text-alt font-black uppercase tracking-widest text-[9px] text-muted-foreground">Type 'DELETE' to confirm</span>
+              </label>
+              <input 
+                type="text" 
+                value={confirmText}
+                onChange={(e) => setConfirmText(e.target.value)}
+                placeholder="DELETE"
+                className="input input-bordered w-full bg-muted/20 text-center font-black tracking-widest focus:ring-2 focus:ring-red-500/50"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                onClick={onClose}
+                className="btn btn-ghost flex-1 h-12 rounded-xl font-bold uppercase text-[10px] tracking-widest"
+              >
+                Cancel
+              </button>
+              <button 
+                disabled={!isConfirmed || loading}
+                onClick={() => onConfirm(kit)}
+                className="btn btn-error flex-[2] h-12 rounded-xl font-black uppercase text-[10px] tracking-widest text-white shadow-lg shadow-red-500/20"
+              >
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirm Hard Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 h-8 w-8 rounded-full hover:bg-muted flex items-center justify-center transition-colors"
+        >
+          <X className="h-4 w-4 text-muted-foreground" />
+        </button>
       </div>
     </div>
   );

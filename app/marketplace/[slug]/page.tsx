@@ -26,6 +26,7 @@ interface Kit {
 export default function KitPage() {
   const params = useParams();
   const slug = params?.slug as string;
+  const { categoryMap } = useCategories();
 
   const [kit, setKit] = useState<Kit | null>(null);
   const [content, setContent] = useState<any>(null);
@@ -136,8 +137,6 @@ export default function KitPage() {
       </div>
     );
   }
-
-  const { categoryMap } = useCategories();
 
   const primaryCategoryName = kit.categories.length > 0 ? kit.categories[0] : "General";
   const categoryConfig = categoryMap[primaryCategoryName] || {
