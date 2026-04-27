@@ -8,9 +8,12 @@ import {
   getDocs, 
   deleteDoc, 
   doc, 
-  updateDoc 
+  updateDoc,
+  where,
+  writeBatch
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { ref, deleteObject } from "firebase/storage";
+import { db, storage } from "@/lib/firebase";
 import Link from "next/link";
 import { 
   Plus, 
@@ -68,12 +71,46 @@ export default function ManageKitsPage() {
     }
   }
 
-  const handleDelete = async (kitId: string) => {
-    if (!confirm("Are you sure you want to delete this kit? This action cannot be undone.")) return;
-    
+  const handleDelete = async (kit: Kit) => {
     try {
-      await deleteDoc(doc(db, "kits", kitId));
-      setKits(kits.filter(k => k.id !== kitId));
+      // 1. Check if the kit has been purchased
+      const q = query(collection(db, "user_kits"), where("kitId", "==", kit.id));
+      const accessSnaps = await getDocs(q);
+      const purchaseCount = accessSnaps.size;
+
+      if (purchaseCount > 0) {
+        const confirmMsg = `WARNING: This kit is owned by ${purchaseCount} user(s).\n\nIt is highly recommended to use "Archive" instead to keep their access intact. If you proceed with this Hard Delete, you will PERMANENTLY delete the kit, its files, and revoke access for all buyers.\n\nType 'DELETE' to confirm this destructive action.`;
+        const input = prompt(confirmMsg);
+        if (input !== 'DELETE') {
+          return;
+        }
+      } else {
+        if (!confirm(`Are you sure you want to permanently delete "${kit.title}"?`)) return;
+      }
+
+      // 2. Perform Cascading Delete
+      // a) Delete all user_kits access records
+      if (purchaseCount > 0) {
+        const batch = writeBatch(db);
+        accessSnaps.forEach(docSnap => {
+          batch.delete(docSnap.ref);
+        });
+        await batch.commit();
+      }
+
+      // b) Delete the .zip file from Storage
+      try {
+        const storagePath = `kits/${kit.id}/${kit.slug}.zip`;
+        const fileRef = ref(storage, storagePath);
+        await deleteObject(fileRef);
+      } catch (e: any) {
+        console.warn("Storage cleanup skipped or failed:", e.message);
+      }
+
+      // c) Delete the main kits document
+      await deleteDoc(doc(db, "kits", kit.id));
+      
+      setKits(kits.filter(k => k.id !== kit.id));
     } catch (err) {
       console.error("Error deleting kit:", err);
       alert("Failed to delete kit.");
@@ -250,6 +287,13 @@ export default function ManageKitsPage() {
                         >
                           <Eye className="h-3.5 w-3.5" />
                         </Link>
+                        <Link 
+                          href={`/admin/kits/${kit.id}`}
+                          className="h-8 w-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
+                          title="Edit Kit"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Link>
                         <button 
                           onClick={() => handleStatusToggle(kit.id, kit.status)}
                           className="h-8 w-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-muted transition-colors"
@@ -258,9 +302,9 @@ export default function ManageKitsPage() {
                           {kit.status === 'published' ? <Archive className="h-3.5 w-3.5" /> : <CheckCircle className="h-3.5 w-3.5 text-green-600" />}
                         </button>
                         <button 
-                          onClick={() => handleDelete(kit.id)}
+                          onClick={() => handleDelete(kit)}
                           className="h-8 w-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-red-500/10 hover:text-red-500 transition-colors"
-                          title="Delete"
+                          title="Hard Delete"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
