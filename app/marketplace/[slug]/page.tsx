@@ -230,7 +230,7 @@ export default function KitPage() {
             <div className="sticky top-24 space-y-6">
               <div className="bg-card p-8 rounded-3xl border border-border shadow-xl">
                 <div className="space-y-1 mb-6">
-                  <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Ownership Price</span>
+                  <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Kit Price</span>
                   <div className="text-4xl font-black">${kit.price}</div>
                 </div>
 

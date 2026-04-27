@@ -94,7 +94,7 @@ export default function KitCard({ id: _id, slug, title, description, price, cate
       
       <div className="mt-auto pt-6 border-t border-border/50 flex items-center justify-between">
         <div className="flex flex-col">
-          <span className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Ownership Price</span>
+          <span className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Kit Price</span>
           <span className="text-2xl font-black">${price}</span>
         </div>
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-foreground text-background transition-all hover:scale-110 active:scale-95 shadow-lg group-hover:bg-primary group-hover:text-primary-foreground">
