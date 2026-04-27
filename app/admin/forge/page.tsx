@@ -117,7 +117,7 @@ export default function ForgePage() {
             .replace(/^###\s+DESCRIPTION\.md.*$/im, '')
             .replace(/^[#]+\s+.+$/gm, '') // Remove all # level headers
             .trim();
-            
+
           setValue('description', cleanBody);
         }
       }
@@ -409,7 +409,7 @@ export default function ForgePage() {
                             className={cn(
                               "badge badge-lg cursor-pointer py-4 px-4 border transition-all",
                               selectedCategories.includes(cat.name)
-                                ? "badge-primary text-white"
+                                ? "badge-primary text-red"
                                 : "bg-background border-border text-muted-foreground hover:border-primary/50"
                             )}
                           >
