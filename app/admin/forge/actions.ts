@@ -1,7 +1,7 @@
 'use server';
 
 import { db, storage } from '@/lib/firebase';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
 import JSZip from 'jszip';

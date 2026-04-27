@@ -19,7 +19,6 @@ import {
   Plus, 
   Search, 
   Filter, 
-  MoreHorizontal, 
   Pencil, 
   Trash2, 
   Eye,
@@ -27,7 +26,6 @@ import {
   CheckCircle,
   FileEdit,
   Archive,
-  ArrowUpDown,
   AlertTriangle,
   X,
   Loader2
@@ -109,9 +107,9 @@ export default function ManageKitsPage() {
           await deleteObject(fileRef);
           console.log(`Successfully deleted storage file: ${storagePath}`);
         }
-      } catch (e: any) {
-        if (e.code !== 'storage/object-not-found') {
-          console.error("Storage cleanup failed:", e);
+      } catch (err: any) {
+        if (err.code !== 'storage/object-not-found') {
+          console.error("Storage cleanup failed:", err);
         }
       }
 
@@ -384,7 +382,6 @@ function DeleteConfirmModal({ isOpen, kit, onClose, onConfirm, loading }: {
   if (!isOpen || !kit) return null;
 
   const isConfirmed = confirmText === 'DELETE';
-  const hasOwners = owners !== null && owners > 0;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -399,7 +396,7 @@ function DeleteConfirmModal({ isOpen, kit, onClose, onConfirm, loading }: {
           <div className="space-y-2">
             <h2 className="text-xl font-black uppercase tracking-tight text-foreground">Hard Delete Kit?</h2>
             <p className="text-sm text-muted-foreground px-4">
-              You are about to permanently remove <span className="font-bold text-foreground">"{kit.title}"</span>.
+              You are about to permanently remove <span className="font-bold text-foreground">&quot;{kit.title}&quot;</span>.
             </p>
           </div>
 
@@ -416,7 +413,7 @@ function DeleteConfirmModal({ isOpen, kit, onClose, onConfirm, loading }: {
           <div className="space-y-4 pt-2">
             <div className="form-control">
               <label className="label py-1">
-                <span className="label-text-alt font-black uppercase tracking-widest text-[9px] text-muted-foreground">Type 'DELETE' to confirm</span>
+                <span className="label-text-alt font-black uppercase tracking-widest text-[9px] text-muted-foreground">Type &apos;DELETE&apos; to confirm</span>
               </label>
               <input 
                 type="text" 

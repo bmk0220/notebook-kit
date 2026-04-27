@@ -1,4 +1,4 @@
-import { Sparkles, Hammer, ShoppingCart, MessageSquarePlus } from 'lucide-react';
+import { Sparkles, ShoppingCart, MessageSquarePlus } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Hero() {

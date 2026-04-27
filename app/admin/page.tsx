@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     activeForge: 0
   });
   const [recentKits, setRecentKits] = useState<RecentKit[]>([]);
-  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
       } finally {
-        setLoading(false);
+
       }
     }
     fetchData();

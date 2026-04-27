@@ -3,8 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
-// Guard: Only initialize if API key is present
-const hasConfig = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+// Firebase Configuration
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,

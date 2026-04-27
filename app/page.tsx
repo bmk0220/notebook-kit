@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import KitCard from "@/components/KitCard";
 import { Sparkles, TrendingUp, Clock, Loader2, Zap, ArrowRight } from "lucide-react";
-import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
 

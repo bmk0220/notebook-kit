@@ -1,0 +1,346 @@
+[debug] [2026-04-27T09:06:06.621Z] ----------------------------------------------------------------------
+[debug] [2026-04-27T09:06:06.623Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\mattk\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-04-27T09:06:06.623Z] CLI Version:   15.11.0
+[debug] [2026-04-27T09:06:06.623Z] Platform:      win32
+[debug] [2026-04-27T09:06:06.623Z] Node Version:  v22.22.2
+[debug] [2026-04-27T09:06:06.623Z] Time:          Mon Apr 27 2026 17:06:06 GMT+0800 (GMT+08:00)
+[debug] [2026-04-27T09:06:06.623Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-27T09:06:07.802Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-27T09:06:07.802Z] > authorizing via signed-in user (bmk0220@gmail.com)
+[debug] [2026-04-27T09:06:07.802Z] [iam] checking project notebook-kit for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2026-04-27T09:06:07.803Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:07.803Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:07.804Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
+[debug] [2026-04-27T09:06:07.804Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
+[debug] [2026-04-27T09:06:07.804Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-04-27T09:06:08.863Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-27T09:06:08.863Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-04-27T09:06:08.863Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:08.863Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:08.863Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-04-27T09:06:08.863Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-04-27T09:06:09.608Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2026-04-27T09:06:09.609Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-04-27T09:06:09.609Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:09.609Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:09.609Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit [none]
+[debug] [2026-04-27T09:06:10.581Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit 200
+[debug] [2026-04-27T09:06:10.581Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit {"projectId":"notebook-kit","projectNumber":"859362233686","displayName":"Notebook Kit","name":"projects/notebook-kit","resources":{"hostingSite":"notebook-kit"},"state":"ACTIVE","etag":"1_d15cb42a-29fa-4e31-abef-2e2d607737dc"}
+[debug] [2026-04-27T09:06:12.188Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:12.189Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:12.189Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites pageToken=&pageSize=10
+[debug] [2026-04-27T09:06:13.458Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites 200
+[debug] [2026-04-27T09:06:13.458Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites {"sites":[{"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}]}
+[debug] [2026-04-27T09:06:13.459Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:13.459Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:13.459Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config [none]
+[debug] [2026-04-27T09:06:13.856Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config 200
+[debug] [2026-04-27T09:06:13.856Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config {"projectId":"notebook-kit","appId":"1:859362233686:web:4a959657bf832aaf38daf7","storageBucket":"notebook-kit.firebasestorage.app","apiKey":"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c","authDomain":"notebook-kit.firebaseapp.com","messagingSenderId":"859362233686","measurementId":"G-PFMWJMY85C","projectNumber":"859362233686","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-04-27T09:06:17.630Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:17.631Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:06:17.631Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit [none]
+[debug] [2026-04-27T09:06:18.149Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit 200
+[debug] [2026-04-27T09:06:18.149Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit {"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}
+[info]    ▲ Next.js 15.5.15
+
+[info]    - Environments: .env.local
+
+
+[info]    Creating an optimized production build ...
+
+[info]  ✓ Compiled successfully in 2.2s
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+
+[info]  ⚠ The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+
+[info] 
+Failed to compile.
+
+./app/admin/categories/page.tsx
+38:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/forge/actions.ts
+4:10  Warning: 'collection' is defined but never used.  @typescript-eslint/no-unused-vars
+10:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/forge/page.tsx
+96:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+225:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+259:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+260:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+407:62  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+561:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/kits/cleanup/page.tsx
+5:44  Warning: 'deleteDoc' is defined but never used.  @typescript-eslint/no-unused-vars
+29:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+85:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/kits/page.tsx
+22:3  Warning: 'MoreHorizontal' is defined but never used.  @typescript-eslint/no-unused-vars
+30:3  Warning: 'ArrowUpDown' is defined but never used.  @typescript-eslint/no-unused-vars
+45:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+112:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+121:16  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+131:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+143:76  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+387:9  Warning: 'hasOwners' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+402:95  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+402:107  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+419:125  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+419:132  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./app/admin/kits/[kitId]/page.tsx
+34:9  Warning: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+107:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+124:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+298:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/page.tsx
+23:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+35:10  Warning: 'loading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/users/page.tsx
+28:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+29:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+62:9  Warning: 'toggleRole' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+69:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/email/route.ts
+19:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/kit/publish/route.ts
+43:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/kits/page.tsx
+14:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/login/page.tsx
+31:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+45:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/marketplace/page.tsx
+30:7  Warning: 'FALLBACK_CATEGORIES' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/marketplace/[slug]/page.tsx
+32:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+83:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/page.tsx
+8:29  Warning: 'orderBy' is defined but never used.  @typescript-eslint/no-unused-vars
+8:47  Warning: 'limit' is defined but never used.  @typescript-eslint/no-unused-vars
+46:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/admin/AssignKitModal.tsx
+12:77  Warning: 'where' is defined but never used.  @typescript-eslint/no-unused-vars
+66:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/admin/UserModal.tsx
+5:15  Warning: 'setDoc' is defined but never used.  @typescript-eslint/no-unused-vars
+67:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/Hero.tsx
+1:20  Warning: 'Hammer' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/constants/forge.ts
+52:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/firebase.ts
+7:7  Warning: 'hasConfig' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+
+[debug] [2026-04-27T09:06:27.452Z] Error: ENOENT: no such file or directory, open 'C:\AppProjects\notebook-kit\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-04-27T09:11:52.018Z] ----------------------------------------------------------------------
+[debug] [2026-04-27T09:11:52.020Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\mattk\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-04-27T09:11:52.020Z] CLI Version:   15.11.0
+[debug] [2026-04-27T09:11:52.020Z] Platform:      win32
+[debug] [2026-04-27T09:11:52.020Z] Node Version:  v22.22.2
+[debug] [2026-04-27T09:11:52.021Z] Time:          Mon Apr 27 2026 17:11:52 GMT+0800 (GMT+08:00)
+[debug] [2026-04-27T09:11:52.021Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-27T09:11:53.373Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-27T09:11:53.373Z] > authorizing via signed-in user (bmk0220@gmail.com)
+[debug] [2026-04-27T09:11:53.373Z] [iam] checking project notebook-kit for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2026-04-27T09:11:53.374Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:53.374Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:53.375Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions [none]
+[debug] [2026-04-27T09:11:53.375Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions  x-goog-user-project=notebook-kit
+[debug] [2026-04-27T09:11:53.375Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-04-27T09:11:55.032Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions 200
+[debug] [2026-04-27T09:11:55.032Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/notebook-kit:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebase.projects.update","firebaseauth.configs.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-04-27T09:11:55.032Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:55.032Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:55.032Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-04-27T09:11:55.032Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-04-27T09:11:56.554Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2026-04-27T09:11:56.554Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/notebook-kit/serviceAccounts/notebook-kit@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-04-27T09:11:56.555Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:56.555Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:56.555Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit [none]
+[debug] [2026-04-27T09:11:57.616Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit 200
+[debug] [2026-04-27T09:11:57.616Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit {"projectId":"notebook-kit","projectNumber":"859362233686","displayName":"Notebook Kit","name":"projects/notebook-kit","resources":{"hostingSite":"notebook-kit"},"state":"ACTIVE","etag":"1_d15cb42a-29fa-4e31-abef-2e2d607737dc"}
+[debug] [2026-04-27T09:11:59.234Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:59.234Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:11:59.235Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites pageToken=&pageSize=10
+[debug] [2026-04-27T09:12:00.917Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites 200
+[debug] [2026-04-27T09:12:00.917Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites {"sites":[{"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}]}
+[debug] [2026-04-27T09:12:00.918Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:12:00.918Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:12:00.919Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config [none]
+[debug] [2026-04-27T09:12:01.410Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config 200
+[debug] [2026-04-27T09:12:01.410Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:859362233686:web:4a959657bf832aaf38daf7/config {"projectId":"notebook-kit","appId":"1:859362233686:web:4a959657bf832aaf38daf7","storageBucket":"notebook-kit.firebasestorage.app","apiKey":"AIzaSyBzsCdYk8wbL9UP_lJHq9dDNPeFdj4_S0c","authDomain":"notebook-kit.firebaseapp.com","messagingSenderId":"859362233686","measurementId":"G-PFMWJMY85C","projectNumber":"859362233686","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-04-27T09:12:05.335Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:12:05.335Z] Checked if tokens are valid: true, expires at: 1777283715186
+[debug] [2026-04-27T09:12:05.336Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit [none]
+[debug] [2026-04-27T09:12:05.852Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit 200
+[debug] [2026-04-27T09:12:05.852Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/notebook-kit/sites/notebook-kit {"name":"projects/notebook-kit/sites/notebook-kit","defaultUrl":"https://notebook-kit.web.app","appId":"1:859362233686:web:4a959657bf832aaf38daf7","type":"DEFAULT_SITE"}
+[info]    ▲ Next.js 15.5.15
+
+[info]    - Environments: .env.local
+
+
+[info]    Creating an optimized production build ...
+
+[info]  ✓ Compiled successfully in 2.3s
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+
+[info]  ⚠ The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+
+[info] 
+Failed to compile.
+
+./app/admin/categories/page.tsx
+38:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/forge/actions.ts
+4:10  Warning: 'collection' is defined but never used.  @typescript-eslint/no-unused-vars
+10:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/forge/page.tsx
+96:53  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+225:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+259:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+260:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+407:62  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+561:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/kits/cleanup/page.tsx
+5:44  Warning: 'deleteDoc' is defined but never used.  @typescript-eslint/no-unused-vars
+29:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+85:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/kits/page.tsx
+22:3  Warning: 'MoreHorizontal' is defined but never used.  @typescript-eslint/no-unused-vars
+30:3  Warning: 'ArrowUpDown' is defined but never used.  @typescript-eslint/no-unused-vars
+45:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+112:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+121:16  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+131:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+143:76  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+387:9  Warning: 'hasOwners' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+402:95  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+402:107  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+419:125  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+419:132  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./app/admin/kits/[kitId]/page.tsx
+34:9  Warning: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+107:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+124:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+125:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+298:60  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/admin/page.tsx
+23:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+35:10  Warning: 'loading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/users/page.tsx
+28:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+29:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+62:9  Warning: 'toggleRole' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+69:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/email/route.ts
+19:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/kit/publish/route.ts
+43:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/kits/page.tsx
+14:14  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/login/page.tsx
+31:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+45:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/marketplace/page.tsx
+30:7  Warning: 'FALLBACK_CATEGORIES' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/marketplace/[slug]/page.tsx
+32:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+83:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/page.tsx
+8:29  Warning: 'orderBy' is defined but never used.  @typescript-eslint/no-unused-vars
+8:47  Warning: 'limit' is defined but never used.  @typescript-eslint/no-unused-vars
+46:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/admin/AssignKitModal.tsx
+12:77  Warning: 'where' is defined but never used.  @typescript-eslint/no-unused-vars
+66:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/admin/UserModal.tsx
+5:15  Warning: 'setDoc' is defined but never used.  @typescript-eslint/no-unused-vars
+67:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/Hero.tsx
+1:20  Warning: 'Hammer' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/constants/forge.ts
+52:40  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/firebase.ts
+7:7  Warning: 'hasConfig' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+
+[debug] [2026-04-27T09:12:15.662Z] Error: ENOENT: no such file or directory, open 'C:\AppProjects\notebook-kit\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { db, storage } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, writeBatch } from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
 import { Loader2, Trash2, CheckCircle2, AlertCircle } from 'lucide-react';
 

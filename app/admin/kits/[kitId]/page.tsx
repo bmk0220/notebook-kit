@@ -31,7 +31,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 export default function EditKitPage() {
   const params = useParams();
   const kitId = params.kitId as string;
-  const router = useRouter();
+
   
   const { user, loading: authLoading, isAdmin } = useAuth();
   const { categories: dynamicCategories, categoryMap } = useCategories();
