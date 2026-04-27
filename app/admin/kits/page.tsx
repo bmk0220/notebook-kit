@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import StatsCard from "@/components/admin/StatsCard";
 import { KIT_ICONS } from "@/lib/constants/forge";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 interface Kit {
   id: string;
@@ -292,7 +292,7 @@ export default function ManageKitsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-5 text-muted-foreground font-medium text-xs">
-                      {kit.createdAt?.toDate ? kit.createdAt.toDate().toLocaleDateString() : 'N/A'}
+                      {formatDate(kit.createdAt)}
                     </td>
                     <td className="px-6 py-5 text-right">
                       <div className="flex items-center justify-end gap-2">

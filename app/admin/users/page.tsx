@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { collection, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import AssignKitModal from "@/components/admin/AssignKitModal";
 import UserModal from "@/components/admin/UserModal";
 
@@ -169,19 +169,17 @@ export default function UsersManagementPage() {
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-3 md:py-4 font-medium text-muted-foreground text-xs">
-                      {user.createdAt?.toDate ? (
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-3 w-3 opacity-50 shrink-0" />
-                          {user.createdAt.toDate().toLocaleDateString()}
-                        </div>
-                      ) : '—'}
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-3 w-3 opacity-50 shrink-0" />
+                        {formatDate(user.createdAt)}
+                      </div>
                     </td>
                     <td className="px-4 md:px-6 py-3 md:py-4 font-medium text-muted-foreground text-xs">
-                      {user.lastLogin?.toDate ? (
+                      {user.lastLogin ? (
                         <div className="flex items-center gap-2">
                           <Clock className="h-3 w-3 opacity-50 shrink-0" />
                           <span className="whitespace-nowrap">
-                            {user.lastLogin.toDate().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                            {formatDate(user.lastLogin)}
                           </span>
                         </div>
                       ) : 'Never'}

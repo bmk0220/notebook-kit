@@ -15,6 +15,7 @@ import {
 import { collection, query, orderBy, limit, getDocs, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
+import { formatDate } from "@/lib/utils";
 
 interface RecentKit {
   id: string;
@@ -141,7 +142,7 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="px-4 md:px-6 py-4 text-muted-foreground font-medium text-xs">
-                        {kit.createdAt?.toDate ? kit.createdAt.toDate().toLocaleDateString() : 'Just now'}
+                        {formatDate(kit.createdAt)}
                       </td>
                       <td className="px-4 md:px-6 py-4 text-right">
                          <button className="h-8 w-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-muted transition-colors ml-auto">
