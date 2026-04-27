@@ -116,7 +116,7 @@ export default function ManageKitsPage() {
       // c) Delete from kits_content
       try {
         await deleteDoc(doc(db, "kits_content", kit.id));
-      } catch (e) {
+      } catch {
         console.warn("kits_content doc not found or delete failed.");
       }
 

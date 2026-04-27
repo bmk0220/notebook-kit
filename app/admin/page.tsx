@@ -60,8 +60,6 @@ export default function AdminDashboard() {
 
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
-      } finally {
-
       }
     }
     fetchData();

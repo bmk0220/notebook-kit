@@ -59,21 +59,7 @@ export default function UsersManagementPage() {
     fetchUsers();
   }, []);
 
-  const toggleRole = async (userId: string, currentRole: string) => {
-    setActionLoading(userId);
-    const newRole = currentRole === "admin" ? "user" : "admin";
-    try {
-      await updateDoc(doc(db, "users", userId), {
-        role: newRole
-      });
-      setUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole as any } : u));
-    } catch (err) {
-      console.error("Error updating role:", err);
-      alert("Failed to update user role.");
-    } finally {
-      setActionLoading(null);
-    }
-  };
+
 
   const deleteUser = async (userId: string) => {
     if (!confirm("Are you sure you want to delete this user record? This only removes the Firestore profile, not the Auth account.")) return;

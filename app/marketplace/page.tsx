@@ -27,7 +27,7 @@ interface Kit {
   isNew?: boolean;
 }
 
-const FALLBACK_CATEGORIES = ["All"];
+
 
 export default function MarketplacePage() {
   const { categories: dynamicCategories } = useCategories();
