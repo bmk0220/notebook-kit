@@ -29,7 +29,8 @@ import {
   Archive,
   ArrowUpDown,
   AlertTriangle,
-  X
+  X,
+  Loader2
 } from "lucide-react";
 import StatsCard from "@/components/admin/StatsCard";
 import { KIT_ICONS } from "@/lib/constants/forge";
@@ -343,7 +344,6 @@ export default function ManageKitsPage() {
             </tbody>
           </table>
         </div>
-      </div>
       </div>
 
       <DeleteConfirmModal 
