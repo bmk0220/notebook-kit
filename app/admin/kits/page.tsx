@@ -100,20 +100,31 @@ export default function ManageKitsPage() {
 
       // b) Delete the .zip file from Storage
       try {
-        const storagePath = `kits/${kit.id}/${kit.slug}.zip`;
-        const fileRef = ref(storage, storagePath);
-        await deleteObject(fileRef);
+        if (kit.slug) {
+          const storagePath = `kits/${kit.id}/${kit.slug}.zip`;
+          const fileRef = ref(storage, storagePath);
+          await deleteObject(fileRef);
+          console.log(`Successfully deleted storage file: ${storagePath}`);
+        } else {
+          console.warn("Kit has no slug, skipping Storage zip deletion.");
+        }
       } catch (e: any) {
-        console.warn("Storage cleanup skipped or failed:", e.message);
+        if (e.code === 'storage/object-not-found') {
+          console.warn("Storage cleanup: Zip file was already missing or never existed.");
+        } else {
+          console.error("Storage cleanup failed:", e);
+          alert(`Warning: The database record was deleted, but the associated ZIP file could not be deleted from Firebase Storage. Error: ${e.message}`);
+        }
       }
 
       // c) Delete the main kits document
       await deleteDoc(doc(db, "kits", kit.id));
       
       setKits(kits.filter(k => k.id !== kit.id));
-    } catch (err) {
+      console.log(`Successfully deleted kit: ${kit.title}`);
+    } catch (err: any) {
       console.error("Error deleting kit:", err);
-      alert("Failed to delete kit.");
+      alert(`Failed to execute deletion process: ${err.message}`);
     }
   };
 
