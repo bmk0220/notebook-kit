@@ -2,6 +2,7 @@
 
 import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface StatsCardProps {
   label: string;
@@ -10,6 +11,7 @@ interface StatsCardProps {
   trend?: string;
   trendType?: "up" | "down" | "neutral";
   className?: string;
+  href?: string;
 }
 
 export default function StatsCard({
@@ -18,10 +20,11 @@ export default function StatsCard({
   icon: Icon,
   trend,
   trendType = "neutral",
-  className
+  className,
+  href
 }: StatsCardProps) {
-  return (
-    <div className={cn("p-6 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all", className)}>
+  const content = (
+    <div className={cn("h-full p-6 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all", className)}>
       <div className="flex items-center justify-between mb-4">
         <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
           <Icon className="h-5 w-5" />
@@ -45,4 +48,10 @@ export default function StatsCard({
       </div>
     </div>
   );
+
+  if (href) {
+    return <Link href={href} className="block h-full group">{content}</Link>;
+  }
+
+  return content;
 }

@@ -82,6 +82,7 @@ export default function AdminDashboard() {
           icon={NotebookIcon} 
           trend="+4.3%" 
           trendType="up"
+          href="/admin/kits"
         />
         <StatsCard 
           label="Active Users" 
@@ -89,12 +90,14 @@ export default function AdminDashboard() {
           icon={Users} 
           trend="+12%" 
           trendType="up"
+          href="/admin/users"
         />
         <StatsCard 
           label="Kit Requests" 
           value={stats.totalRequests} 
           icon={MessageSquare} 
           trend="Steady" 
+          href="/admin/requests"
         />
         <StatsCard 
           label="Revenue" 
@@ -102,6 +105,7 @@ export default function AdminDashboard() {
           icon={DollarSign} 
           trend="Alpha" 
           className="opacity-80"
+          href="/admin/analytics"
         />
       </div>
 

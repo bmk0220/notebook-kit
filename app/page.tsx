@@ -107,7 +107,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-bold mb-2">Need something custom?</h3>
                   <p className="text-sm text-muted-foreground mb-6">Our team can generate a specialized bundle for any subject. Contact us to request a Custom Kit.</p>
-                  <Link href="/marketplace" className="w-full">
+                  <Link href="/kits/custom" className="w-full">
                     <button className="w-full py-3 rounded-full bg-foreground text-background font-bold hover:scale-[1.02] transition-transform">
                       Request Custom Kit
                     </button>

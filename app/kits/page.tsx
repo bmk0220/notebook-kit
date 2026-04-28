@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/Header';
-import { Download, BookOpen, Clock, Loader2, Lock } from 'lucide-react';
+import { Download, BookOpen, Clock, Loader2, Lock, Sparkles } from 'lucide-react';
 import { collection, query, orderBy, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
@@ -87,11 +87,20 @@ export default function LibraryPage() {
       <Header />
 
       <main className="flex-1 container max-w-5xl mx-auto px-4 py-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Kits</h1>
-          <p className="text-muted-foreground font-medium underline decoration-primary decoration-4 underline-offset-4">
-            Your personal collection of specialized Notebook Kits.
-          </p>
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-foreground">My Kits</h1>
+            <p className="text-muted-foreground font-medium underline decoration-primary decoration-4 underline-offset-4">
+              Your personal collection of specialized Notebook Kits.
+            </p>
+          </div>
+          <Link 
+            href="/kits/custom"
+            className="h-12 px-6 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl flex items-center justify-center gap-2 font-bold text-sm transition-all shadow-sm"
+          >
+            <Sparkles className="h-4 w-4" />
+            Request Custom Kit
+          </Link>
         </div>
 
         {loading ? (

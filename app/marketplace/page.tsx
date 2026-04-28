@@ -7,6 +7,7 @@ import { TrendingUp, Loader2, Sparkles, Search, Filter } from "lucide-react";
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useCategories } from "@/lib/hooks/useCategories";
+import Link from "next/link";
 
 interface Kit {
   id: string;
@@ -153,9 +154,11 @@ export default function MarketplacePage() {
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   Need a specific subject not listed here? Our team can generate a specialized bundle for you.
                 </p>
-                <button className="w-full py-2.5 rounded-xl bg-foreground text-background text-xs font-black uppercase hover:opacity-90 transition-opacity">
-                  Request a Kit
-                </button>
+                <Link href="/kits/custom" className="block">
+                  <button className="w-full py-2.5 rounded-xl bg-foreground text-background text-xs font-black uppercase hover:opacity-90 transition-opacity">
+                    Request a Kit
+                  </button>
+                </Link>
               </div>
             </aside>
 

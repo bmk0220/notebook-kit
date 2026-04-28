@@ -24,7 +24,7 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/marketplace">
+          <Link href="/kits/custom">
             <button className="h-12 px-8 rounded-full bg-primary text-primary-foreground font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2">
               <MessageSquarePlus className="h-5 w-5" />
               Request a Kit

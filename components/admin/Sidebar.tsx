@@ -37,7 +37,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       title: "Forge Engine",
       links: [
         { name: "The Forge", href: "/admin/forge", icon: Hammer },
-        { name: "Custom Requests", href: "/admin/requests", icon: MessageSquare, disabled: true },
+        { name: "Custom Requests", href: "/admin/requests", icon: MessageSquare },
       ]
     },
     {
