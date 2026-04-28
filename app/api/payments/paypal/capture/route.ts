@@ -10,21 +10,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
     }
 
-    const collect = {
+    const response = await ordersController.captureOrder({
       id: orderID,
       prefer: "return=representation",
-    };
-
-    const response = await ordersController.ordersCapture(collect);
+    });
     
-    // The response body is a string that needs to be parsed if it's not already an object
-    // Depending on the version of the SDK, it might already be parsed.
-    const result = typeof response.result === 'string' ? JSON.parse(response.result) : response.result;
+    // The response result should already be parsed by the SDK
+    const result = response.result;
 
     if (result.status === 'COMPLETED') {
-      const capture = result.purchase_units[0].payments.captures[0];
-      const amount = parseFloat(capture.amount.value);
-      const gatewayTransactionId = capture.id;
+      const capture = result.purchaseUnits![0].payments!.captures![0];
+      const amount = parseFloat(capture.amount!.value!);
+      const gatewayTransactionId = capture.id!;
 
       await grantKitAccess({
         userId,

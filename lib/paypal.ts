@@ -5,8 +5,8 @@ import {
   OrdersController 
 } from "@paypal/paypal-server-sdk";
 
-const clientId = process.env.PAYPAL_CLIENT_ID!;
-const clientSecret = process.env.PAYPAL_CLIENT_SECRET!;
+const clientId = process.env.PAYPAL_CLIENT_ID || 'build_placeholder_id';
+const clientSecret = process.env.PAYPAL_CLIENT_SECRET || 'build_placeholder_secret';
 
 const client = new Client({
   clientCredentialsAuthCredentials: {

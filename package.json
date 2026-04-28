@@ -16,7 +16,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@napi-rs/canvas": "^0.1.99",
     "@opentelemetry/api": "^1.9.1",
-    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@paypal/paypal-server-sdk": "^2.3.0",
     "@paypal/react-paypal-js": "^9.2.0",
     "@stripe/stripe-js": "^9.3.1",
     "@tailwindcss/typography": "^0.5.19",

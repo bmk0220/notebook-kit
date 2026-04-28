@@ -31,7 +31,7 @@ PAYPAL_CLIENT_SECRET=...
 Ensure your app URL is defined so gateways can redirect users back correctly.
 
 ```env
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=https://notebook-kit.web.app
 ```
 
 ## Firebase Admin Configuration (Fulfillment)

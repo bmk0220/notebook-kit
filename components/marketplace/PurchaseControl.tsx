@@ -6,10 +6,7 @@ import { Download, ShoppingCart, Loader2, CheckCircle2, CreditCard, X } from "lu
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { cn } from "@/lib/utils";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface PurchaseControlProps {
   kitId: string;
