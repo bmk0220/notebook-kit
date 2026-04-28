@@ -174,7 +174,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
             <button
               onClick={handleStripeCheckout}
               disabled={processing}
-              className="w-full h-14 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 disabled:opacity-50"
+              className="w-full h-14 bg-[#533afd] text-white font-bold rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 disabled:opacity-50"
             >
               {processing ? <Loader2 className="h-5 w-5 animate-spin" /> : (
                 <>
@@ -185,8 +185,10 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
             </button>
 
             {/* PayPal Button */}
-            <div className={cn("w-full", processing && "opacity-50 pointer-events-none")}>
+            <div className={cn("w-full min-h-[56px]", processing && "opacity-50 pointer-events-none")}>
               <PayPalButtons
+                key={kitId}
+                forceReRender={[kitId, price]}
                 style={{ 
                   layout: 'vertical',
                   color: 'gold',

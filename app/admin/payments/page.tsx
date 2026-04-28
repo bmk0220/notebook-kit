@@ -100,7 +100,7 @@ export default function AdminPaymentsPage() {
           </div>
           <div className="flex items-end justify-between">
             <div className="space-y-1">
-              <div className="text-lg font-black text-blue-600">S: ${stripeRevenue.toFixed(2)}</div>
+              <div className="text-lg font-black text-[#533afd]">S: ${stripeRevenue.toFixed(2)}</div>
               <div className="text-lg font-black text-amber-600">P: ${paypalRevenue.toFixed(2)}</div>
             </div>
             <div className="h-12 w-12 rounded-full border-4 border-muted flex items-center justify-center">
@@ -188,7 +188,7 @@ export default function AdminPaymentsPage() {
                       <span className={cn(
                         "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
                         payment.gateway === 'stripe' 
-                          ? "bg-blue-100 text-blue-700" 
+                          ? "bg-[#533afd10] text-[#533afd]" 
                           : "bg-amber-100 text-amber-700"
                       )}>
                         {payment.gateway}
