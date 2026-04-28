@@ -120,7 +120,7 @@ export default function CustomRequestPage() {
                 Custom <span className="text-primary italic">Kit</span> Request
               </h1>
               <p className="text-muted-foreground font-medium mt-2">
-                Need something specific? Tell us what you're looking for and we'll build it.
+                Need something specific? Tell us what you are looking for and we will build it.
               </p>
             </div>
             <div className="hidden md:block">
