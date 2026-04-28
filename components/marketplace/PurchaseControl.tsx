@@ -94,7 +94,7 @@ export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: Purc
           className="w-full h-14 bg-primary text-primary-foreground font-black rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-lg shadow-primary/20 transition-all active:scale-95"
         >
           <Download className="h-5 w-5" />
-          DOWNLOAD BUNDLE (.ZIP)
+          DOWNLOAD KIT
         </a>
       </div>
     );
