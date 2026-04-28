@@ -179,7 +179,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
               {processing ? <Loader2 className="h-5 w-5 animate-spin" /> : (
                 <>
                   <CreditCard className="h-5 w-5" />
-                  Pay with Card
+                  Pay with Stripe
                 </>
               )}
             </button>
