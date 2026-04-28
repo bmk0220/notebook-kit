@@ -27,6 +27,7 @@ interface UserProfile {
   role: "admin" | "user";
   createdAt?: any;
   lastLogin?: any;
+  kitCount?: number;
 }
 
 export default function UsersManagementPage() {
@@ -41,12 +42,28 @@ export default function UsersManagementPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const q = query(collection(db, "users"), orderBy("email", "asc"));
-      const snapshot = await getDocs(q);
-      const fetchedUsers = snapshot.docs.map(doc => ({
+      // 1. Fetch all users
+      const uq = query(collection(db, "users"), orderBy("email", "asc"));
+      const uSnapshot = await getDocs(uq);
+      
+      // 2. Fetch kit counts from user_kits
+      const kq = query(collection(db, "user_kits"));
+      const kSnapshot = await getDocs(kq);
+      
+      const counts: Record<string, number> = {};
+      kSnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.userId) {
+          counts[data.userId] = (counts[data.userId] || 0) + 1;
+        }
+      });
+
+      const fetchedUsers = uSnapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        kitCount: counts[doc.id] || 0
       })) as UserProfile[];
+      
       setUsers(fetchedUsers);
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -129,6 +146,7 @@ export default function UsersManagementPage() {
               <tr className="bg-muted/40 border-b border-border/50 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                 <th className="px-4 md:px-6 py-4 md:py-5">User Profile</th>
                 <th className="px-4 md:px-6 py-4 md:py-5">Role</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-center">Kits Owned</th>
                 <th className="px-4 md:px-6 py-4 md:py-5">Joined Date</th>
                 <th className="px-4 md:px-6 py-4 md:py-5">Last Login</th>
                 <th className="px-4 md:px-6 py-4 md:py-5 text-right">Actions</th>
@@ -137,7 +155,7 @@ export default function UsersManagementPage() {
             <tbody className="divide-y divide-border/40">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-20 text-center">
+                  <td colSpan={6} className="px-6 py-20 text-center">
                     <Loader2 className="h-8 w-8 animate-spin text-primary/50 mx-auto mb-4" />
                     <p className="font-bold uppercase tracking-tight text-xs text-muted-foreground">Accessing User Directory...</p>
                   </td>
@@ -166,6 +184,14 @@ export default function UsersManagementPage() {
                       )}>
                         {user.role === "admin" ? <ShieldCheck className="h-3 w-3" /> : <UserIcon className="h-3 w-3" />}
                         {user.role}
+                      </div>
+                    </td>
+                    <td className="px-4 md:px-6 py-3 md:py-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="h-8 w-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
+                           <BookOpen className="h-4 w-4" />
+                        </div>
+                        <span className="font-black text-sm tracking-tight">{user.kitCount || 0}</span>
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-3 md:py-4 font-medium text-muted-foreground text-xs">
@@ -218,7 +244,7 @@ export default function UsersManagementPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-6 py-20 text-center text-muted-foreground font-bold uppercase tracking-widest text-xs">
+                  <td colSpan={6} className="px-6 py-20 text-center text-muted-foreground font-bold uppercase tracking-widest text-xs">
                     No users found matching your search.
                   </td>
                 </tr>
@@ -233,6 +259,7 @@ export default function UsersManagementPage() {
         onClose={() => setSelectedUser(null)}
         userId={selectedUser?.id || ""}
         userEmail={selectedUser?.email || ""}
+        onSuccess={fetchUsers}
       />
 
       <UserModal 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import { Download, BookOpen, Clock, Loader2, Lock } from 'lucide-react';
 import { collection, query, orderBy, where, getDocs, doc, getDoc } from "firebase/firestore";
@@ -14,6 +15,7 @@ interface Kit {
   createdAt: any;
   fileUrl: string;
   userId: string;
+  slug: string;
 }
 
 export default function LibraryPage() {
@@ -48,9 +50,12 @@ export default function LibraryPage() {
           const kitSnap = await getDoc(kitRef);
           
           if (kitSnap.exists()) {
+            const data = kitSnap.data();
             return {
               id: kitSnap.id,
-              ...kitSnap.data()
+              ...data,
+              fileUrl: data.assets?.fileUrl || "",
+              slug: data.slug || ""
             } as Kit;
           }
           return null;
@@ -120,11 +125,14 @@ export default function LibraryPage() {
                     className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity"
                   >
                     <Download className="h-4 w-4" />
-                    Download ZIP
+                    Download Kit
                   </a>
-                  <button className="h-11 px-4 rounded-xl border border-border bg-muted/20 font-bold text-xs hover:bg-muted/50 transition-all">
-                    View Contents
-                  </button>
+                  <Link 
+                    href={`/marketplace/${kit.slug}`}
+                    className="flex items-center justify-center h-11 px-6 rounded-xl border border-border bg-muted/20 font-bold text-xs hover:bg-muted/50 transition-all"
+                  >
+                    View Kit
+                  </Link>
                 </div>
               </div>
             ))}

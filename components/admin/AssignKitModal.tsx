@@ -24,9 +24,10 @@ interface AssignKitModalProps {
   onClose: () => void;
   userId: string;
   userEmail: string;
+  onSuccess?: () => void;
 }
 
-export default function AssignKitModal({ isOpen, onClose, userId, userEmail }: AssignKitModalProps) {
+export default function AssignKitModal({ isOpen, onClose, userId, userEmail, onSuccess }: AssignKitModalProps) {
   const [kits, setKits] = useState<Kit[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -63,6 +64,7 @@ export default function AssignKitModal({ isOpen, onClose, userId, userEmail }: A
         grantedBy: "admin"
       });
       setStatus({ type: 'success', msg: `Successfully assigned "${kitTitle}" to ${userEmail}` });
+      if (onSuccess) onSuccess();
     } catch (err: any) {
       setStatus({ type: 'error', msg: err.message || "Failed to assign kit" });
     } finally {
