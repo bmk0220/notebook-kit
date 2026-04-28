@@ -194,7 +194,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                   color: 'gold',
                   shape: 'rect',
                   label: 'paypal',
-                  height: 56
+                  height: 55
                 }}
                 createOrder={(data, actions) => {
                   return actions.order.create({
