@@ -201,7 +201,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                     intent: "CAPTURE",
                     purchase_units: [
                       {
-                        description: kitTitle,
+                        description: `Notebook Kit: ${kitTitle}`,
                         amount: {
                           currency_code: "USD",
                           value: price.toString(),

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
             currency: 'usd',
             product_data: {
               name: kitTitle,
-              description: `Notebook Ready Kit: ${kitTitle}`,
+              description: `Notebook Kit: ${kitTitle}`,
             },
             unit_amount: Math.round(price * 100), // Stripe expects cents
           },
