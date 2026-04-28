@@ -2,21 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Download, ShoppingCart, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, ShoppingCart, Loader2, CheckCircle2, CreditCard, X } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { cn } from "@/lib/utils";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface PurchaseControlProps {
   kitId: string;
+  kitTitle: string;
   kitSlug: string;
   price: number;
   fileUrl: string;
 }
 
-export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: PurchaseControlProps) {
+export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileUrl }: PurchaseControlProps) {
   const { user, loading: authLoading } = useAuth();
   const [isOwner, setIsOwner] = useState(false);
   const [checkingOwnership, setCheckingOwnership] = useState(true);
+  const [showPaymentTray, setShowPaymentTray] = useState(false);
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
@@ -47,7 +54,7 @@ export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: Purc
     }
   }, [user, authLoading, kitId]);
 
-  const handleUnlock = async () => {
+  const handleFreeUnlock = async () => {
     if (!user) {
       window.location.href = "/login";
       return;
@@ -55,8 +62,6 @@ export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: Purc
 
     setProcessing(true);
     try {
-      // Logic for "Free" or "Simulated Purchase"
-      // In a real app, this would happen after Stripe success
       await addDoc(collection(db, "user_kits"), {
         userId: user.uid,
         kitId: kitId,
@@ -69,6 +74,38 @@ export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: Purc
       console.error("Unlock error:", err);
       alert("Failed to unlock kit. Please try again.");
     } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleStripeCheckout = async () => {
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      const response = await fetch('/api/payments/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          kitId,
+          kitTitle,
+          price,
+          userId: user.uid,
+          userEmail: user.email,
+          slug: kitSlug
+        }),
+      });
+
+      const { url, error } = await response.json();
+      if (error) throw new Error(error);
+
+      window.location.href = url;
+    } catch (err: any) {
+      console.error("Stripe Checkout Error:", err);
+      alert("Failed to initiate Stripe checkout. Please try again.");
       setProcessing(false);
     }
   };
@@ -101,19 +138,113 @@ export default function PurchaseControl({ kitId, kitSlug, price, fileUrl }: Purc
   }
 
   return (
-    <button 
-      onClick={handleUnlock}
-      disabled={processing}
-      className="w-full h-14 bg-foreground text-background font-black rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-xl transition-all active:scale-95 disabled:opacity-50"
-    >
-      {processing ? (
-        <Loader2 className="h-5 w-5 animate-spin" />
+    <div className="space-y-3">
+      {!showPaymentTray ? (
+        <button 
+          onClick={() => {
+            if (price === 0) {
+              handleFreeUnlock();
+            } else {
+              setShowPaymentTray(true);
+            }
+          }}
+          disabled={processing}
+          className="w-full h-14 bg-foreground text-background font-black rounded-2xl hover:opacity-90 flex items-center justify-center gap-3 shadow-xl transition-all active:scale-95 disabled:opacity-50"
+        >
+          {processing ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+              <ShoppingCart className="h-5 w-5" />
+              {price === 0 ? "UNLOCK FOR FREE" : `BUY NOW — $${price}`}
+            </>
+          )}
+        </button>
       ) : (
-        <>
-          <ShoppingCart className="h-5 w-5" />
-          {price === 0 ? "UNLOCK FOR FREE" : `BUY NOW — $${price}`}
-        </>
+        <div className="space-y-4 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Select Payment Method</span>
+            <button 
+              onClick={() => setShowPaymentTray(false)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* Stripe Button */}
+            <button
+              onClick={handleStripeCheckout}
+              disabled={processing}
+              className="w-full h-14 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 disabled:opacity-50"
+            >
+              {processing ? <Loader2 className="h-5 w-5 animate-spin" /> : (
+                <>
+                  <CreditCard className="h-5 w-5" />
+                  Pay with Card
+                </>
+              )}
+            </button>
+
+            {/* PayPal Button */}
+            <div className={cn("w-full", processing && "opacity-50 pointer-events-none")}>
+              <PayPalButtons
+                style={{ 
+                  layout: 'vertical',
+                  color: 'gold',
+                  shape: 'rect',
+                  label: 'paypal',
+                  height: 56
+                }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    intent: "CAPTURE",
+                    purchase_units: [
+                      {
+                        description: kitTitle,
+                        amount: {
+                          currency_code: "USD",
+                          value: price.toString(),
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={async (data, actions) => {
+                  setProcessing(true);
+                  try {
+                    const response = await fetch('/api/payments/paypal/capture', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        orderID: data.orderID,
+                        userId: user!.uid,
+                        userEmail: user!.email,
+                        kitId,
+                        kitTitle
+                      }),
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                      setIsOwner(true);
+                      setShowPaymentTray(false);
+                    } else {
+                      throw new Error(result.error);
+                    }
+                  } catch (err: any) {
+                    console.error("PayPal Capture Error:", err);
+                    alert("Failed to verify payment. Please contact support.");
+                  } finally {
+                    setProcessing(false);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
       )}
-    </button>
+    </div>
   );
 }

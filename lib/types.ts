@@ -15,3 +15,17 @@ export type KitMetadata = {
   slug: string;
   description: string;
 };
+
+export type Payment = {
+  id: string;
+  userId: string;
+  userEmail: string;
+  kitId: string;
+  kitTitle: string;
+  amount: number;
+  currency: string;
+  gateway: 'stripe' | 'paypal';
+  gatewayTransactionId: string;
+  status: 'completed' | 'failed' | 'refunded';
+  createdAt: any;
+};

@@ -41,5 +41,10 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow read, write: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
     }
+
+    match /payments/{paymentId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow write: if false; // Server-side fulfillment only
+    }
   }
 }

@@ -238,6 +238,7 @@ export default function KitPage() {
 
                 <PurchaseControl
                   kitId={kit.id}
+                  kitTitle={kit.title}
                   kitSlug={kit.slug}
                   price={kit.price}
                   fileUrl={kit.fileUrl}

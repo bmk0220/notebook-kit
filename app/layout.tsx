@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Notebook Kit | AI Knowledge Marketplace",
@@ -15,9 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className="antialiased h-full flex flex-col bg-background text-foreground font-sans">
-        <AuthProvider>
+        <Providers>
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

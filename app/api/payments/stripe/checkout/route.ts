@@ -1,0 +1,43 @@
+import { NextResponse } from 'next/server';
+import { stripe } from '@/lib/stripe';
+
+export async function POST(req: Request) {
+  try {
+    const { kitId, kitTitle, price, userId, userEmail, slug } = await req.json();
+
+    if (!userId || !kitId) {
+      return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: kitTitle,
+              description: `Notebook Ready Kit: ${kitTitle}`,
+            },
+            unit_amount: Math.round(price * 100), // Stripe expects cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/marketplace/${slug}?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/marketplace/${slug}?canceled=true`,
+      metadata: {
+        userId,
+        userEmail,
+        kitId,
+        kitTitle,
+      },
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (error: any) {
+    console.error('Stripe Checkout Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
