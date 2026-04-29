@@ -246,9 +246,9 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
       <div className="space-y-4 p-6 rounded-2xl bg-card border border-warning/30 text-center">
         <AlertTriangle className="h-8 w-8 text-warning mx-auto" />
         <div>
-          <p className="font-bold text-sm">Payment Confirmed, Still Processing...</p>
+          <p className="font-bold text-sm">Verification Timed Out</p>
           <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">
-            Your payment was successful but we&apos;re still finalizing your access. Click below to refresh.
+            Your payment went through, but we couldn&apos;t automatically grant access. Click below to check again.
           </p>
         </div>
         <button
