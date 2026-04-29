@@ -12,15 +12,16 @@ if (!clientId || !clientSecret || clientId === 'build_placeholder_id') {
   console.warn('[PayPal SDK] WARNING: PayPal credentials are missing or using placeholders. API calls will likely fail with 401.');
 }
 
-// Explicitly allow overriding the environment (e.g., to use Sandbox on a Production host)
-const mode = process.env.PAYPAL_MODE || (process.env.NODE_ENV === 'production' ? 'production' : 'sandbox');
+// Default to 'sandbox' unless PAYPAL_MODE is explicitly set to 'production'
+// This is safer for development/testing on live hosting.
+const mode = (process.env.PAYPAL_MODE || 'sandbox').toLowerCase();
 
 const client = new Client({
   clientCredentialsAuthCredentials: {
     oAuthClientId: clientId || 'missing',
     oAuthClientSecret: clientSecret || 'missing',
   },
-  environment: mode.toLowerCase() === 'production' ? Environment.Production : Environment.Sandbox,
+  environment: mode === 'production' ? Environment.Production : Environment.Sandbox,
   logging: {
     logLevel: LogLevel.Info,
     logRequest: { logBody: true },
