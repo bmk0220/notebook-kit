@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { grantKitAccess } from '@/lib/payments/fulfillment';
+import Stripe from 'stripe';
 
 export async function POST(req: Request) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -16,8 +17,9 @@ export async function POST(req: Request) {
   try {
     const arrayBuffer = await req.arrayBuffer();
     rawBody = Buffer.from(arrayBuffer);
-  } catch (err: any) {
-    console.error('Error reading request body:', err.message);
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error('Error reading request body:', errorMessage);
     return NextResponse.json({ error: 'Error reading body' }, { status: 400 });
   }
 
@@ -28,43 +30,50 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'No signature' }, { status: 400 });
   }
 
-  let event;
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
     console.log(`Verified event: ${event.id}, Type: ${event.type}`);
-  } catch (err: any) {
-    console.error(`Webhook signature verification failed: ${err.message}`);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error(`Webhook signature verification failed: ${errorMessage}`);
+    return NextResponse.json({ error: `Webhook Error: ${errorMessage}` }, { status: 400 });
   }
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as any;
+    const session = event.data.object as Stripe.Checkout.Session;
     console.log('Processing session:', session.id);
 
-    const { userId, userEmail, kitId, kitTitle } = session.metadata || {};
+    const { userId, userEmail, kitId, kitTitle } = (session.metadata || {}) as {
+      userId?: string;
+      userEmail?: string;
+      kitId?: string;
+      kitTitle?: string;
+    };
     
     if (!userId || !kitId) {
       console.error('Missing metadata in Stripe session:', session.metadata);
       return NextResponse.json({ error: 'Missing metadata' }, { status: 400 });
     }
 
-    const amount = session.amount_total / 100;
+    const amount = (session.amount_total || 0) / 100;
     const gatewayTransactionId = session.id;
 
     try {
       await grantKitAccess({
         userId,
-        userEmail,
+        userEmail: userEmail || '',
         kitId,
-        kitTitle,
+        kitTitle: kitTitle || '',
         amount,
         gateway: 'stripe',
         gatewayTransactionId,
       });
       console.log('Fulfillment completed for session:', session.id);
-    } catch (error: any) {
-      console.error('Fulfillment error:', error.message);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error('Fulfillment error:', errorMessage);
       return NextResponse.json({ error: 'Fulfillment failed' }, { status: 500 });
     }
   }

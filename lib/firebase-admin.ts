@@ -20,8 +20,9 @@ if (!admin.apps.length) {
       });
       console.log('Firebase Admin initialized with default credentials.');
     }
-  } catch (error: any) {
-    console.error('Firebase admin initialization error:', error.message);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Firebase admin initialization error:', errorMessage);
   }
 }
 
