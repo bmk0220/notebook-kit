@@ -5,15 +5,22 @@ import {
   OrdersController 
 } from "@paypal/paypal-server-sdk";
 
-const clientId = process.env.PAYPAL_CLIENT_ID || 'build_placeholder_id';
-const clientSecret = process.env.PAYPAL_CLIENT_SECRET || 'build_placeholder_secret';
+const clientId = process.env.PAYPAL_CLIENT_ID;
+const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+
+if (!clientId || !clientSecret || clientId === 'build_placeholder_id') {
+  console.warn('[PayPal SDK] WARNING: PayPal credentials are missing or using placeholders. API calls will likely fail with 401.');
+}
+
+// Explicitly allow overriding the environment (e.g., to use Sandbox on a Production host)
+const mode = process.env.PAYPAL_MODE || (process.env.NODE_ENV === 'production' ? 'production' : 'sandbox');
 
 const client = new Client({
   clientCredentialsAuthCredentials: {
-    oAuthClientId: clientId,
-    oAuthClientSecret: clientSecret,
+    oAuthClientId: clientId || 'missing',
+    oAuthClientSecret: clientSecret || 'missing',
   },
-  environment: process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox,
+  environment: mode.toLowerCase() === 'production' ? Environment.Production : Environment.Sandbox,
   logging: {
     logLevel: LogLevel.Info,
     logRequest: { logBody: true },

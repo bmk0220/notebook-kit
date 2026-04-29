@@ -5,6 +5,13 @@ import { adminDb } from '@/lib/firebase-admin';
 
 export async function POST(req: Request) {
   console.log('[PayPal Capture] Starting capture process...');
+  console.log('[PayPal Capture] Config Check:', {
+    hasClientId: !!process.env.PAYPAL_CLIENT_ID,
+    hasSecret: !!process.env.PAYPAL_CLIENT_SECRET,
+    mode: process.env.PAYPAL_MODE,
+    nodeEnv: process.env.NODE_ENV,
+    clientIdStart: process.env.PAYPAL_CLIENT_ID?.substring(0, 5) + '...'
+  });
   try {
     const body = await req.json();
     const { orderID, userId, userEmail, kitId, kitTitle } = body;
