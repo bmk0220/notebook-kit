@@ -15,21 +15,31 @@ export async function grantKitAccess(params: {
   try {
     await adminDb.runTransaction(async (transaction) => {
       console.log('Inside transaction...');
-      // 1. Check for idempotency (has this transaction already been processed?)
+      // 1. Prepare read queries
       const paymentQuery = adminDb.collection('payments')
         .where('gatewayTransactionId', '==', gatewayTransactionId)
         .where('gateway', '==', gateway)
         .limit(1);
       
-      const paymentSnapshot = await transaction.get(paymentQuery);
+      const userKitQuery = adminDb.collection('user_kits')
+        .where('userId', '==', userId)
+        .where('kitId', '==', kitId)
+        .limit(1);
+
+      // 2. Perform all reads
+      const [paymentSnapshot, userKitSnapshot] = await Promise.all([
+        transaction.get(paymentQuery),
+        transaction.get(userKitQuery)
+      ]);
       
+      // 3. Check for idempotency
       if (!paymentSnapshot.empty) {
         console.log(`Transaction ${gatewayTransactionId} already processed.`);
         return;
       }
 
       console.log('Creating payment record...');
-      // 2. Create the payment record
+      // 4. Perform all writes
       const paymentRef = adminDb.collection('payments').doc();
       transaction.set(paymentRef, {
         userId,
@@ -45,14 +55,6 @@ export async function grantKitAccess(params: {
       });
 
       console.log('Checking user_kits record...');
-      // 3. Grant access in user_kits
-      const userKitQuery = adminDb.collection('user_kits')
-        .where('userId', '==', userId)
-        .where('kitId', '==', kitId)
-        .limit(1);
-      
-      const userKitSnapshot = await transaction.get(userKitQuery);
-      
       if (userKitSnapshot.empty) {
         console.log('Creating new user_kits record...');
         const userKitRef = adminDb.collection('user_kits').doc();
@@ -61,7 +63,7 @@ export async function grantKitAccess(params: {
           kitId,
           status: 'owned',
           unlockedAt: admin.firestore.FieldValue.serverTimestamp(),
-          grantedAt: admin.firestore.FieldValue.serverTimestamp(), // Added for compatibility
+          grantedAt: admin.firestore.FieldValue.serverTimestamp(),
           paymentId: paymentRef.id,
         });
       } else {
@@ -70,7 +72,7 @@ export async function grantKitAccess(params: {
         transaction.update(existingDoc.ref, {
           status: 'owned',
           unlockedAt: admin.firestore.FieldValue.serverTimestamp(),
-          grantedAt: admin.firestore.FieldValue.serverTimestamp(), // Added for compatibility
+          grantedAt: admin.firestore.FieldValue.serverTimestamp(),
           paymentId: paymentRef.id,
         });
       }
