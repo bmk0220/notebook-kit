@@ -1,13 +1,22 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
+import { adminDb } from '@/lib/firebase-admin';
 
 export async function POST(req: Request) {
   try {
-    const { kitId, kitTitle, price, userId, userEmail, slug } = await req.json();
+    const { kitId, kitTitle, userId, userEmail, slug } = await req.json();
 
     if (!userId || !kitId) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
     }
+
+    // 1. Fetch the kit from Firestore to verify the actual price
+    const kitDoc = await adminDb.collection('kits').doc(kitId).get();
+    if (!kitDoc.exists) {
+      return NextResponse.json({ error: 'Kit not found' }, { status: 404 });
+    }
+    const kitData = kitDoc.data()!;
+    const price = Number(kitData.price);
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://notebook-kit.web.app';
 
@@ -18,8 +27,8 @@ export async function POST(req: Request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: kitTitle,
-              description: `Notebook Kit: ${kitTitle}`,
+              name: kitData.title || kitTitle,
+              description: `Notebook Kit: ${kitData.title || kitTitle}`,
             },
             unit_amount: Math.round(price * 100),
           },
@@ -31,9 +40,9 @@ export async function POST(req: Request) {
       cancel_url: `${baseUrl}/marketplace/${slug}?canceled=true`,
       metadata: {
         userId,
-        userEmail,
+        userEmail: userEmail || '',
         kitId,
-        kitTitle,
+        kitTitle: kitData.title || kitTitle,
       },
     });
 

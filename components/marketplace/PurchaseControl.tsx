@@ -173,7 +173,6 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
         body: JSON.stringify({
           kitId,
           kitTitle,
-          price,
           userId: user.uid,
           userEmail: user.email,
           slug: kitSlug
@@ -344,7 +343,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                     intent: "CAPTURE",
                     purchase_units: [
                       {
-                        description: `Notebook Kit: ${kitTitle}`,
+                        description: `Notebook Kit: ${kitTitle}`.slice(0, 127),
                         amount: {
                           currency_code: "USD",
                           value: price.toString(),
