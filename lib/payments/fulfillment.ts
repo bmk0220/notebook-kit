@@ -61,6 +61,7 @@ export async function grantKitAccess(params: {
           kitId,
           status: 'owned',
           unlockedAt: admin.firestore.FieldValue.serverTimestamp(),
+          grantedAt: admin.firestore.FieldValue.serverTimestamp(), // Added for compatibility
           paymentId: paymentRef.id,
         });
       } else {
@@ -69,6 +70,7 @@ export async function grantKitAccess(params: {
         transaction.update(existingDoc.ref, {
           status: 'owned',
           unlockedAt: admin.firestore.FieldValue.serverTimestamp(),
+          grantedAt: admin.firestore.FieldValue.serverTimestamp(), // Added for compatibility
           paymentId: paymentRef.id,
         });
       }
