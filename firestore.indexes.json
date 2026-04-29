@@ -23,8 +23,22 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "grantedAt",
-          "order": "DESCENDING"
+          "fieldPath": "kitId",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "payments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "gatewayTransactionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "gateway",
+          "order": "ASCENDING"
         }
       ]
     }

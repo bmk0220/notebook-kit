@@ -2,22 +2,26 @@ import * as admin from 'firebase-admin';
 
 if (!admin.apps.length) {
   try {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+    const saVar = process.env.FIREBASE_SERVICE_ACCOUNT;
     
-    if (serviceAccount.project_id) {
+    if (saVar) {
+      console.log('Initializing Firebase Admin with Service Account...');
+      const serviceAccount = JSON.parse(saVar);
+      
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
       });
+      console.log('Firebase Admin initialized successfully with Service Account.');
     } else {
-      // Fallback for local development if service account is not provided
-      // This will use default credentials if available
+      console.log('FIREBASE_SERVICE_ACCOUNT not found, falling back to applicationDefault...');
       admin.initializeApp({
         credential: admin.credential.applicationDefault(),
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       });
+      console.log('Firebase Admin initialized with default credentials.');
     }
-  } catch (error) {
-    console.error('Firebase admin initialization error', error);
+  } catch (error: any) {
+    console.error('Firebase admin initialization error:', error.message);
   }
 }
 

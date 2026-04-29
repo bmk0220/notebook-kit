@@ -10,9 +10,11 @@ export async function grantKitAccess(params: {
   gatewayTransactionId: string;
 }) {
   const { userId, userEmail, kitId, kitTitle, amount, gateway, gatewayTransactionId } = params;
+  console.log(`Starting grantKitAccess for ${userId} and kit ${kitId}`);
 
   try {
     await adminDb.runTransaction(async (transaction) => {
+      console.log('Inside transaction...');
       // 1. Check for idempotency (has this transaction already been processed?)
       const paymentQuery = adminDb.collection('payments')
         .where('gatewayTransactionId', '==', gatewayTransactionId)
@@ -26,6 +28,7 @@ export async function grantKitAccess(params: {
         return;
       }
 
+      console.log('Creating payment record...');
       // 2. Create the payment record
       const paymentRef = adminDb.collection('payments').doc();
       transaction.set(paymentRef, {
@@ -41,8 +44,8 @@ export async function grantKitAccess(params: {
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
 
+      console.log('Checking user_kits record...');
       // 3. Grant access in user_kits
-      // We check if they already have a record for this kit to update instead of duplicate
       const userKitQuery = adminDb.collection('user_kits')
         .where('userId', '==', userId)
         .where('kitId', '==', kitId)
@@ -51,6 +54,7 @@ export async function grantKitAccess(params: {
       const userKitSnapshot = await transaction.get(userKitQuery);
       
       if (userKitSnapshot.empty) {
+        console.log('Creating new user_kits record...');
         const userKitRef = adminDb.collection('user_kits').doc();
         transaction.set(userKitRef, {
           userId,
@@ -60,6 +64,7 @@ export async function grantKitAccess(params: {
           paymentId: paymentRef.id,
         });
       } else {
+        console.log('Updating existing user_kits record...');
         const existingDoc = userKitSnapshot.docs[0];
         transaction.update(existingDoc.ref, {
           status: 'owned',
@@ -69,6 +74,7 @@ export async function grantKitAccess(params: {
       }
     });
 
+    console.log('Transaction committed successfully');
     return { success: true };
   } catch (error) {
     console.error('Error in grantKitAccess fulfillment:', error);
