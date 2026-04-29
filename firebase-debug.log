@@ -30,3 +30,4 @@
 [debug] [2026-04-29T03:40:36.186Z] Checked if tokens are valid: true, expires at: 1777437633518
 [debug] [2026-04-29T03:40:36.186Z] Checked if tokens are valid: true, expires at: 1777437633518
 [debug] [2026-04-29T03:40:36.186Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit [none]
+[debug] [2026-04-29T03:40:37.000Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/notebook-kit 200
