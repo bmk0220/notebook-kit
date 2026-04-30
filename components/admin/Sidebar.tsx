@@ -51,19 +51,19 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         { name: "Payments", href: "/admin/payments", icon: CreditCard },
         { name: "Users", href: "/admin/users", icon: Users },
         { name: "Partners", href: "/admin/partners", icon: Briefcase },
-        { name: "Asset Vault", href: "/admin/assets", icon: ImageIcon },
+        { name: "Marketing", href: "/admin/assets", icon: ImageIcon },
         { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
-      ]
-    }] : []),
-    // Partnership Section (Visible to everyone)
-    {
-      title: "Partnership",
-      links: [
+        ]
+        }] : []),
+        // Partnership Section (Visible to everyone)
+        {
+        title: "Partnership",
+        links: [
         { name: "Partner Program", href: "/partner", icon: Briefcase },
         ...(isAdmin ? [{ name: "Partner Requests", href: "/admin/partners/requests", icon: Users }] : []),
-      ]
-    }
-  ];
+        ]
+        }
+        ];
 
   return (
     <aside className="w-64 border-r border-border bg-card flex flex-col h-full overflow-y-auto">
