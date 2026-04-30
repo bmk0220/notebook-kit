@@ -348,6 +348,10 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                   height: 55
                 }}
                 createOrder={(data, actions) => {
+                  if (!user) {
+                    window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+                    return Promise.reject("Not authenticated");
+                  }
                   return actions.order.create({
                     intent: "CAPTURE",
                     purchase_units: [

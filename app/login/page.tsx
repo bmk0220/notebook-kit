@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { NotebookIcon, Mail, Lock, Globe, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import Link from "next/link";
 export default function LoginPage() {
   const { loginWithEmail, signupWithEmail, loginWithGoogle } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || "/kits";
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -27,7 +29,7 @@ export default function LoginPage() {
       } else {
         await signupWithEmail(email, password);
       }
-      router.push("/kits");
+      router.push(redirect);
     } catch (err: any) {
       const msg = err.message || "Authentication failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
@@ -41,7 +43,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await loginWithGoogle();
-      router.push("/kits");
+      router.push(redirect);
     } catch (err: any) {
       const msg = err.message || "Google sign-in failed.";
       setError(msg.replace("Firebase: ", "").replace(/\(auth\/.*\)\.?/, "").trim());
