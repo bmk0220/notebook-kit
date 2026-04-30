@@ -11,7 +11,7 @@ import {
   User,
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, getDoc, onSnapshot } from "firebase/firestore";
 
 const ADMIN_EMAIL = "admin@notebookkit.com";
 
@@ -32,54 +32,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isPartner, setIsPartner] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Central function to sync user data to Firestore
+  useEffect(() => {
+    const unsubAuth = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
+      
+      if (!u) {
+        setIsPartner(false);
+        setIsAdmin(false);
+        setLoading(false);
+        return;
+      }
+
+      // Start listening to the user's document in Firestore for real-time role updates
+      const userRef = doc(db, "users", u.uid);
+      const unsubUser = onSnapshot(userRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          const role = data.role;
+          setIsPartner(role === "partner");
+          setIsAdmin(role === "admin" || u.email === ADMIN_EMAIL);
+        } else {
+          // If doc doesn't exist, try to sync initial data
+          syncUserToFirestore(u);
+        }
+        setLoading(false);
+      });
+
+      return () => unsubUser();
+    });
+    
+    return () => unsubAuth();
+  }, []);
+
   const syncUserToFirestore = async (u: User) => {
     try {
       const userRef = doc(db, "users", u.uid);
       const userDoc = await getDoc(userRef);
       
-      let role = u.email === ADMIN_EMAIL ? "admin" : "user";
-      
-      // If user doc exists, respect the existing role
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        if (data.role) role = data.role;
-      }
+      const role = u.email === ADMIN_EMAIL ? "admin" : (userDoc.exists() ? userDoc.data()?.role : "user");
       
       const userData: any = {
         email: u.email,
-        role,
+        role: role || "user",
         lastLogin: serverTimestamp(),
       };
 
-      // Only set createdAt if it doesn't exist yet
       if (!userDoc.exists()) {
         userData.createdAt = serverTimestamp();
       }
 
       await setDoc(userRef, userData, { merge: true });
-      setIsPartner(role === "partner");
     } catch (err) {
       console.error("Firestore sync failed:", err);
     }
   };
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-      
-      if (u) {
-        syncUserToFirestore(u);
-      } else {
-        setIsPartner(false);
-      }
-    });
-    return unsub;
-  }, []);
-
-  const isAdmin = user?.email === ADMIN_EMAIL;
 
   const loginWithEmail = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
