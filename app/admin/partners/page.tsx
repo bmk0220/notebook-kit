@@ -2,29 +2,30 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, query } from "firebase/firestore";
 import { Loader2, ShieldCheck, User as UserIcon } from "lucide-react";
+import { UserProfile } from "@/lib/types";
 
 export default function PartnerManagement() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchUsers() {
       const q = query(collection(db, "users"));
       const snapshot = await getDocs(q);
-      const userList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const userList = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() } as UserProfile));
       setUsers(userList);
       setLoading(false);
     }
     fetchUsers();
   }, []);
 
-  const togglePartnerRole = async (user: any) => {
+  const togglePartnerRole = async (user: UserProfile) => {
     const newRole = user.role === "partner" ? "user" : "partner";
     try {
-      await updateDoc(doc(db, "users", user.id), { role: newRole });
-      setUsers(users.map(u => u.id === user.id ? { ...u, role: newRole } : u));
+      await updateDoc(doc(db, "users", user.uid), { role: newRole });
+      setUsers(users.map(u => u.uid === user.uid ? { ...u, role: newRole } : u));
     } catch (err) {
       console.error("Error updating role:", err);
     }
@@ -49,7 +50,7 @@ export default function PartnerManagement() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className="border-t border-border">
+              <tr key={user.uid} className="border-t border-border">
                 <td className="p-4">{user.email}</td>
                 <td className="p-4">
                   <span className={`px-2 py-1 rounded-full text-xs font-bold ${user.role === 'partner' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>

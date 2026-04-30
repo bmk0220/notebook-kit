@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, doc, updateDoc, query, where } from "firebase/firestore";
 import { Loader2, Check, X } from "lucide-react";
+import { PartnerRequest } from "@/lib/types";
 
 export default function PartnerRequests() {
-  const [requests, setRequests] = useState<any[]>([]);
+  const [requests, setRequests] = useState<PartnerRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,14 +17,13 @@ export default function PartnerRequests() {
   async function fetchRequests() {
     const q = query(collection(db, "partner_requests"), where("status", "==", "pending"));
     const snapshot = await getDocs(q);
-    setRequests(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    setRequests(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PartnerRequest)));
     setLoading(false);
   }
 
-  async function handleAction(request: any, status: 'approved' | 'rejected') {
+  async function handleAction(request: PartnerRequest, status: 'approved' | 'rejected') {
     try {
       if (status === 'approved') {
-        // Find user by email and update role
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("email", "==", request.userEmail));
         const userSnapshot = await getDocs(q);

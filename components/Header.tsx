@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 
 export default function Header() {
-  const { user, loading, isAdmin, logout } = useAuth();
+  const { user, loading, isAdmin, isPartner, logout } = useAuth();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

@@ -1,18 +1,17 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { Loader2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { Payment, MarketingAsset } from "@/lib/types";
 
 export default function PartnerDashboard() {
   const { user, isPartner, isAdmin, loading } = useAuth();
-  const router = useRouter();
-  const [payments, setPayments] = useState<any[]>([]);
-  const [assets, setAssets] = useState<any[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [assets, setAssets] = useState<MarketingAsset[]>([]);
   const [fetching, setFetching] = useState(true);
   const [inputUrl, setInputUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
@@ -35,8 +34,8 @@ export default function PartnerDashboard() {
         getDocs(aQuery)
       ]);
 
-      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment)));
+      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
     } catch (err) {
       console.error("Error fetching partner data:", err);
     } finally {
@@ -66,7 +65,7 @@ export default function PartnerDashboard() {
       const url = new URL(inputUrl);
       url.searchParams.set("ref", user?.email || "");
       setGeneratedLink(url.toString());
-    } catch (e) {
+    } catch {
       alert("Please enter a valid URL");
     }
   };

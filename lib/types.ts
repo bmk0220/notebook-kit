@@ -30,3 +30,29 @@ export type Payment = {
   partnerId?: string;
   createdAt: any;
 };
+
+export type UserRole = 'user' | 'partner' | 'admin';
+
+export type UserProfile = {
+  uid: string;
+  email: string;
+  role: UserRole;
+  createdAt: any;
+  lastLogin?: any;
+};
+
+export type MarketingAsset = {
+  id: string;
+  name: string;
+  type: 'banner' | 'swipe';
+  url: string;
+  createdAt: any;
+};
+
+export type PartnerRequest = {
+  id: string;
+  userId: string;
+  userEmail: string;
+  status: 'pending' | 'approved' | 'rejected';
+  requestedAt: any;
+};
