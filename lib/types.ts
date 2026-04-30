@@ -27,5 +27,6 @@ export type Payment = {
   gateway: 'stripe' | 'paypal';
   gatewayTransactionId: string;
   status: 'completed' | 'failed' | 'refunded';
+  partnerId?: string;
   createdAt: any;
 };

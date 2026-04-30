@@ -13,14 +13,15 @@ import {
   NotebookIcon,
   ChevronRight,
   Tags,
-  CreditCard
+  CreditCard,
+  Briefcase
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils'; // I will check if this exists or create it
 
 export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin, isPartner } = useAuth();
 
   const handleLinkClick = () => {
     if (onLinkClick) onLinkClick();
@@ -30,11 +31,11 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
     {
       title: "Main",
       links: [
-        { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-        { name: "Analytics", href: "/admin/analytics", icon: BookOpen, disabled: true },
+        { name: "Dashboard", href: isAdmin ? "/admin" : "/partner", icon: LayoutDashboard },
+        ...(isAdmin ? [{ name: "Analytics", href: "/admin/analytics", icon: BookOpen, disabled: true }] : []),
       ]
     },
-    {
+    ...(isAdmin ? [{
       title: "Forge Engine",
       links: [
         { name: "The Forge", href: "/admin/forge", icon: Hammer },
@@ -50,7 +51,13 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         { name: "Users", href: "/admin/users", icon: Users },
         { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
       ]
-    }
+    }] : []),
+    ...((isAdmin || isPartner) ? [{
+      title: "Partnership",
+      links: [
+        { name: "Partner Portal", href: "/partner", icon: Briefcase },
+      ]
+    }] : [])
   ];
 
   return (
@@ -111,7 +118,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold truncate">{user?.email}</p>
-            <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Administrator</p>
+            <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">{isAdmin ? 'Administrator' : isPartner ? 'Partner' : 'User'}</p>
           </div>
         </div>
         <button 

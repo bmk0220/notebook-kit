@@ -19,6 +19,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAdmin: boolean;
+  isPartner: boolean;
   loginWithEmail: (email: string, password: string) => Promise<void>;
   signupWithEmail: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
@@ -30,6 +31,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isPartner, setIsPartner] = useState(false);
 
   // Central function to sync user data to Firestore
   const syncUserToFirestore = async (u: User) => {
@@ -37,9 +39,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userRef = doc(db, "users", u.uid);
       const userDoc = await getDoc(userRef);
       
+      let role = u.email === ADMIN_EMAIL ? "admin" : "user";
+      
+      // If user doc exists, respect the existing role
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        if (data.role) role = data.role;
+      }
+      
       const userData: any = {
         email: u.email,
-        role: u.email === ADMIN_EMAIL ? "admin" : "user",
+        role,
         lastLogin: serverTimestamp(),
       };
 
@@ -49,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       await setDoc(userRef, userData, { merge: true });
+      setIsPartner(role === "partner");
     } catch (err) {
       console.error("Firestore sync failed:", err);
     }
@@ -61,6 +72,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       if (u) {
         syncUserToFirestore(u);
+      } else {
+        setIsPartner(false);
       }
     });
     return unsub;
@@ -86,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin, loginWithEmail, signupWithEmail, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, isPartner, loginWithEmail, signupWithEmail, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

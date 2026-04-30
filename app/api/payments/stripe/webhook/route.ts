@@ -48,11 +48,12 @@ export async function POST(req: Request) {
       metadata: session.metadata,
     });
 
-    const { userId, userEmail, kitId, kitTitle } = (session.metadata || {}) as {
+    const { userId, userEmail, kitId, kitTitle, partnerId } = (session.metadata || {}) as {
       userId?: string;
       userEmail?: string;
       kitId?: string;
       kitTitle?: string;
+      partnerId?: string;
     };
 
     if (!userId || !kitId) {
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
         amount,
         gateway: 'stripe',
         gatewayTransactionId,
+        partnerId,
       });
       console.log('[Stripe Webhook] Fulfillment completed for session:', session.id);
     } catch (error) {

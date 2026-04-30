@@ -8,8 +8,9 @@ export async function grantKitAccess(params: {
   amount: number;
   gateway: 'stripe' | 'paypal';
   gatewayTransactionId: string;
+  partnerId?: string;
 }) {
-  const { userId, userEmail, kitId, kitTitle, amount, gateway, gatewayTransactionId } = params;
+  const { userId, userEmail, kitId, kitTitle, amount, gateway, gatewayTransactionId, partnerId } = params;
   console.log(`Starting grantKitAccess for ${userId} and kit ${kitId}`);
 
   try {
@@ -41,7 +42,7 @@ export async function grantKitAccess(params: {
       console.log('Creating payment record...');
       // 4. Perform all writes
       const paymentRef = adminDb.collection('payments').doc();
-      transaction.set(paymentRef, {
+      const paymentData: any = {
         userId,
         userEmail,
         kitId,
@@ -52,7 +53,9 @@ export async function grantKitAccess(params: {
         gatewayTransactionId,
         status: 'completed',
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
+      };
+      if (partnerId) paymentData.partnerId = partnerId;
+      transaction.set(paymentRef, paymentData);
 
       console.log('Checking user_kits record...');
       if (userKitSnapshot.empty) {

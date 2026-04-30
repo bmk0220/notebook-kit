@@ -7,7 +7,7 @@ import { Download, ShoppingCart, Loader2, CheckCircle2, CreditCard, X, AlertTria
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { cn } from "@/lib/utils";
+import { cn, setPartnerCookie, getPartnerCookie } from "@/lib/utils";
 
 interface PurchaseControlProps {
   kitId: string;
@@ -50,6 +50,13 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
 
   useEffect(() => {
     async function init() {
+      // Capture ref from URL if present
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref');
+      if (ref) {
+        setPartnerCookie(ref);
+      }
+
       if (!authLoading) {
         await checkOwnership();
         setCheckingOwnership(false);
@@ -165,6 +172,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
       return;
     }
 
+    const partnerCode = getPartnerCookie();
     setProcessing(true);
     try {
       const response = await fetch('/api/payments/stripe/checkout', {
@@ -175,7 +183,8 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
           kitTitle,
           userId: user.uid,
           userEmail: user.email,
-          slug: kitSlug
+          slug: kitSlug,
+          partnerCode
         }),
       });
 
@@ -354,6 +363,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                 }}
                 onApprove={async (data, actions) => {
                   setProcessing(true);
+                  const partnerCode = getPartnerCookie();
                   try {
                     const response = await fetch('/api/payments/paypal/capture', {
                       method: 'POST',
@@ -363,7 +373,8 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                         userId: user!.uid,
                         userEmail: user!.email,
                         kitId,
-                        kitTitle
+                        kitTitle,
+                        partnerCode
                       }),
                     });
 

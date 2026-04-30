@@ -14,8 +14,8 @@ export async function POST(req: Request) {
   });
   try {
     const body = await req.json();
-    const { orderID, userId, userEmail, kitId, kitTitle } = body;
-    console.log('[PayPal Capture] Request body:', { orderID, userId, kitId });
+    const { orderID, userId, userEmail, kitId, kitTitle, partnerCode } = body;
+    console.log('[PayPal Capture] Request body:', { orderID, userId, kitId, partnerCode });
 
     if (!orderID || !userId || !kitId) {
       console.error('[PayPal Capture] Missing parameters:', { orderID, userId, kitId });
@@ -97,6 +97,7 @@ export async function POST(req: Request) {
           amount,
           gateway: 'paypal',
           gatewayTransactionId,
+          partnerId: partnerCode,
         });
         console.log('[PayPal Capture] Access granted successfully');
       } catch (grantError: any) {

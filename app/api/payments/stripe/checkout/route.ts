@@ -4,7 +4,7 @@ import { adminDb } from '@/lib/firebase-admin';
 
 export async function POST(req: Request) {
   try {
-    const { kitId, kitTitle, userId, userEmail, slug } = await req.json();
+    const { kitId, kitTitle, userId, userEmail, slug, partnerCode } = await req.json();
 
     if (!userId || !kitId) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
@@ -43,6 +43,7 @@ export async function POST(req: Request) {
         userEmail: userEmail || '',
         kitId,
         kitTitle: kitData.title || kitTitle,
+        partnerId: partnerCode,
       },
     });
 
