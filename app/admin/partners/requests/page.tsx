@@ -5,7 +5,7 @@ import { db } from "@/lib/firebase";
 import { collection, getDocs, doc, updateDoc, query, where, orderBy } from "firebase/firestore";
 import { Loader2, Check, X, Users, RefreshCcw } from "lucide-react";
 import { PartnerRequest } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 export default function PartnerRequests() {
   const [requests, setRequests] = useState<PartnerRequest[]>([]);
@@ -80,7 +80,7 @@ export default function PartnerRequests() {
               ) : requests.length > 0 ? requests.map((req) => (
                 <tr key={req.id} className="hover:bg-muted/20 transition-colors">
                   <td className="px-6 py-4 font-bold">{req.userEmail}</td>
-                  <td className="px-6 py-4 text-muted-foreground">{req.requestedAt?.toDate().toLocaleDateString()}</td>
+                  <td className="px-6 py-4 text-muted-foreground">{formatDate(req.requestedAt)}</td>
                   <td className="px-6 py-4 flex justify-end gap-2">
                     <button onClick={() => handleAction(req, 'approved')} className="h-9 w-9 flex items-center justify-center rounded-xl border border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-all" title="Approve">
                       <Check className="h-4 w-4" />

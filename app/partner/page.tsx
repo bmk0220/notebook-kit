@@ -14,7 +14,6 @@ export default function PartnerDashboard() {
   const [assets, setAssets] = useState<MarketingAsset[]>([]);
   const [fetching, setFetching] = useState(true);
   const [inputUrl, setInputUrl] = useState("");
-  const [generatedLink, setGeneratedLink] = useState("");
   const [linkHistory, setLinkHistory] = useState<string[]>([]);
   const [hasPendingRequest, setHasPendingRequest] = useState(false);
 
@@ -80,7 +79,6 @@ export default function PartnerDashboard() {
       const refId = user?.email || "";
       url.searchParams.set("ref", refId);
       const newLink = url.toString();
-      setGeneratedLink(newLink);
       
       const newHistory = [newLink, ...linkHistory.filter(l => l !== newLink)].slice(0, 5);
       setLinkHistory(newHistory);
