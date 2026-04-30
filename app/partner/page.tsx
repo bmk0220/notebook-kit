@@ -15,6 +15,13 @@ export default function PartnerDashboard() {
   const [fetching, setFetching] = useState(true);
   const [inputUrl, setInputUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
+  const [linkHistory, setLinkHistory] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Load history from localStorage only on client
+    const saved = localStorage.getItem("referralLinkHistory");
+    if (saved) setLinkHistory(JSON.parse(saved));
+  }, []);
 
   useEffect(() => {
     if (user?.email && (isPartner || isAdmin)) {
@@ -64,7 +71,12 @@ export default function PartnerDashboard() {
     try {
       const url = new URL(inputUrl);
       url.searchParams.set("ref", user?.email || "");
-      setGeneratedLink(url.toString());
+      const newLink = url.toString();
+      setGeneratedLink(newLink);
+      
+      const newHistory = [newLink, ...linkHistory.filter(l => l !== newLink)].slice(0, 5);
+      setLinkHistory(newHistory);
+      localStorage.setItem("referralLinkHistory", JSON.stringify(newHistory));
     } catch {
       alert("Please enter a valid URL");
     }
@@ -160,21 +172,20 @@ export default function PartnerDashboard() {
             Generate Link
           </button>
         </div>
-        {generatedLink && (
-          <div className="mt-4 p-4 bg-primary/10 rounded-xl border border-primary/20 space-y-2">
-            <p className="text-xs font-bold text-muted-foreground uppercase">Your Referral Link:</p>
-            <div className="flex items-center gap-2">
-              <code className="flex-1 text-sm font-mono break-all text-primary">{generatedLink}</code>
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(generatedLink);
-                  alert("Link copied to clipboard!");
-                }}
-                className="px-4 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-lg hover:opacity-90"
-              >
-                Copy
-              </button>
-            </div>
+        
+        {/* Recent History */}
+        {linkHistory.length > 0 && (
+          <div className="mt-6 space-y-2">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Recent Links</h3>
+            {linkHistory.map((link, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3 bg-muted rounded-lg text-xs font-mono break-all border border-border">
+                <span className="truncate mr-4">{link}</span>
+                <button 
+                  onClick={() => { navigator.clipboard.writeText(link); alert("Copied!"); }}
+                  className="font-bold text-primary underline shrink-0"
+                >Copy</button>
+              </div>
+            ))}
           </div>
         )}
       </section>
