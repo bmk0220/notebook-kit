@@ -1,3 +1,21 @@
+export type Kit = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  price: number;
+  status: 'published' | 'draft';
+  category?: string;
+  categories?: string[];
+  createdAt: any;
+  metadata?: {
+    createdAt: string;
+  };
+  assets?: {
+    iconSvgName: string;
+  };
+};
+
 export type KitContent = {
   main_source: string;
   overview: string;

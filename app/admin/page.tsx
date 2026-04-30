@@ -6,7 +6,6 @@ import {
   NotebookIcon, 
   Users, 
   MessageSquare, 
-  DollarSign,
   ArrowUpRight,
   Clock,
   ChevronRight,
