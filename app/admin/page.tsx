@@ -13,7 +13,7 @@ import {
   Hammer,
   Briefcase
 } from "lucide-react";
-import { collection, query, orderBy, limit, getDocs, getCountFromServer } from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs, getCountFromServer, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
