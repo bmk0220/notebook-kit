@@ -51,5 +51,10 @@ service cloud.firestore {
       allow read: if isSignedIn() && (isAdmin() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'partner');
       allow write: if isAdmin();
     }
+
+    match /partner_requests/{requestId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn();
+    }
   }
 }
