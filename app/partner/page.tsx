@@ -14,6 +14,8 @@ export default function PartnerDashboard() {
   const [payments, setPayments] = useState<any[]>([]);
   const [assets, setAssets] = useState<any[]>([]);
   const [fetching, setFetching] = useState(true);
+  const [inputUrl, setInputUrl] = useState("");
+  const [generatedLink, setGeneratedLink] = useState("");
 
   useEffect(() => {
     if (!loading && !isPartner && !isAdmin) {
@@ -45,6 +47,17 @@ export default function PartnerDashboard() {
       setFetching(false);
     }
   }
+
+  const handleGenerate = () => {
+    if (!inputUrl) return;
+    try {
+      const url = new URL(inputUrl);
+      url.searchParams.set("ref", user?.email || "");
+      setGeneratedLink(url.toString());
+    } catch (e) {
+      alert("Please enter a valid URL");
+    }
+  };
 
   if (loading || fetching) {
     return (
@@ -113,12 +126,23 @@ export default function PartnerDashboard() {
           <input 
             type="text" 
             placeholder="Paste Kit URL here..." 
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
             className="flex-1 px-4 py-3 bg-muted rounded-xl border border-border"
           />
-          <button className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90">
+          <button 
+            onClick={handleGenerate}
+            className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-opacity"
+          >
             Generate Link
           </button>
         </div>
+        {generatedLink && (
+          <div className="mt-4 p-4 bg-primary/10 rounded-xl border border-primary/20">
+            <p className="text-xs font-bold text-muted-foreground uppercase">Your Referral Link:</p>
+            <code className="block mt-1 text-sm font-mono break-all text-primary">{generatedLink}</code>
+          </div>
+        )}
       </section>
 
       {/* Asset Vault */}
