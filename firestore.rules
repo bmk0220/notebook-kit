@@ -43,8 +43,13 @@ service cloud.firestore {
     }
 
     match /payments/{paymentId} {
-      allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow read: if isAdmin() || (isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.partnerId == request.auth.token.email));
       allow write: if false; // Server-side fulfillment only
+    }
+
+    match /marketing_assets/{assetId} {
+      allow read: if isSignedIn() && (isAdmin() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'partner');
+      allow write: if isAdmin();
     }
   }
 }

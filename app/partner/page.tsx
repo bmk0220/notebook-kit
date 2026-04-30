@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { Loader2 } from "lucide-react";
+import { Loader2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 export default function PartnerDashboard() {
   const { user, isPartner, isAdmin, loading } = useAuth();
   const router = useRouter();
   const [payments, setPayments] = useState<any[]>([]);
+  const [assets, setAssets] = useState<any[]>([]);
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
@@ -22,19 +23,24 @@ export default function PartnerDashboard() {
 
   useEffect(() => {
     if (user?.email) {
-      fetchEarnings();
+      fetchData();
     }
   }, [user]);
 
-  async function fetchEarnings() {
+  async function fetchData() {
     try {
-      // In a real scenario, we'd use the partner's unique ID/referralCode
-      // For now, let's assume partnerId is their email or a specific code
-      const q = query(collection(db, "payments"), where("partnerId", "==", user?.email));
-      const snapshot = await getDocs(q);
-      setPayments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
+      const aQuery = collection(db, "marketing_assets");
+      
+      const [pSnap, aSnap] = await Promise.all([
+        getDocs(pQuery),
+        getDocs(aQuery)
+      ]);
+      
+      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     } catch (err) {
-      console.error("Error fetching earnings:", err);
+      console.error("Error fetching partner data:", err);
     } finally {
       setFetching(false);
     }
@@ -118,16 +124,20 @@ export default function PartnerDashboard() {
       {/* Asset Vault */}
       <section className="p-6 rounded-2xl bg-card border border-border space-y-4">
         <h2 className="text-xl font-black">Creative Asset Vault</h2>
-        <p className="text-muted-foreground">Download banners and swipe copy to promote Notebook Kits.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-muted border border-border flex items-center justify-between">
-                <span className="font-bold">Launch Banner (1200x628)</span>
-                <button className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-lg">Download</button>
-            </div>
-            <div className="p-4 rounded-xl bg-muted border border-border flex items-center justify-between">
-                <span className="font-bold">Email Swipe Copy</span>
-                <button className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-lg">Download</button>
-            </div>
+          {assets.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No assets currently available.</p>
+          ) : (
+            assets.map(asset => (
+              <div key={asset.id} className="p-4 rounded-xl bg-muted border border-border flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {asset.type === 'banner' ? <ImageIcon className="h-5 w-5 text-primary" /> : <LinkIcon className="h-5 w-5 text-primary" />}
+                  <span className="font-bold">{asset.name}</span>
+                </div>
+                <a href={asset.url} target="_blank" rel="noreferrer" className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-lg">Download</a>
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>
