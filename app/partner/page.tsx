@@ -16,6 +16,7 @@ export default function PartnerDashboard() {
   const [inputUrl, setInputUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
   const [linkHistory, setLinkHistory] = useState<string[]>([]);
+  const [hasPendingRequest, setHasPendingRequest] = useState(false);
 
   useEffect(() => {
     // Load history from localStorage only on client
@@ -24,25 +25,28 @@ export default function PartnerDashboard() {
   }, []);
 
   useEffect(() => {
-    if (user?.email && (isPartner || isAdmin)) {
+    if (user?.email) {
       fetchData();
     } else {
       setFetching(false);
     }
-  }, [user, isPartner, isAdmin]);
+  }, [user]);
 
   async function fetchData() {
     try {
       const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
       const aQuery = collection(db, "marketing_assets");
+      const reqQuery = query(collection(db, "partner_requests"), where("userEmail", "==", user?.email), where("status", "==", "pending"));
 
-      const [pSnap, aSnap] = await Promise.all([
+      const [pSnap, aSnap, reqSnap] = await Promise.all([
         getDocs(pQuery),
-        getDocs(aQuery)
+        getDocs(aQuery),
+        getDocs(reqQuery)
       ]);
 
       setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment)));
       setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
+      setHasPendingRequest(!reqSnap.empty);
     } catch (err) {
       console.error("Error fetching partner data:", err);
     } finally {
@@ -51,7 +55,7 @@ export default function PartnerDashboard() {
   }
 
   const handleRequest = async () => {
-    if (!user) return;
+    if (!user || hasPendingRequest) return;
     try {
       await addDoc(collection(db, "partner_requests"), {
         userId: user.uid,
@@ -59,6 +63,7 @@ export default function PartnerDashboard() {
         status: "pending",
         requestedAt: serverTimestamp(),
       });
+      setHasPendingRequest(true);
       alert("Request submitted! We'll review your application soon.");
     } catch (err) {
       console.error("Error requesting partnership:", err);
@@ -98,8 +103,12 @@ export default function PartnerDashboard() {
       <div className="max-w-3xl mx-auto py-20 text-center space-y-8">
         <h1 className="text-5xl font-black tracking-tighter">Become a Notebook Kit Partner</h1>
         <p className="text-xl text-muted-foreground">Join our affiliate program and earn 50% commission on every sale you drive. Access our exclusive partner resources and start earning today.</p>
-        <button onClick={handleRequest} className="px-8 py-4 bg-primary text-primary-foreground font-black text-lg rounded-full hover:scale-105 transition-transform shadow-xl shadow-primary/20">
-          Request Partnership Access
+        <button 
+          onClick={handleRequest} 
+          disabled={hasPendingRequest}
+          className={`px-8 py-4 font-black text-lg rounded-full transition-all shadow-xl ${hasPendingRequest ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:scale-105 shadow-primary/20'}`}
+        >
+          {hasPendingRequest ? "Partnership Request Pending" : "Request Partnership Access"}
         </button>
       </div>
     );
