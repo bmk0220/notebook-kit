@@ -70,7 +70,10 @@ export default function PartnerDashboard() {
     if (!inputUrl) return;
     try {
       const url = new URL(inputUrl);
-      url.searchParams.set("ref", user?.email || "");
+      // For Admin, use their email or a fallback identifier if needed, 
+      // ensuring consistency for referral tracking.
+      const refId = user?.email || "";
+      url.searchParams.set("ref", refId);
       const newLink = url.toString();
       setGeneratedLink(newLink);
       
