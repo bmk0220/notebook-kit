@@ -65,7 +65,7 @@ export default function AssetManagement() {
               {asset.type === 'banner' ? <ImageIcon className="h-5 w-5 text-primary" /> : <LinkIcon className="h-5 w-5 text-primary" />}
               <div>
                 <p className="font-bold">{asset.name}</p>
-                <a href={asset.url} target="_blank" className="text-xs text-muted-foreground underline">View Asset</a>
+                <a href={asset.url} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground underline">View Asset</a>
               </div>
             </div>
             <button onClick={() => deleteAsset(asset.id)} className="text-destructive p-2 rounded-lg hover:bg-destructive/10">
