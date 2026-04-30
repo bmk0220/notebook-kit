@@ -49,6 +49,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         { name: "Categories", href: "/admin/categories", icon: Tags },
         { name: "Payments", href: "/admin/payments", icon: CreditCard },
         { name: "Users", href: "/admin/users", icon: Users },
+        { name: "Partners", href: "/admin/partners", icon: Briefcase },
         { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
       ]
     }] : []),

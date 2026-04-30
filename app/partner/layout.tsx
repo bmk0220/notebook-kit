@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Sidebar } from '@/components/admin/Sidebar';
+import Sidebar from '@/components/admin/Sidebar';
 import { Providers } from '@/components/Providers';
 import '@/app/globals.css';
 
