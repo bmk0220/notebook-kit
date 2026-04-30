@@ -18,11 +18,6 @@ export default function PartnerDashboard() {
   const [generatedLink, setGeneratedLink] = useState("");
 
   useEffect(() => {
-    // No longer auto-redirecting away from partner page for non-partners.
-    // We stay here to show the landing page.
-  }, []);
-
-  useEffect(() => {
     if (user?.email && (isPartner || isAdmin)) {
       fetchData();
     } else {
@@ -64,48 +59,6 @@ export default function PartnerDashboard() {
       alert("Failed to submit request.");
     }
   };
-...
-  if (loading || fetching) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!isPartner && !isAdmin) {
-    return (
-      <div className="max-w-3xl mx-auto py-20 text-center space-y-8">
-        <h1 className="text-5xl font-black tracking-tighter">Become a Notebook Kit Partner</h1>
-        <p className="text-xl text-muted-foreground">Join our affiliate program and earn 50% commission on every sale you drive. Access our exclusive partner resources and start earning today.</p>
-        <button onClick={handleRequest} className="px-8 py-4 bg-primary text-primary-foreground font-black text-lg rounded-full hover:scale-105 transition-transform shadow-xl shadow-primary/20">
-          Request Partnership Access
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-8">
-...
-  async function fetchData() {
-    try {
-      const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
-      const aQuery = collection(db, "marketing_assets");
-      
-      const [pSnap, aSnap] = await Promise.all([
-        getDocs(pQuery),
-        getDocs(aQuery)
-      ]);
-      
-      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    } catch (err) {
-      console.error("Error fetching partner data:", err);
-    } finally {
-      setFetching(false);
-    }
-  }
 
   const handleGenerate = () => {
     if (!inputUrl) return;
@@ -122,6 +75,18 @@ export default function PartnerDashboard() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!isPartner && !isAdmin) {
+    return (
+      <div className="max-w-3xl mx-auto py-20 text-center space-y-8">
+        <h1 className="text-5xl font-black tracking-tighter">Become a Notebook Kit Partner</h1>
+        <p className="text-xl text-muted-foreground">Join our affiliate program and earn 50% commission on every sale you drive. Access our exclusive partner resources and start earning today.</p>
+        <button onClick={handleRequest} className="px-8 py-4 bg-primary text-primary-foreground font-black text-lg rounded-full hover:scale-105 transition-transform shadow-xl shadow-primary/20">
+          Request Partnership Access
+        </button>
       </div>
     );
   }
