@@ -31,6 +31,7 @@ export default function AdminDashboard() {
     totalKits: 0,
     totalUsers: 0,
     totalRequests: 0,
+    totalPartners: 0,
     activeForge: 0
   });
   const [recentKits, setRecentKits] = useState<RecentKit[]>([]);
