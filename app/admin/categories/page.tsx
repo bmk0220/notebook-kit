@@ -35,7 +35,6 @@ interface Category {
   color: string;
   bgLight: string;
   kitCount: number;
-  createdAt?: any;
 }
 
 // Curated preset colors for category creation
@@ -91,7 +90,6 @@ export default function CategoriesPage() {
         color: d.data().color,
         bgLight: d.data().bgLight,
         kitCount: 0,
-        createdAt: d.data().createdAt,
       }));
 
       // Count kits per category

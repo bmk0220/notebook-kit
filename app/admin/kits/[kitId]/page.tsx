@@ -104,8 +104,8 @@ export default function EditKitPage() {
 
       await updateDoc(doc(db, 'kits', kitId), updateData);
       setSuccessMsg("Kit updated successfully!");
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred while saving.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred while saving.');
       console.error('Save error:', err);
     } finally {
       setIsSaving(false);
@@ -121,8 +121,9 @@ export default function EditKitPage() {
   };
   const IconComponent = getIcon(selectedIconName);
 
-  const onFormError = (errors: any) => {
+  const onFormError = (errors: unknown) => {
     const findErrorMessage = (obj: any): string | null => {
+      if (typeof obj !== 'object' || obj === null) return null;
       for (const key in obj) {
         if (obj[key]?.message && typeof obj[key].message === 'string') {
           return obj[key].message;
@@ -295,7 +296,7 @@ export default function EditKitPage() {
                             const next = current.includes(cat.name)
                               ? current.filter((c: string) => c !== cat.name)
                               : [...current, cat.name];
-                            setValue('categories', next as any, { shouldDirty: true });
+                            setValue('categories', next, { shouldDirty: true });
                           }}
                           className={cn(
                             "badge badge-lg cursor-pointer py-4 px-4 border transition-all",

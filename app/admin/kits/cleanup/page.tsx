@@ -26,7 +26,7 @@ export default function OrphanCleanupPage() {
       addLog("Fetching all user_kits records...");
       const userKitsSnap = await getDocs(collection(db, "user_kits"));
       
-      const orphanedRecords: any[] = [];
+      const orphanedRecords: OrphanedRecord[] = [];
       const uniqueOrphanedKitIds = new Set<string>();
       
       // Step 1: Identify Orphans
@@ -69,12 +69,13 @@ export default function OrphanCleanupPage() {
           try {
             await deleteObject(fileRef);
             addLog(`✅ Deleted storage file: ${storagePath}`);
-          } catch (e: any) {
+          } catch (e: unknown) {
+            const error = e as { code?: string, message: string };
             // Error code storage/object-not-found is common if it was already deleted
-            if (e.code === 'storage/object-not-found') {
+            if (error.code === 'storage/object-not-found') {
               addLog(`⚠️ File already missing, skipped: ${storagePath}`);
             } else {
-              addLog(`❌ Failed to delete storage file ${storagePath}: ${e.message}`);
+              addLog(`❌ Failed to delete storage file ${storagePath}: ${error.message}`);
             }
           }
         }
@@ -82,9 +83,10 @@ export default function OrphanCleanupPage() {
 
       addLog("🎉 Cleanup process complete!");
       setIsDone(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      addLog(`❌ Fatal Error: ${err.message}`);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      addLog(`❌ Fatal Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

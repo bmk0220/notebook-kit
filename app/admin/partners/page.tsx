@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { 
-  Users, 
   Search, 
   ShieldCheck, 
   User as UserIcon, 
@@ -12,7 +11,7 @@ import {
   RefreshCcw,
   Briefcase
 } from "lucide-react";
-import { collection, query, orderBy, getDocs, doc, updateDoc, where } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { cn, formatDate } from "@/lib/utils";
 import { UserProfile } from "@/lib/types";
@@ -55,7 +54,7 @@ export default function PartnerManagementPage() {
     setActionLoading(user.uid);
     try {
       await updateDoc(doc(db, "users", user.uid), { role: newRole });
-      setUsers(prev => prev.map(u => u.uid === user.uid ? { ...u, role: newRole as any } : u));
+      setUsers(prev => prev.map(u => u.uid === user.uid ? { ...u, role: newRole as 'user' | 'partner' } : u));
     } catch (err) {
       console.error("Error updating role:", err);
     } finally {

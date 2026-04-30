@@ -5,8 +5,15 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
 import { Loader2, Plus, Trash2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 
+interface Asset {
+  id: string;
+  name: string;
+  type: string;
+  url: string;
+}
+
 export default function AssetManagement() {
-  const [assets, setAssets] = useState<any[]>([]);
+  const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
   const [newAsset, setNewAsset] = useState({ name: "", type: "banner", url: "" });
 

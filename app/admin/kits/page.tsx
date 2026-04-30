@@ -40,7 +40,7 @@ interface Kit {
   slug: string;
   price: number;
   status: 'draft' | 'published' | 'archived';
-  createdAt: any;
+  createdAt: Date | string;
   iconSvgName?: string;
   categories?: string[];
 }
@@ -107,8 +107,8 @@ export default function ManageKitsPage() {
           await deleteObject(fileRef);
           console.log(`Successfully deleted storage file: ${storagePath}`);
         }
-      } catch (err: any) {
-        if (err.code !== 'storage/object-not-found') {
+      } catch (err: unknown) {
+        if (err instanceof Error && err.code !== 'storage/object-not-found') {
           console.error("Storage cleanup failed:", err);
         }
       }
@@ -126,9 +126,9 @@ export default function ManageKitsPage() {
       setKits(prev => prev.filter(k => k.id !== kit.id));
       setDeleteKit(null);
       console.log(`Successfully deleted kit: ${kit.title}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error deleting kit:", err);
-      alert(`Deletion failed: ${err.message}`);
+      alert(`Deletion failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setIsDeleting(false);
     }
@@ -138,7 +138,7 @@ export default function ManageKitsPage() {
     const nextStatus = currentStatus === 'published' ? 'archived' : 'published';
     try {
       await updateDoc(doc(db, "kits", kitId), { status: nextStatus });
-      setKits(kits.map(k => k.id === kitId ? { ...k, status: nextStatus as any } : k));
+      setKits(kits.map(k => k.id === kitId ? { ...k, status: nextStatus as 'draft' | 'published' | 'archived' } : k));
     } catch (err) {
       console.error("Error updating status:", err);
     }

@@ -45,7 +45,6 @@ export default function ForgePage() {
   const { categories: dynamicCategories, categoryMap } = useCategories();
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
   const [fileContents, setFileContents] = useState<Record<string, string>>({});
-  const [, setIsReading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishedKitId, setPublishedKitId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +86,6 @@ export default function ForgePage() {
 
   // Handle bulk file upload
   const handleBulkUpload = async (files: FileList | File[]) => {
-    setIsReading(true);
     const newFiles = { ...uploadedFiles };
     const newContents = { ...fileContents };
 
@@ -125,7 +123,6 @@ export default function ForgePage() {
 
     setUploadedFiles(newFiles);
     setFileContents(newContents);
-    setIsReading(false);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, _fileId: string) => {

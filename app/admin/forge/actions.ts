@@ -7,7 +7,7 @@ import { kitSchema, type Kit } from '@/lib/schemas/kit';
 import JSZip from 'jszip';
 import { FORGE_REQUIRED_FILES } from '@/lib/constants/forge';
 
-export async function ingestKit(data: any) {
+export async function ingestKit(data: { id: string, slug: string, title: string, content: Record<string, string>, assets: { iconSvgName: string, fileUrl?: string }, metadata: { version: string } }) {
   try {
     // 1. Re-validate on the server (Critical for security)
     const result = kitSchema.safeParse(data);
@@ -72,11 +72,12 @@ export async function ingestKit(data: any) {
       url: `/kits/${kit.slug}` 
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Forge Ingestion Error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     return { 
       success: false, 
-      error: error.message || 'Internal Server Error' 
+      error: errorMessage
     };
   }
 }
