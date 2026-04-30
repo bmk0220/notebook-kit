@@ -23,7 +23,7 @@ export default function AssetManagement() {
 
   async function fetchAssets() {
     const snapshot = await getDocs(collection(db, "marketing_assets"));
-    setAssets(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    setAssets(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Asset)));
     setLoading(false);
   }
 

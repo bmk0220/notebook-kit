@@ -6,6 +6,13 @@ import { collection, getDocs, doc, getDoc, writeBatch } from 'firebase/firestore
 import { ref, deleteObject } from 'firebase/storage';
 import { Loader2, Trash2, CheckCircle2, AlertCircle } from 'lucide-react';
 
+interface OrphanedRecord {
+  id: string;
+  docId: string;
+  kitId: string;
+  slug?: string;
+}
+
 export default function OrphanCleanupPage() {
   const [loading, setLoading] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
@@ -41,7 +48,7 @@ export default function OrphanCleanupPage() {
         const kitSnap = await getDoc(kitRef);
         
         if (!kitSnap.exists()) {
-          orphanedRecords.push({ docId: ukDoc.id, kitId: kitId, slug: data.slug });
+          orphanedRecords.push({ id: ukDoc.id, docId: ukDoc.id, kitId: kitId, slug: data.slug });
           uniqueOrphanedKitIds.add(JSON.stringify({ kitId: kitId, slug: data.slug }));
         }
       }

@@ -108,7 +108,7 @@ export default function ManageKitsPage() {
           console.log(`Successfully deleted storage file: ${storagePath}`);
         }
       } catch (err: unknown) {
-        if (err instanceof Error && err.code !== 'storage/object-not-found') {
+        if (err instanceof Error && (err as any).code !== 'storage/object-not-found') {
           console.error("Storage cleanup failed:", err);
         }
       }
