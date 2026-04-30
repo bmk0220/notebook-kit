@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -29,7 +30,7 @@ export default function KitPage() {
   const { categoryMap } = useCategories();
 
   const [kit, setKit] = useState<Kit | null>(null);
-  const [content, setContent] = useState<any>(null);
+  const [content, setContent] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -80,7 +81,7 @@ export default function KitPage() {
           console.warn("Public user access to kits_content blocked - falling back to manifest.");
         }
 
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("PDP Fetch Error:", err);
         setError("ACCESS_DENIED");
       } finally {
@@ -129,9 +130,12 @@ export default function KitPage() {
             >
               Try Again
             </button>
-            <a href="/marketplace" className="block mt-4 text-sm font-bold text-primary hover:underline">
+            <Link
+              href="/marketplace"
+              className="block mt-4 text-sm font-bold text-primary hover:underline"
+            >
               Back to Marketplace
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -203,7 +207,7 @@ export default function KitPage() {
               <h2 className="text-2xl font-bold mb-6">Kit Manifest</h2>
               {content ? (
                 <div className="grid grid-cols-1 gap-4">
-                  {Object.keys(content).filter(k => k !== 'updatedAt').map((key) => (
+                  {Object.keys(content as object).filter(k => k !== 'updatedAt').map((key) => (
                     <div key={key} className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 border border-border/50">
                       <div className="h-2 w-2 rounded-full bg-primary" />
                       <span className="text-sm font-bold capitalize">{key.replace('_', ' ')}</span>
@@ -252,7 +256,7 @@ export default function KitPage() {
               <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
                 <h4 className="text-xs font-bold uppercase mb-2">Instructions</h4>
                 <div className="text-[11px] text-muted-foreground italic">
-                  {(content && content.instructions) || "Check the INSTRUCTIONS.md file included in the ZIP for detailed setup guides."}
+                  {((content as { instructions: string })?.instructions) || "Check the INSTRUCTIONS.md file included in the ZIP for detailed setup guides."}
                 </div>
               </div>
             </div>

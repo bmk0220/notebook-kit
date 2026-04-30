@@ -7,7 +7,7 @@ export type Kit = {
   status: 'published' | 'draft';
   category?: string;
   categories?: string[];
-  createdAt: any;
+  createdAt: Date;
   metadata?: {
     createdAt: string;
   };
@@ -46,7 +46,7 @@ export type Payment = {
   gatewayTransactionId: string;
   status: 'completed' | 'failed' | 'refunded';
   partnerId?: string;
-  createdAt: any;
+  createdAt: Date;
 };
 
 export type UserRole = 'user' | 'partner' | 'admin';
@@ -55,8 +55,8 @@ export type UserProfile = {
   uid: string;
   email: string;
   role: UserRole;
-  createdAt: any;
-  lastLogin?: any;
+  createdAt: Date;
+  lastLogin?: Date;
 };
 
 export type MarketingAsset = {
@@ -64,7 +64,7 @@ export type MarketingAsset = {
   name: string;
   type: 'banner' | 'swipe';
   url: string;
-  createdAt: any;
+  createdAt: Date;
 };
 
 export type PartnerRequest = {
@@ -72,5 +72,5 @@ export type PartnerRequest = {
   userId: string;
   userEmail: string;
   status: 'pending' | 'approved' | 'rejected';
-  requestedAt: any;
+  requestedAt: Date;
 };

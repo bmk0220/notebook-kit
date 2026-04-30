@@ -192,7 +192,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
       if (error) throw new Error(error);
 
       window.location.href = url;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Stripe Checkout Error:", err);
       alert("Failed to initiate Stripe checkout. Please try again.");
       setProcessing(false);
@@ -366,6 +366,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                   });
                 }}
                 onApprove={async (data, actions) => {
+                  if (!user) return;
                   setProcessing(true);
                   const partnerCode = getPartnerCookie();
                   try {
@@ -374,8 +375,8 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
                         orderID: data.orderID,
-                        userId: user!.uid,
-                        userEmail: user!.email,
+                        userId: user.uid,
+                        userEmail: user.email,
                         kitId,
                         kitTitle,
                         partnerCode
@@ -387,9 +388,9 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
                       setIsOwner(true);
                       setShowPaymentTray(false);
                     } else {
-                      throw new Error(result.error);
+                      throw new Error(result.error || "Unknown error");
                     }
-                  } catch (err: any) {
+                  } catch (err: unknown) {
                     console.error("PayPal Capture Error:", err);
                     alert("Failed to verify payment. Please contact support.");
                   } finally {
