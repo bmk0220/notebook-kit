@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { NotebookIcon, Search, LogIn, LogOut, Loader2, ShieldCheck, Menu, X, LayoutDashboard } from 'lucide-react';
+import { NotebookIcon, Search, LogIn, LogOut, Loader2, ShieldCheck, Menu, X, LayoutDashboard, Briefcase } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 
@@ -44,6 +44,18 @@ export default function Header() {
                   The Forge
                 </Link>
               </>
+            )}
+            {(isAdmin || isPartner) && (
+              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+                <Briefcase className="h-3.5 w-3.5" />
+                Partner Portal
+              </Link>
+            )}
+            {!isAdmin && !isPartner && user && (
+              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+                <Briefcase className="h-3.5 w-3.5" />
+                Partner Program
+              </Link>
             )}
           </nav>
         </div>

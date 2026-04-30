@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 import { Loader2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
@@ -18,17 +18,76 @@ export default function PartnerDashboard() {
   const [generatedLink, setGeneratedLink] = useState("");
 
   useEffect(() => {
-    if (!loading && !isPartner && !isAdmin) {
-      router.push("/");
-    }
-  }, [loading, isPartner, isAdmin, router]);
+    // No longer auto-redirecting away from partner page for non-partners.
+    // We stay here to show the landing page.
+  }, []);
 
   useEffect(() => {
-    if (user?.email) {
+    if (user?.email && (isPartner || isAdmin)) {
       fetchData();
+    } else {
+      setFetching(false);
     }
-  }, [user]);
+  }, [user, isPartner, isAdmin]);
 
+  async function fetchData() {
+    try {
+      const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
+      const aQuery = collection(db, "marketing_assets");
+
+      const [pSnap, aSnap] = await Promise.all([
+        getDocs(pQuery),
+        getDocs(aQuery)
+      ]);
+
+      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    } catch (err) {
+      console.error("Error fetching partner data:", err);
+    } finally {
+      setFetching(false);
+    }
+  }
+
+  const handleRequest = async () => {
+    if (!user) return;
+    try {
+      await addDoc(collection(db, "partner_requests"), {
+        userId: user.uid,
+        userEmail: user.email,
+        status: "pending",
+        requestedAt: serverTimestamp(),
+      });
+      alert("Request submitted! We'll review your application soon.");
+    } catch (err) {
+      console.error("Error requesting partnership:", err);
+      alert("Failed to submit request.");
+    }
+  };
+...
+  if (loading || fetching) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!isPartner && !isAdmin) {
+    return (
+      <div className="max-w-3xl mx-auto py-20 text-center space-y-8">
+        <h1 className="text-5xl font-black tracking-tighter">Become a Notebook Kit Partner</h1>
+        <p className="text-xl text-muted-foreground">Join our affiliate program and earn 50% commission on every sale you drive. Access our exclusive partner resources and start earning today.</p>
+        <button onClick={handleRequest} className="px-8 py-4 bg-primary text-primary-foreground font-black text-lg rounded-full hover:scale-105 transition-transform shadow-xl shadow-primary/20">
+          Request Partnership Access
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+...
   async function fetchData() {
     try {
       const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
@@ -138,9 +197,20 @@ export default function PartnerDashboard() {
           </button>
         </div>
         {generatedLink && (
-          <div className="mt-4 p-4 bg-primary/10 rounded-xl border border-primary/20">
+          <div className="mt-4 p-4 bg-primary/10 rounded-xl border border-primary/20 space-y-2">
             <p className="text-xs font-bold text-muted-foreground uppercase">Your Referral Link:</p>
-            <code className="block mt-1 text-sm font-mono break-all text-primary">{generatedLink}</code>
+            <div className="flex items-center gap-2">
+              <code className="flex-1 text-sm font-mono break-all text-primary">{generatedLink}</code>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(generatedLink);
+                  alert("Link copied to clipboard!");
+                }}
+                className="px-4 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-lg hover:opacity-90"
+              >
+                Copy
+              </button>
+            </div>
           </div>
         )}
       </section>

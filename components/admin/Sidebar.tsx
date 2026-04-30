@@ -55,12 +55,14 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         { name: "Settings", href: "/admin/settings", icon: Settings, disabled: true },
       ]
     }] : []),
-    ...((isAdmin || isPartner) ? [{
+    // Partnership Section (Visible to everyone)
+    {
       title: "Partnership",
       links: [
-        { name: "Partner Portal", href: "/partner", icon: Briefcase },
+        { name: "Partner Program", href: "/partner", icon: Briefcase },
+        ...(isAdmin ? [{ name: "Partner Requests", href: "/admin/partners/requests", icon: Users }] : []),
       ]
-    }] : [])
+    }
   ];
 
   return (

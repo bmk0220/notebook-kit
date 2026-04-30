@@ -10,7 +10,8 @@ import {
   ArrowUpRight,
   Clock,
   ChevronRight,
-  Hammer
+  Hammer,
+  Briefcase
 } from "lucide-react";
 import { collection, query, orderBy, limit, getDocs, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -42,12 +43,14 @@ export default function AdminDashboard() {
         const kitsCount = await getCountFromServer(collection(db, "kits"));
         const usersCount = await getCountFromServer(collection(db, "users"));
         const requestsCount = await getCountFromServer(collection(db, "requests"));
+        const partnersCount = await getCountFromServer(query(collection(db, "users"), where("role", "==", "partner")));
 
         setStats({
           totalKits: kitsCount.data().count,
           totalUsers: usersCount.data().count,
           totalRequests: requestsCount.data().count,
-          activeForge: 0 // Placeholder
+          totalPartners: partnersCount.data().count,
+          activeForge: 0 
         });
 
         // Fetch Recent Kits
@@ -100,12 +103,11 @@ export default function AdminDashboard() {
           href="/admin/requests"
         />
         <StatsCard 
-          label="Revenue" 
-          value="$0.00" 
-          icon={DollarSign} 
-          trend="Alpha" 
-          className="opacity-80"
-          href="/admin/analytics"
+          label="Partners" 
+          value={stats.totalPartners} 
+          icon={Briefcase} 
+          trend="Active" 
+          href="/admin/partners"
         />
       </div>
 
