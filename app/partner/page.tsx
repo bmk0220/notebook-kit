@@ -202,9 +202,9 @@ export default function PartnerDashboard() {
         )}
       </section>
 
-      {/* Asset Vault */}
+      {/* Marketing Materials */}
       <section className="p-6 rounded-2xl bg-card border border-border space-y-4">
-        <h2 className="text-xl font-black">Creative Asset Vault</h2>
+        <h2 className="text-xl font-black">Marketing Materials</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {assets.length === 0 ? (
             <p className="text-sm text-muted-foreground">No assets currently available.</p>
