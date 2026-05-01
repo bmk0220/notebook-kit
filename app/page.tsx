@@ -51,8 +51,8 @@ export default function Home() {
           return dateB.localeCompare(dateA);
         });
 
-        // Limit to 3 for the featured section
-        setKits(sortedKits.slice(0, 3));
+        // Limit to 5 for the featured section
+        setKits(sortedKits.slice(0, 5));
       } catch (error) {
         console.error("Error fetching kits:", error);
       } finally {
