@@ -16,6 +16,8 @@ export default function PartnerDashboard() {
   const [inputUrl, setInputUrl] = useState("");
   const [linkHistory, setLinkHistory] = useState<string[]>([]);
   const [hasPendingRequest, setHasPendingRequest] = useState(false);
+  const [payoutRequests, setPayoutRequests] = useState<any[]>([]);
+  const [requestingPayout, setRequestingPayout] = useState(false);
 
   useEffect(() => {
     // Load history from localStorage only on client
@@ -57,6 +59,14 @@ export default function PartnerDashboard() {
       console.error("Error fetching marketing assets:", err);
     }
 
+    try {
+      const prQuery = query(collection(db, "payout_requests"), where("userEmail", "==", user?.email));
+      const prSnap = await getDocs(prQuery);
+      setPayoutRequests(prSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    } catch (err) {
+      console.error("Error fetching payout requests:", err);
+    }
+
     setHasPendingRequest(!reqEmpty);
     setFetching(false);
   }
@@ -75,6 +85,33 @@ export default function PartnerDashboard() {
     } catch (err) {
       console.error("Error requesting partnership:", err);
       alert("Failed to submit request.");
+    }
+  };
+
+  const totalEarnings = payments.reduce((sum, p) => sum + (p.amount * 0.5), 0);
+  const totalPaidOut = payoutRequests.filter(r => r.status === 'completed').reduce((sum, r) => sum + r.amount, 0);
+  const totalPending = payoutRequests.filter(r => r.status === 'pending').reduce((sum, r) => sum + r.amount, 0);
+  const availableBalance = totalEarnings - totalPaidOut - totalPending;
+  const hasPendingPayout = payoutRequests.some(r => r.status === 'pending');
+
+  const handlePayoutRequest = async () => {
+    if (!user || availableBalance < 35 || hasPendingPayout) return;
+    setRequestingPayout(true);
+    try {
+      await addDoc(collection(db, "payout_requests"), {
+        userId: user.uid,
+        userEmail: user.email,
+        amount: availableBalance,
+        status: "pending",
+        requestedAt: serverTimestamp(),
+      });
+      alert("Payout request submitted successfully!");
+      fetchData(); // refresh
+    } catch (err) {
+      console.error("Error submitting payout request:", err);
+      alert("Failed to submit payout request.");
+    } finally {
+      setRequestingPayout(false);
     }
   };
 
@@ -132,16 +169,46 @@ export default function PartnerDashboard() {
       </header>
 
       {/* Metrics Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="p-6 rounded-2xl bg-card border border-border">
-          <h3 className="font-bold">Total Earnings</h3>
-          <p className="text-4xl font-black mt-2">
-            ${payments.reduce((sum, p) => sum + (p.amount * 0.5), 0).toFixed(2)}
+          <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Total Earnings</h3>
+          <p className="text-3xl font-black mt-2">
+            ${totalEarnings.toFixed(2)}
           </p>
         </div>
+        
+        <div className="p-6 rounded-2xl bg-card border border-primary/20 bg-primary/5">
+          <h3 className="font-bold text-sm text-primary uppercase tracking-wider">Available Balance</h3>
+          <p className="text-3xl font-black mt-2 text-primary">
+            ${availableBalance.toFixed(2)}
+          </p>
+          <div className="mt-4">
+            <button 
+              onClick={handlePayoutRequest}
+              disabled={requestingPayout || hasPendingPayout || availableBalance < 35}
+              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm transition-all ${
+                hasPendingPayout ? 'bg-warning/20 text-warning cursor-not-allowed' :
+                availableBalance < 35 ? 'bg-muted text-muted-foreground cursor-not-allowed' :
+                'bg-primary text-primary-foreground shadow-lg hover:scale-[1.02]'
+              }`}
+            >
+              {requestingPayout ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> :
+               hasPendingPayout ? "Payout Pending" : 
+               availableBalance < 35 ? "Min $35 to Payout" : "Request Payout"}
+            </button>
+          </div>
+        </div>
+
         <div className="p-6 rounded-2xl bg-card border border-border">
-          <h3 className="font-bold">Total Sales</h3>
-          <p className="text-4xl font-black mt-2">{payments.length}</p>
+          <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Total Paid Out</h3>
+          <p className="text-3xl font-black mt-2 text-green-500">
+            ${totalPaidOut.toFixed(2)}
+          </p>
+        </div>
+
+        <div className="p-6 rounded-2xl bg-card border border-border">
+          <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Total Sales</h3>
+          <p className="text-3xl font-black mt-2">{payments.length}</p>
         </div>
       </section>
 

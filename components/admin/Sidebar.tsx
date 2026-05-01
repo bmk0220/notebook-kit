@@ -60,7 +60,10 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         title: "Partnership",
         links: [
         { name: "Partner Program", href: "/partner", icon: Briefcase },
-        ...(isAdmin ? [{ name: "Partner Requests", href: "/admin/partners/requests", icon: Users }] : []),
+        ...(isAdmin ? [
+          { name: "Partner Requests", href: "/admin/partners/requests", icon: Users },
+          { name: "Payout Requests", href: "/admin/payouts", icon: CreditCard }
+        ] : []),
         ]
         }
         ];

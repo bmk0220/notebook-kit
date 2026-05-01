@@ -57,5 +57,11 @@ service cloud.firestore {
       allow write: if isAdmin();
       allow create: if isSignedIn();
     }
+
+    match /payout_requests/{docId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.userEmail == request.auth.token.email);
+      allow create: if isSignedIn() && request.resource.data.userEmail == request.auth.token.email;
+      allow update, delete: if isAdmin();
+    }
   }
 }
