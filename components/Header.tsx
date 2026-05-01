@@ -28,31 +28,31 @@ export default function Header() {
             </div>
             <span className="text-xl font-bold tracking-tight">Notebook <span className="text-primary italic">Kit</span></span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 ml-10 text-sm font-medium">
-            <Link href="/marketplace" className="transition-colors hover:text-primary">Marketplace</Link>
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-6 xl:ml-10 text-sm font-medium">
+            <Link href="/marketplace" className="transition-colors hover:text-primary whitespace-nowrap">Marketplace</Link>
             {user && (
-              <Link href="/kits" className="transition-colors hover:text-primary font-bold">My Kits</Link>
+              <Link href="/kits" className="transition-colors hover:text-primary font-bold whitespace-nowrap">My Kits</Link>
             )}
             {isAdmin && (
               <>
-                <Link href="/admin" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+                <Link href="/admin" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
                   <LayoutDashboard className="h-3.5 w-3.5" />
                   Admin
                 </Link>
-                <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1">
+                <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1 whitespace-nowrap">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   The Forge
                 </Link>
               </>
             )}
             {(isAdmin || isPartner) && (
-              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
                 <Briefcase className="h-3.5 w-3.5" />
                 Partner Portal
               </Link>
             )}
             {!isAdmin && !isPartner && user && (
-              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold">
+              <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
                 <Briefcase className="h-3.5 w-3.5" />
                 Partner Program
               </Link>
@@ -61,7 +61,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="relative hidden lg:block">
+          <div className="relative hidden xl:block">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
@@ -105,7 +105,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
             onClick={toggleMenu}
             aria-label="Toggle Menu"
           >
@@ -116,7 +116,7 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur animate-in slide-in-from-top-4 duration-200">
+        <div className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur animate-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col p-4 space-y-4 text-sm font-medium">
             <Link 
               href="/marketplace" 
@@ -153,6 +153,26 @@ export default function Header() {
                   The Forge
                 </Link>
               </>
+            )}
+            {(isAdmin || isPartner) && (
+              <Link 
+                href="/partner" 
+                className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 font-bold"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Briefcase className="h-5 w-5" />
+                Partner Portal
+              </Link>
+            )}
+            {!isAdmin && !isPartner && user && (
+              <Link 
+                href="/partner" 
+                className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 font-bold text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Briefcase className="h-5 w-5" />
+                Partner Program
+              </Link>
             )}
             <div className="border-t border-border/40 pt-4 mt-2">
               {user ? (
