@@ -29,21 +29,15 @@ export default function Header() {
             <span className="text-xl font-bold tracking-tight">Notebook <span className="text-primary italic">Kit</span></span>
           </Link>
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-6 xl:ml-10 text-sm font-medium">
-            <Link href="/marketplace" className="transition-colors hover:text-primary whitespace-nowrap">Marketplace</Link>
+            <Link href="/marketplace" className="transition-colors hover:text-primary font-bold whitespace-nowrap">Marketplace</Link>
             {user && (
               <Link href="/kits" className="transition-colors hover:text-primary font-bold whitespace-nowrap">My Kits</Link>
             )}
             {isAdmin && (
-              <>
-                <Link href="/admin" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
-                  <LayoutDashboard className="h-3.5 w-3.5" />
-                  Admin
-                </Link>
-                <Link href="/admin/forge" className="transition-colors hover:text-primary underline decoration-primary underline-offset-4 decoration-2 flex items-center gap-1 whitespace-nowrap">
-                  <ShieldCheck className="h-3.5 w-3.5" />
-                  The Forge
-                </Link>
-              </>
+              <Link href="/admin" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
+                <LayoutDashboard className="h-3.5 w-3.5" />
+                Admin
+              </Link>
             )}
             {(isAdmin || isPartner) && (
               <Link href="/partner" className="transition-colors hover:text-primary flex items-center gap-1 font-bold whitespace-nowrap">
@@ -120,7 +114,7 @@ export default function Header() {
           <nav className="flex flex-col p-4 space-y-4 text-sm font-medium">
             <Link 
               href="/marketplace" 
-              className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3"
+              className="px-4 py-3 rounded-xl hover:bg-muted transition-colors font-bold flex items-center gap-3"
               onClick={() => setIsMenuOpen(false)}
             >
               Marketplace
@@ -135,24 +129,14 @@ export default function Header() {
               </Link>
             )}
             {isAdmin && (
-              <>
-                <Link 
-                  href="/admin" 
-                  className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 font-bold text-primary"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LayoutDashboard className="h-5 w-5" />
-                  Admin Dashboard
-                </Link>
-                <Link 
-                  href="/admin/forge" 
-                  className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 text-primary/80"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <ShieldCheck className="h-5 w-5" />
-                  The Forge
-                </Link>
-              </>
+              <Link 
+                href="/admin" 
+                className="px-4 py-3 rounded-xl hover:bg-muted transition-colors flex items-center gap-3 font-bold text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                Admin Dashboard
+              </Link>
             )}
             {(isAdmin || isPartner) && (
               <Link 
