@@ -32,25 +32,33 @@ export default function PartnerDashboard() {
   }, [user]);
 
   async function fetchData() {
+    let reqEmpty = true;
+    try {
+      const reqQuery = query(collection(db, "partner_requests"), where("userEmail", "==", user?.email), where("status", "==", "pending"));
+      const reqSnap = await getDocs(reqQuery);
+      reqEmpty = reqSnap.empty;
+    } catch (err) {
+      console.error("Error fetching partner requests:", err);
+    }
+
     try {
       const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
-      const aQuery = collection(db, "marketing_assets");
-      const reqQuery = query(collection(db, "partner_requests"), where("userEmail", "==", user?.email), where("status", "==", "pending"));
-
-      const [pSnap, aSnap, reqSnap] = await Promise.all([
-        getDocs(pQuery),
-        getDocs(aQuery),
-        getDocs(reqQuery)
-      ]);
-
+      const pSnap = await getDocs(pQuery);
       setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment)));
-      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
-      setHasPendingRequest(!reqSnap.empty);
     } catch (err) {
-      console.error("Error fetching partner data:", err);
-    } finally {
-      setFetching(false);
+      console.error("Error fetching partner payments:", err);
     }
+
+    try {
+      const aQuery = collection(db, "marketing_assets");
+      const aSnap = await getDocs(aQuery);
+      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
+    } catch (err) {
+      console.error("Error fetching marketing assets:", err);
+    }
+
+    setHasPendingRequest(!reqEmpty);
+    setFetching(false);
   }
 
   const handleRequest = async () => {
@@ -73,7 +81,11 @@ export default function PartnerDashboard() {
   const handleGenerate = () => {
     if (!inputUrl) return;
     try {
-      const url = new URL(inputUrl);
+      let urlStr = inputUrl;
+      if (!urlStr.startsWith('http://') && !urlStr.startsWith('https://')) {
+        urlStr = 'https://' + urlStr;
+      }
+      const url = new URL(urlStr);
       // For Admin, use their email or a fallback identifier if needed, 
       // ensuring consistency for referral tracking.
       const refId = user?.email || "";
@@ -83,6 +95,7 @@ export default function PartnerDashboard() {
       const newHistory = [newLink, ...linkHistory.filter(l => l !== newLink)].slice(0, 5);
       setLinkHistory(newHistory);
       localStorage.setItem("referralLinkHistory", JSON.stringify(newHistory));
+      setInputUrl(""); // Clear input on success
     } catch {
       alert("Please enter a valid URL");
     }
