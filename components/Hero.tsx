@@ -1,4 +1,4 @@
-import { Sparkles, ShoppingCart, MessageSquarePlus } from 'lucide-react';
+import { Sparkles, Binoculars } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -24,15 +24,9 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/kits/custom">
-            <button className="h-12 px-8 rounded-full bg-primary text-primary-foreground font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2">
-              <MessageSquarePlus className="h-5 w-5" />
-              Request a Kit
-            </button>
-          </Link>
           <Link href="/marketplace">
-            <button className="h-12 px-8 rounded-full border border-border bg-background/50 backdrop-blur font-bold text-lg hover:bg-muted/50 transition-all flex items-center gap-2">
-              <ShoppingCart className="h-5 w-5" />
+            <button className="h-12 px-8 rounded-full bg-[#d54d69] text-white shadow-lg shadow-[#d54d69]/20 font-bold text-lg hover:scale-105 hover:bg-[#bd435c] transition-all active:scale-95 flex items-center gap-2">
+              <Binoculars className="h-5 w-5" />
               Explore Marketplace
             </button>
           </Link>
