@@ -46,7 +46,13 @@ export default function PartnerDashboard() {
     try {
       const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
       const pSnap = await getDocs(pQuery);
-      setPayments(pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment)));
+      const fetchedPayments = pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+      fetchedPayments.sort((a, b) => {
+        const timeA = (a.createdAt as any)?.toDate ? (a.createdAt as any).toDate().getTime() : new Date((a.createdAt as any) || 0).getTime();
+        const timeB = (b.createdAt as any)?.toDate ? (b.createdAt as any).toDate().getTime() : new Date((b.createdAt as any) || 0).getTime();
+        return timeB - timeA;
+      });
+      setPayments(fetchedPayments);
     } catch (err) {
       console.error("Error fetching partner payments:", err);
     }
