@@ -26,13 +26,8 @@ export default function PartnerRequests() {
   async function handleAction(request: PartnerRequest, status: 'approved' | 'rejected') {
     try {
       if (status === 'approved') {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("email", "==", request.userEmail));
-        const userSnapshot = await getDocs(q);
-        
-        if (!userSnapshot.empty) {
-          await updateDoc(doc(db, "users", userSnapshot.docs[0].id), { role: "partner" });
-        }
+        // Use userId directly as it's the document ID in the users collection
+        await updateDoc(doc(db, "users", request.userId), { role: "partner" });
       }
       
       await updateDoc(doc(db, "partner_requests", request.id), { status });
