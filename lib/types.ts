@@ -57,6 +57,7 @@ export type UserProfile = {
   role: UserRole;
   createdAt: Date;
   lastLogin?: Date;
+  partnerCode?: string;
 };
 
 export type MarketingAsset = {

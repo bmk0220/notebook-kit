@@ -9,7 +9,7 @@ import { formatDate } from "@/lib/utils";
 import { Payment, MarketingAsset } from "@/lib/types";
 
 export default function PartnerDashboard() {
-  const { user, isPartner, isAdmin, loading } = useAuth();
+  const { user, profile, isPartner, isAdmin, loading } = useAuth();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [assets, setAssets] = useState<MarketingAsset[]>([]);
   const [fetching, setFetching] = useState(true);
@@ -31,7 +31,7 @@ export default function PartnerDashboard() {
     } else {
       setFetching(false);
     }
-  }, [user]);
+  }, [user, profile]);
 
   async function fetchData() {
     let reqEmpty = true;
@@ -44,9 +44,29 @@ export default function PartnerDashboard() {
     }
 
     try {
-      const pQuery = query(collection(db, "payments"), where("partnerId", "==", user?.email));
-      const pSnap = await getDocs(pQuery);
-      const fetchedPayments = pSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+      // Query by email
+      const pQueryEmail = query(collection(db, "payments"), where("partnerId", "==", user?.email));
+      const pSnapEmail = await getDocs(pQueryEmail);
+      let fetchedPayments = pSnapEmail.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+
+      // Query by partnerCode if it exists
+      if (profile?.partnerCode) {
+        try {
+          const pQueryCode = query(collection(db, "payments"), where("partnerId", "==", profile.partnerCode));
+          const pSnapCode = await getDocs(pQueryCode);
+          const codePayments = pSnapCode.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+
+          // Merge and remove duplicates
+          codePayments.forEach(cp => {
+            if (!fetchedPayments.some(fp => fp.id === cp.id)) {
+              fetchedPayments.push(cp);
+            }
+          });
+        } catch (err) {
+          console.error("Error fetching payments by partner code:", err);
+        }
+      }
+
       fetchedPayments.sort((a, b) => {
         const timeA = (a.createdAt as any)?.toDate ? (a.createdAt as any).toDate().getTime() : new Date((a.createdAt as any) || 0).getTime();
         const timeB = (b.createdAt as any)?.toDate ? (b.createdAt as any).toDate().getTime() : new Date((b.createdAt as any) || 0).getTime();
@@ -55,6 +75,7 @@ export default function PartnerDashboard() {
       setPayments(fetchedPayments);
     } catch (err) {
       console.error("Error fetching partner payments:", err);
+      setPayments([]);
     }
 
     try {
@@ -63,6 +84,7 @@ export default function PartnerDashboard() {
       setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
     } catch (err) {
       console.error("Error fetching marketing assets:", err);
+      setAssets([]);
     }
 
     try {
@@ -71,6 +93,7 @@ export default function PartnerDashboard() {
       setPayoutRequests(prSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     } catch (err) {
       console.error("Error fetching payout requests:", err);
+      setPayoutRequests([]);
     }
 
     setHasPendingRequest(!reqEmpty);
@@ -129,12 +152,11 @@ export default function PartnerDashboard() {
         urlStr = 'https://' + urlStr;
       }
       const url = new URL(urlStr);
-      // For Admin, use their email or a fallback identifier if needed, 
-      // ensuring consistency for referral tracking.
-      const refId = user?.email || "";
+      // Use partnerCode if available, otherwise fallback to email
+      const refId = profile?.partnerCode || user?.email || "";
       url.searchParams.set("ref", refId);
       const newLink = url.toString();
-      
+
       const newHistory = [newLink, ...linkHistory.filter(l => l !== newLink)].slice(0, 5);
       setLinkHistory(newHistory);
       localStorage.setItem("referralLinkHistory", JSON.stringify(newHistory));
@@ -182,7 +204,7 @@ export default function PartnerDashboard() {
             ${totalEarnings.toFixed(2)}
           </p>
         </div>
-        
+
         <div className="p-6 rounded-2xl bg-card border border-primary/20 bg-primary/5">
           <h3 className="font-bold text-sm text-primary uppercase tracking-wider">Available Balance</h3>
           <p className="text-3xl font-black mt-2 text-primary">
@@ -268,7 +290,7 @@ export default function PartnerDashboard() {
             Generate Link
           </button>
         </div>
-        
+
         {/* Recent History */}
         {linkHistory.length > 0 && (
           <div className="mt-6 space-y-2">
@@ -308,3 +330,4 @@ export default function PartnerDashboard() {
     </div>
   );
 }
+

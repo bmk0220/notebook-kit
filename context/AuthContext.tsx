@@ -17,6 +17,7 @@ const ADMIN_EMAIL = "admin@notebookkit.com";
 
 interface AuthContextType {
   user: User | null;
+  profile: any | null;
   loading: boolean;
   isAdmin: boolean;
   isPartner: boolean;
@@ -30,6 +31,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [isPartner, setIsPartner] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -39,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(u);
       
       if (!u) {
+        setProfile(null);
         setIsPartner(false);
         setIsAdmin(false);
         setLoading(false);
@@ -50,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const unsubUser = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
+          setProfile(data);
           const role = data.role;
           setIsPartner(role === "partner");
           setIsAdmin(role === "admin" || u.email === ADMIN_EMAIL);
@@ -107,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin, isPartner, loginWithEmail, signupWithEmail, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, profile, loading, isAdmin, isPartner, loginWithEmail, signupWithEmail, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
