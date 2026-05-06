@@ -43,57 +43,59 @@ export default function PartnerDashboard() {
       console.error("Error fetching partner requests:", err);
     }
 
-    try {
-      // Query by email
-      const pQueryEmail = query(collection(db, "payments"), where("partnerId", "==", user?.email));
-      const pSnapEmail = await getDocs(pQueryEmail);
-      let fetchedPayments = pSnapEmail.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+    if (isPartner || isAdmin) {
+      try {
+        // Query by email
+        const pQueryEmail = query(collection(db, "payments"), where("partnerId", "==", user?.email));
+        const pSnapEmail = await getDocs(pQueryEmail);
+        let fetchedPayments = pSnapEmail.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
 
-      // Query by partnerCode if it exists
-      if (profile?.partnerCode) {
-        try {
-          const pQueryCode = query(collection(db, "payments"), where("partnerId", "==", profile.partnerCode));
-          const pSnapCode = await getDocs(pQueryCode);
-          const codePayments = pSnapCode.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
+        // Query by partnerCode if it exists
+        if (profile?.partnerCode) {
+          try {
+            const pQueryCode = query(collection(db, "payments"), where("partnerId", "==", profile.partnerCode));
+            const pSnapCode = await getDocs(pQueryCode);
+            const codePayments = pSnapCode.docs.map(doc => ({ id: doc.id, ...doc.data() } as Payment));
 
-          // Merge and remove duplicates
-          codePayments.forEach(cp => {
-            if (!fetchedPayments.some(fp => fp.id === cp.id)) {
-              fetchedPayments.push(cp);
-            }
-          });
-        } catch (err) {
-          console.error("Error fetching payments by partner code:", err);
+            // Merge and remove duplicates
+            codePayments.forEach(cp => {
+              if (!fetchedPayments.some(fp => fp.id === cp.id)) {
+                fetchedPayments.push(cp);
+              }
+            });
+          } catch (err) {
+            console.error("Error fetching payments by partner code:", err);
+          }
         }
+
+        fetchedPayments.sort((a, b) => {
+          const timeA = (a.createdAt as any)?.toDate ? (a.createdAt as any).toDate().getTime() : new Date((a.createdAt as any) || 0).getTime();
+          const timeB = (b.createdAt as any)?.toDate ? (b.createdAt as any).toDate().getTime() : new Date((b.createdAt as any) || 0).getTime();
+          return timeB - timeA;
+        });
+        setPayments(fetchedPayments);
+      } catch (err) {
+        console.error("Error fetching partner payments:", err);
+        setPayments([]);
       }
 
-      fetchedPayments.sort((a, b) => {
-        const timeA = (a.createdAt as any)?.toDate ? (a.createdAt as any).toDate().getTime() : new Date((a.createdAt as any) || 0).getTime();
-        const timeB = (b.createdAt as any)?.toDate ? (b.createdAt as any).toDate().getTime() : new Date((b.createdAt as any) || 0).getTime();
-        return timeB - timeA;
-      });
-      setPayments(fetchedPayments);
-    } catch (err) {
-      console.error("Error fetching partner payments:", err);
-      setPayments([]);
-    }
+      try {
+        const aQuery = collection(db, "marketing_assets");
+        const aSnap = await getDocs(aQuery);
+        setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
+      } catch (err) {
+        console.error("Error fetching marketing assets:", err);
+        setAssets([]);
+      }
 
-    try {
-      const aQuery = collection(db, "marketing_assets");
-      const aSnap = await getDocs(aQuery);
-      setAssets(aSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as MarketingAsset)));
-    } catch (err) {
-      console.error("Error fetching marketing assets:", err);
-      setAssets([]);
-    }
-
-    try {
-      const prQuery = query(collection(db, "payout_requests"), where("userEmail", "==", user?.email));
-      const prSnap = await getDocs(prQuery);
-      setPayoutRequests(prSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    } catch (err) {
-      console.error("Error fetching payout requests:", err);
-      setPayoutRequests([]);
+      try {
+        const prQuery = query(collection(db, "payout_requests"), where("userEmail", "==", user?.email));
+        const prSnap = await getDocs(prQuery);
+        setPayoutRequests(prSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } catch (err) {
+        console.error("Error fetching payout requests:", err);
+        setPayoutRequests([]);
+      }
     }
 
     setHasPendingRequest(!reqEmpty);
