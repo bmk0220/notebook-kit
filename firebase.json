@@ -18,10 +18,20 @@
     "frameworksBackend": {
       "region": "us-central1"
     },
+    "predeploy": [
+      "powershell -Command \"Remove-Item -Recurse -Force .next/cache -ErrorAction SilentlyContinue\""
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "plans/**",
+      "media/**",
+      "scratch/**",
+      "*.md",
+      "implementation_plan.md",
+      "task.md",
+      "walkthrough.md"
     ]
   },
   "auth": {

@@ -25,7 +25,7 @@ function loadServiceAccount(): admin.ServiceAccount | null {
   return null;
 }
 
-function initializeApp(): admin.app.App {
+function getApp(): admin.app.App {
   if (admin.apps.length > 0) {
     return admin.apps[0]!;
   }
@@ -63,7 +63,23 @@ function initializeApp(): admin.app.App {
   return app;
 }
 
-const app = initializeApp();
-export const adminDb = admin.firestore(app);
-export const adminAuth = admin.auth(app);
+// Lazy getters — initialization only happens on first access, not at import time
+export const adminDb = new Proxy({} as admin.firestore.Firestore, {
+  get(_target, prop) {
+    return Reflect.get(admin.firestore(getApp()), prop);
+  },
+});
+
+export const adminAuth = new Proxy({} as admin.auth.Auth, {
+  get(_target, prop) {
+    return Reflect.get(admin.auth(getApp()), prop);
+  },
+});
+
+export const adminStorage = new Proxy({} as admin.storage.Storage, {
+  get(_target, prop) {
+    return Reflect.get(admin.storage(getApp()), prop);
+  },
+});
+
 export { admin };
