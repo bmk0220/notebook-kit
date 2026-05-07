@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { NotebookIcon, Mail, Lock, Globe, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 function LoginForm() {
   const { loginWithEmail, signupWithEmail, loginWithGoogle } = useAuth();
@@ -64,9 +65,13 @@ function LoginForm() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="bg-primary p-2 rounded-xl shadow-lg">
-              <NotebookIcon className="h-7 w-7 text-primary-foreground" />
-            </div>
+            <Image 
+              src="/logo.svg" 
+              alt="Notebook Kit Logo" 
+              width={40} 
+              height={40} 
+              className="h-10 w-auto"
+            />
             <span className="text-2xl font-bold tracking-tight">
               Notebook <span className="text-primary italic">Kit</span>
             </span>

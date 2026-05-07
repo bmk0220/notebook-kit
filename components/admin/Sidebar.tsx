@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
@@ -10,15 +11,15 @@ import {
   MessageSquare, 
   BookOpen, 
   LogOut,
-  NotebookIcon,
   ChevronRight,
   Tags,
   CreditCard,
   Briefcase,
-  ImageIcon
+  ImageIcon,
+  NotebookIcon
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { cn } from '@/lib/utils'; // I will check if this exists or create it
+import { cn } from '@/lib/utils';
 
 export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
@@ -73,9 +74,13 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       {/* Logo Section */}
       <div className="p-6 border-b border-border/50">
         <Link href="/" className="flex items-center gap-2">
-          <div className="bg-primary p-1.5 rounded-lg shadow-sm">
-            <NotebookIcon className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <Image 
+            src="/logo.svg" 
+            alt="Notebook Kit Logo" 
+            width={24} 
+            height={24} 
+            className="h-6 w-auto"
+          />
           <span className="text-lg font-bold tracking-tight">Admin <span className="text-primary italic">Panel</span></span>
         </Link>
       </div>

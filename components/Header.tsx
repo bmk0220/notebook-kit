@@ -1,8 +1,9 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { NotebookIcon, Search, LogIn, LogOut, Loader2, ShieldCheck, Menu, X, LayoutDashboard, Briefcase } from 'lucide-react';
+import { Search, LogIn, LogOut, Loader2, ShieldCheck, Menu, X, LayoutDashboard, Briefcase } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 
@@ -23,9 +24,14 @@ export default function Header() {
       <div className="container flex h-16 max-w-7xl items-center justify-between mx-auto px-4">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-primary p-1.5 rounded-lg shadow-sm">
-              <NotebookIcon className="h-6 w-6 text-primary-foreground" />
-            </div>
+            <Image 
+              src="/logo.svg" 
+              alt="Notebook Kit Logo" 
+              width={32} 
+              height={32} 
+              className="h-8 w-auto"
+              priority
+            />
             <span className="text-xl font-bold tracking-tight">Notebook <span className="text-primary italic">Kit</span></span>
           </Link>
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-6 xl:ml-10 text-sm font-medium">
