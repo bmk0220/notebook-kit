@@ -73,7 +73,7 @@ function LoginForm() {
               className="h-10 w-auto"
             />
             <span className="text-2xl font-bold tracking-tight">
-              Notebook <span className="text-primary italic">Kit</span>
+              <span className="text-[#883143]">Notebook</span> <span className="text-primary italic">Kit</span>
             </span>
           </Link>
           <h1 className="text-3xl font-extrabold tracking-tight">

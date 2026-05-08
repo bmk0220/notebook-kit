@@ -32,7 +32,9 @@ export default function Header() {
               className="h-8 w-auto"
               priority
             />
-            <span className="text-xl font-bold tracking-tight">Notebook <span className="text-primary italic">Kit</span></span>
+            <span className="text-xl font-bold tracking-tight">
+              <span className="text-[#883143]">Notebook</span> <span className="text-primary italic">Kit</span>
+            </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-6 xl:ml-10 text-sm font-medium">
             <Link href="/marketplace" className="transition-colors hover:text-primary font-bold whitespace-nowrap">Marketplace</Link>
