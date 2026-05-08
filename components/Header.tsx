@@ -27,10 +27,9 @@ export default function Header() {
             <Image 
               src="/logo.svg" 
               alt="Notebook Kit Logo" 
-              width={32} 
-              height={32} 
-              className="h-8 w-auto"
-              style={{ width: 'auto' }}
+              width={1844} 
+              height={1984} 
+              style={{ height: '32px', width: 'auto' }}
               priority
             />
             <span className="text-xl font-bold tracking-tight">

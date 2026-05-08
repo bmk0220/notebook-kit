@@ -68,10 +68,9 @@ function LoginForm() {
             <Image 
               src="/logo.svg" 
               alt="Notebook Kit Logo" 
-              width={40} 
-              height={40} 
-              className="h-10 w-auto"
-              style={{ width: 'auto' }}
+              width={1844} 
+              height={1984} 
+              style={{ height: '40px', width: 'auto' }}
             />
             <span className="text-2xl font-bold tracking-tight">
               <span className="text-[#883143]">Notebook</span> <span className="text-primary">Kit</span>

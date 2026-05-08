@@ -77,10 +77,9 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
           <Image 
             src="/logo.svg" 
             alt="Notebook Kit Logo" 
-            width={24} 
-            height={24} 
-            className="h-6 w-auto"
-            style={{ width: 'auto' }}
+            width={1844} 
+            height={1984} 
+            style={{ height: '24px', width: 'auto' }}
           />
           <span className="text-lg font-bold tracking-tight">Admin <span className="text-primary italic">Panel</span></span>
         </Link>
