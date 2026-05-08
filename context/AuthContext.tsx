@@ -13,7 +13,6 @@ import {
 import { auth, db } from "@/lib/firebase";
 import { doc, setDoc, serverTimestamp, getDoc, onSnapshot } from "firebase/firestore";
 
-const ADMIN_EMAIL = "admin@notebookkit.com";
 
 interface AuthContextType {
   user: User | null;
@@ -56,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setProfile(data);
           const role = data.role;
           setIsPartner(role === "partner");
-          setIsAdmin(role === "admin" || u.email === ADMIN_EMAIL);
+          setIsAdmin(role === "admin");
         } else {
           // If doc doesn't exist, try to sync initial data
           syncUserToFirestore(u);
@@ -75,11 +74,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userRef = doc(db, "users", u.uid);
       const userDoc = await getDoc(userRef);
       
-      const role = u.email === ADMIN_EMAIL ? "admin" : (userDoc.exists() ? userDoc.data()?.role : "user");
+      // Never automatically grant roles based on email strings in production.
+      // If the doc doesn't exist, we default to "user".
+      // If it exists, we preserve the existing role.
+      const existingRole = userDoc.exists() ? userDoc.data()?.role : "user";
       
       const userData: any = {
         email: u.email,
-        role: role || "user",
+        role: existingRole || "user",
         lastLogin: serverTimestamp(),
       };
 
