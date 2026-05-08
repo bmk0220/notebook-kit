@@ -25,7 +25,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
             <Image 
-              src="/logo.png" 
+              src="/logo.svg" 
               alt="Notebook Kit Logo" 
               width={32} 
               height={32} 

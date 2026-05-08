@@ -75,7 +75,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       <div className="p-6 border-b border-border/50">
         <Link href="/" className="flex items-center gap-2">
           <Image 
-            src="/logo.png" 
+            src="/logo.svg" 
             alt="Notebook Kit Logo" 
             width={24} 
             height={24} 
