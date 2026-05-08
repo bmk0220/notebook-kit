@@ -71,9 +71,10 @@ function LoginForm() {
               width={40} 
               height={40} 
               className="h-10 w-auto"
+              style={{ width: 'auto' }}
             />
             <span className="text-2xl font-bold tracking-tight">
-              <span className="text-[#883143]">Notebook</span> <span className="text-primary italic">Kit</span>
+              <span className="text-[#883143]">Notebook</span> <span className="text-primary">Kit</span>
             </span>
           </Link>
           <h1 className="text-3xl font-extrabold tracking-tight">

@@ -117,7 +117,7 @@ export default function CustomRequestPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
-                Custom <span className="text-primary italic">Kit</span> Request
+                Custom <span className="text-primary">Kit</span> Request
               </h1>
               <p className="text-muted-foreground font-medium mt-2">
                 Need something specific? Tell us what you are looking for and we will build it.

@@ -30,10 +30,11 @@ export default function Header() {
               width={32} 
               height={32} 
               className="h-8 w-auto"
+              style={{ width: 'auto' }}
               priority
             />
             <span className="text-xl font-bold tracking-tight">
-              <span className="text-[#883143]">Notebook</span> <span className="text-primary italic">Kit</span>
+              <span className="text-[#883143]">Notebook</span> <span className="text-primary">Kit</span>
             </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-6 xl:ml-10 text-sm font-medium">

@@ -80,6 +80,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
             width={24} 
             height={24} 
             className="h-6 w-auto"
+            style={{ width: 'auto' }}
           />
           <span className="text-lg font-bold tracking-tight">Admin <span className="text-primary italic">Panel</span></span>
         </Link>
