@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   description: "Discover and collect professional NotebookLM-ready source kits.",
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/logo.png', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-icon.svg', type: 'image/svg+xml' },
+      { url: '/logo.png', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -27,19 +27,19 @@ export const metadata: Metadata = {
     siteName: 'Notebook Kit',
     images: [
       {
-        url: '/opengraph-image.svg',
-        width: 1200,
-        height: 630,
+        url: '/logo.png',
+        width: 512,
+        height: 512,
       },
     ],
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: "Notebook Kit | AI Knowledge Marketplace",
     description: "Discover and collect professional NotebookLM-ready source kits.",
-    images: ['/twitter-image.svg'],
+    images: ['/logo.png'],
   },
 };
 

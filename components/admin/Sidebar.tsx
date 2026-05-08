@@ -80,11 +80,12 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       <div className="p-6 border-b border-border/50">
         <Link href="/" className="flex items-center gap-2">
           <Image 
-            src="/logo.svg" 
+            src="/logo.png" 
             alt="Notebook Kit Logo" 
-            width={1844} 
-            height={1984} 
-            style={{ height: '24px', width: 'auto' }}
+            width={512} 
+            height={512} 
+            style={{ height: '32px', width: 'auto' }}
+            unoptimized
           />
           <span className="text-lg font-bold tracking-tight">
             {isAdmin ? "Admin" : isPartner ? "Partner" : "User"} <span className="text-primary italic">{isAdmin ? "Panel" : isPartner ? "Portal" : "Dashboard"}</span>

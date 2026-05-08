@@ -66,11 +66,12 @@ function LoginForm() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <Image 
-              src="/logo.svg" 
+              src="/logo.png" 
               alt="Notebook Kit Logo" 
-              width={1844} 
-              height={1984} 
+              width={512} 
+              height={512} 
               style={{ height: '40px', width: 'auto' }}
+              unoptimized
             />
             <span className="text-2xl font-bold tracking-tight">
               <span className="text-[#883143]">Notebook</span> <span className="text-primary">Kit</span>
