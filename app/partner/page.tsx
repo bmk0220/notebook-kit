@@ -4,9 +4,10 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
-import { Loader2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
-import { formatDate } from "@/lib/utils";
+import { Loader2, Link as LinkIcon, Image as ImageIcon, Briefcase, Clock } from "lucide-react";
+import { formatDate, cn } from "@/lib/utils";
 import { Payment, MarketingAsset } from "@/lib/types";
+import PageHeader from "@/components/PageHeader";
 
 export default function PartnerDashboard() {
   const { user, profile, isPartner, isAdmin, loading } = useAuth();
@@ -176,27 +177,80 @@ export default function PartnerDashboard() {
     );
   }
 
-  if (!isPartner && !isAdmin) {
-    return (
-      <div className="max-w-3xl mx-auto py-20 text-center space-y-8">
-        <h1 className="text-5xl font-black tracking-tighter">Become a Notebook Kit Partner</h1>
-        <p className="text-xl text-muted-foreground">Join our affiliate program and earn 50% commission on every sale you drive. Access our exclusive partner resources and start earning today.</p>
-        <button 
-          onClick={handleRequest} 
-          disabled={hasPendingRequest}
-          className={`px-8 py-4 font-black text-lg rounded-full transition-all shadow-xl ${hasPendingRequest ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-primary-foreground hover:scale-105 shadow-primary/20'}`}
-        >
-          {hasPendingRequest ? "Partnership Request Pending" : "Request Partnership Access"}
-        </button>
+  return (
+    <div className="max-w-4xl mx-auto py-12 md:py-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+      <div className="relative overflow-hidden rounded-[3rem] bg-card border border-border p-8 md:p-16 text-center space-y-8 shadow-2xl shadow-primary/5">
+        {/* Background Glow */}
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
+        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 blur-[100px] rounded-full" />
+
+        <div className="relative">
+          <div className="h-20 w-20 rounded-3xl bg-primary flex items-center justify-center text-primary-foreground mx-auto mb-8 shadow-xl shadow-primary/20">
+            <Briefcase className="h-10 w-10" />
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase leading-none">
+            Become a <span className="text-primary italic">Partner</span>
+          </h1>
+          <p className="text-xl text-muted-foreground font-medium mt-6 max-w-2xl mx-auto leading-relaxed">
+            Join the elite affiliate network of Notebook Kit.
+            Earn <span className="text-foreground font-black">50% commission</span> on every sale you drive.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+          <div className="p-6 rounded-2xl bg-muted/30 border border-border/50">
+            <div className="text-2xl font-black text-primary">50%</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">Commission</div>
+          </div>
+          <div className="p-6 rounded-2xl bg-muted/30 border border-border/50">
+            <div className="text-2xl font-black text-primary">$35</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">Min. Payout</div>
+          </div>
+          <div className="p-6 rounded-2xl bg-muted/30 border border-border/50">
+            <div className="text-2xl font-black text-primary">120 Days</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">Tracking</div>
+          </div>
+        </div>
+
+        <div className="pt-8">
+          <button
+            onClick={handleRequest}
+            disabled={hasPendingRequest}
+            className={cn(
+              "group relative inline-flex items-center justify-center px-10 py-5 font-black text-xl rounded-2xl transition-all shadow-xl active:scale-95",
+              hasPendingRequest
+                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                : "bg-primary text-primary-foreground hover:scale-105 shadow-primary/30"
+            )}
+          >
+            {hasPendingRequest ? (
+              <>
+                <Clock className="mr-2 h-6 w-6 animate-pulse" />
+                Request Pending Review
+              </>
+            ) : (
+              <>
+                Request Partner Access
+                <LinkIcon className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+              </>
+            )}
+          </button>
+          <p className="text-xs text-muted-foreground font-medium mt-6">
+            Requests are typically reviewed within 24-48 hours.
+          </p>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-3xl font-black tracking-tighter">Partner Dashboard</h1>
-      </header>
+      <PageHeader
+        title="Partner Portal"
+        subtitle="Manage your referrals, track earnings, and access marketing resources."
+        icon={Briefcase}
+      />
 
       {/* Metrics Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -213,18 +267,17 @@ export default function PartnerDashboard() {
             ${availableBalance.toFixed(2)}
           </p>
           <div className="mt-4">
-            <button 
+            <button
               onClick={handlePayoutRequest}
               disabled={requestingPayout || hasPendingPayout || availableBalance < 35}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm transition-all ${
-                hasPendingPayout ? 'bg-warning/20 text-warning cursor-not-allowed' :
-                availableBalance < 35 ? 'bg-muted text-muted-foreground cursor-not-allowed' :
-                'bg-primary text-primary-foreground shadow-lg hover:scale-[1.02]'
-              }`}
+              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm transition-all ${hasPendingPayout ? 'bg-warning/20 text-warning cursor-not-allowed' :
+                  availableBalance < 35 ? 'bg-muted text-muted-foreground cursor-not-allowed' :
+                    'bg-primary text-primary-foreground shadow-lg hover:scale-[1.02]'
+                }`}
             >
               {requestingPayout ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> :
-               hasPendingPayout ? "Payout Pending" : 
-               availableBalance < 35 ? "Min $35 to Payout" : "Request Payout"}
+                hasPendingPayout ? "Payout Pending" :
+                  availableBalance < 35 ? "Min $35 to Payout" : "Request Payout"}
             </button>
           </div>
         </div>
@@ -278,14 +331,14 @@ export default function PartnerDashboard() {
       <section className="p-6 rounded-2xl bg-card border border-border space-y-4">
         <h2 className="text-xl font-black">Link Generator</h2>
         <div className="flex gap-4">
-          <input 
-            type="text" 
-            placeholder="Paste Kit URL here..." 
+          <input
+            type="text"
+            placeholder="Paste Kit URL here..."
             value={inputUrl}
             onChange={(e) => setInputUrl(e.target.value)}
             className="flex-1 px-4 py-3 bg-muted rounded-xl border border-border"
           />
-          <button 
+          <button
             onClick={handleGenerate}
             className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-opacity"
           >
@@ -300,7 +353,7 @@ export default function PartnerDashboard() {
             {linkHistory.map((link, idx) => (
               <div key={idx} className="flex items-center justify-between p-3 bg-muted rounded-lg text-xs font-mono break-all border border-border">
                 <span className="truncate mr-4">{link}</span>
-                <button 
+                <button
                   onClick={() => { navigator.clipboard.writeText(link); alert("Copied!"); }}
                   className="font-bold text-primary underline shrink-0"
                 >Copy</button>

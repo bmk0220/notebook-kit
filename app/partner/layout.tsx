@@ -1,12 +1,4 @@
-import { Metadata } from 'next';
-import Sidebar from '@/components/admin/Sidebar';
-import { Providers } from '@/components/Providers';
-import '@/app/globals.css';
-
-export const metadata: Metadata = {
-  title: 'Partner Portal | Notebook Kit',
-  description: 'Marketing Partner Dashboard',
-};
+import DashboardLayout from '@/components/DashboardLayout';
 
 export default function PartnerLayout({
   children,
@@ -14,11 +6,10 @@ export default function PartnerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
-      <main className="flex-1 p-8">
-        <Providers>{children}</Providers>
-      </main>
-    </div>
+    <DashboardLayout requiredRole="user">
+      <div className="p-4 md:p-8">
+        {children}
+      </div>
+    </DashboardLayout>
   );
 }

@@ -16,7 +16,8 @@ import {
   CreditCard,
   Briefcase,
   ImageIcon,
-  NotebookIcon
+  NotebookIcon,
+  Home
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
@@ -33,8 +34,9 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
     {
       title: "Main",
       links: [
-        { name: "Dashboard", href: isAdmin ? "/admin" : "/partner", icon: LayoutDashboard },
-        ...(isAdmin ? [{ name: "Analytics", href: "/admin/analytics", icon: BookOpen, disabled: true }] : []),
+        { name: "Home", href: "/", icon: Home },
+        { name: isAdmin ? "Admin Panel" : isPartner ? "Partner Portal" : "My Library", href: isAdmin ? "/admin" : isPartner ? "/partner" : "/kits", icon: isAdmin || isPartner ? LayoutDashboard : BookOpen },
+        ...(isAdmin || isPartner ? [{ name: "My Library", href: "/kits", icon: BookOpen }] : []),
       ]
     },
     ...(isAdmin ? [{
@@ -60,10 +62,13 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
         {
         title: "Partnership",
         links: [
-        { name: "Partner Program", href: "/partner", icon: Briefcase },
+        { name: isPartner ? "Partner Dashboard" : "Partner Program", href: "/partner", icon: Briefcase },
         ...(isAdmin ? [
           { name: "Partner Requests", href: "/admin/partners/requests", icon: Users },
           { name: "Payout Requests", href: "/admin/payouts", icon: CreditCard }
+        ] : []),
+        ...(isPartner && !isAdmin ? [
+          { name: "Marketing Assets", href: "/admin/assets", icon: ImageIcon },
         ] : []),
         ]
         }
@@ -81,7 +86,9 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
             height={1984} 
             style={{ height: '24px', width: 'auto' }}
           />
-          <span className="text-lg font-bold tracking-tight">Admin <span className="text-primary italic">Panel</span></span>
+          <span className="text-lg font-bold tracking-tight">
+            {isAdmin ? "Admin" : isPartner ? "Partner" : "User"} <span className="text-primary italic">{isAdmin ? "Panel" : isPartner ? "Portal" : "Dashboard"}</span>
+          </span>
         </Link>
       </div>
 

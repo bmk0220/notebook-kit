@@ -7,15 +7,15 @@ import {
   Users, 
   MessageSquare, 
   ArrowUpRight,
-  Clock,
-  ChevronRight,
   Hammer,
-  Briefcase
+  Briefcase,
+  LayoutDashboard
 } from "lucide-react";
 import { collection, query, orderBy, limit, getDocs, getCountFromServer, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import PageHeader from "@/components/PageHeader";
 
 interface RecentKit {
   id: string;
@@ -71,11 +71,11 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-4 md:p-8 space-y-8 md:space-y-10">
-      {/* Welcome Header */}
-      <div>
-        <h1 className="text-3xl md:text-4xl font-black tracking-tight uppercase">Dashboard</h1>
-        <p className="text-muted-foreground font-medium mt-1 text-sm">System status and recent forge activity.</p>
-      </div>
+      <PageHeader 
+        title="Admin Control" 
+        subtitle="System status, kit orchestration, and user management."
+        icon={LayoutDashboard}
+      />
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
