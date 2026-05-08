@@ -13,10 +13,8 @@ service cloud.firestore {
 
     // Simplify isAdmin: use simpler query or check against known admin list
     function isAdmin() {
-      return isSignedIn() && (
-        request.auth.token.email == 'admin@notebookkit.com' ||
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
-      );
+      return isSignedIn() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
     match /users/{userId} {

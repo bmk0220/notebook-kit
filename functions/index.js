@@ -1,7 +1,11 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 
-admin.initializeApp();
+// Lazy initialization helper
+function getAdminApp() {
+  if (admin.apps.length > 0) return admin.apps[0];
+  return admin.initializeApp();
+}
 
 exports.kitPublish = onRequest(
   {
@@ -45,6 +49,7 @@ exports.kitPublish = onRequest(
     };
 
     try {
+      getAdminApp();
       log("START");
 
       // ---------- STEP 1: AUTH ----------
