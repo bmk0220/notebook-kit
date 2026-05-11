@@ -107,21 +107,41 @@ export default function ForgePage() {
 
         // Auto-populate title and description from DESCRIPTION.txt
         if (match.id === 'description') {
-          // Extract title (First H1)
-          const titleMatch = content.match(/^#\s+(.+)$/m);
-          if (titleMatch && titleMatch[1]) {
-            setValue('title', titleMatch[1].trim());
+          const lines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+          
+          // 1. Extract Title (First line, cleaned of markdown symbols)
+          if (lines.length > 0) {
+            const firstLine = lines[0].replace(/^[#\*\s-]+/, '').trim();
+            setValue('title', firstLine);
           }
 
-          // Clean description:
-          // 1. Remove filename header if present (e.g., ### DESCRIPTION.md)
-          // 2. Remove all headers at the top of the file to reach the prose
+          // 2. Clean description:
+          // Remove filename header if present and all top-level headers
           const cleanBody = content
             .replace(/^###\s+DESCRIPTION\.txt.*$/im, '')
             .replace(/^[#]+\s+.+$/gm, '') // Remove all # level headers
             .trim();
 
           setValue('description', cleanBody);
+
+          // 3. Auto-generate 3 Tags
+          const stopWords = new Set(['this', 'that', 'with', 'from', 'your', 'their', 'about', 'guide', 'notebook', 'template', 'inside', 'inside', 'everything', 'every', 'these', 'those']);
+          const words = cleanBody.toLowerCase()
+            .replace(/[^\w\s]/g, '')
+            .split(/\s+/)
+            .filter(w => w.length > 4 && !stopWords.has(w));
+          
+          const counts: Record<string, number> = {};
+          words.forEach(w => counts[w] = (counts[w] || 0) + 1);
+          
+          const sortedKeywords = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3)
+            .map(([word]) => word);
+            
+          if (sortedKeywords.length > 0) {
+            setValue('tags', sortedKeywords);
+          }
         }
       }
     }
@@ -425,12 +445,42 @@ export default function ForgePage() {
                       <label className="label py-1">
                         <span className="label-text font-medium">Tags</span>
                       </label>
-                      <div className="relative">
-                        <Tags className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          className="input input-bordered w-full bg-background pl-9"
-                          placeholder="Add tags, separated by commas"
-                        />
+                      <div className="space-y-3">
+                        <div className="relative">
+                          <Tags className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <input
+                            className="input input-bordered w-full bg-background pl-9"
+                            placeholder="Add tags, separated by commas"
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                const val = (e.target as HTMLInputElement).value;
+                                if (val) {
+                                  const newTags = val.split(',').map(t => t.trim()).filter(t => t);
+                                  const current = watch('tags') || [];
+                                  setValue('tags', Array.from(new Set([...current, ...newTags])));
+                                  (e.target as HTMLInputElement).value = '';
+                                }
+                              }
+                            }}
+                          />
+                        </div>
+                        {watch('tags') && watch('tags')!.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {watch('tags')!.map(tag => (
+                              <span key={tag} className="badge badge-secondary gap-1 pr-1">
+                                {tag}
+                                <X 
+                                  className="w-3 h-3 cursor-pointer hover:text-error" 
+                                  onClick={() => {
+                                    const current = watch('tags') || [];
+                                    setValue('tags', current.filter(t => t !== tag));
+                                  }}
+                                />
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
