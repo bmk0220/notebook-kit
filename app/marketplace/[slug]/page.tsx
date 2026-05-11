@@ -60,7 +60,7 @@ export default function KitPage() {
           id: validDoc.id,
           title: String(data.title),
           description: String(data.description || "No description provided."),
-          price: Number(data.price || 49),
+          price: typeof data.price === 'number' ? data.price : 49,
           fileUrl: String(data.assets?.fileUrl || ""),
           slug: String(data.slug),
           iconSvgName: String(data.assets?.iconSvgName || "Package"),
@@ -207,7 +207,9 @@ export default function KitPage() {
               <h2 className="text-2xl font-bold mb-6">Kit Manifest</h2>
               {content ? (
                 <div className="grid grid-cols-1 gap-4">
-                  {Object.keys(content as object).filter(k => k !== 'updatedAt').map((key) => (
+                  {Object.keys(content as object)
+                    .filter(k => k !== 'updatedAt' && k !== 'description')
+                    .map((key) => (
                     <div key={key} className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 border border-border/50">
                       <div className="h-2 w-2 rounded-full bg-primary" />
                       <span className="text-sm font-bold capitalize">{key.replace('_', ' ')}</span>
@@ -217,7 +219,9 @@ export default function KitPage() {
                 </div>
               ) : kit.manifest && kit.manifest.length > 0 ? (
                 <div className="grid grid-cols-1 gap-4">
-                  {kit.manifest.map((filename) => (
+                  {kit.manifest
+                    .filter(f => f !== 'DESCRIPTION.txt')
+                    .map((filename) => (
                     <div key={filename} className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 border border-border/50">
                       <div className="h-2 w-2 rounded-full bg-primary" />
                       <span className="text-sm font-bold">{filename}</span>

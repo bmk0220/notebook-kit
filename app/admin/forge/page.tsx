@@ -174,10 +174,12 @@ export default function ForgePage() {
         id: uuidv4(),
         userId: user?.uid || 'anonymous',
         slug: data.slug || data.title?.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '') || '',
-        manifest: Object.keys(uploadedFiles).map(id => {
-          const fileMeta = FORGE_REQUIRED_FILES.find(f => f.id === id);
-          return fileMeta ? fileMeta.filename : id;
-        }),
+        manifest: Object.keys(uploadedFiles)
+          .filter(id => id !== 'description')
+          .map(id => {
+            const fileMeta = FORGE_REQUIRED_FILES.find(f => f.id === id);
+            return fileMeta ? fileMeta.filename : id;
+          }),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         content: fileContents,
