@@ -3,8 +3,7 @@
  * This file defines the rigid data contract for Kit ingestion.
  */
 
-export const FORGE_REQUIRED_FILES = [
-  { id: 'description', filename: 'DESCRIPTION.md', label: 'Product Description' },
+export const KNOWLEDGE_ASSETS = [
   { id: 'instructions', filename: 'INSTRUCTIONS.md', label: 'Instructions' },
   { id: 'custom', filename: 'CUSTOM.md', label: 'Custom' },
   { id: 'source', filename: '00_source.md', label: 'Source Material' },
@@ -15,6 +14,15 @@ export const FORGE_REQUIRED_FILES = [
   { id: 'faq', filename: '05_faq.md', label: 'FAQ' },
   { id: 'checklists', filename: '06_checklists.md', label: 'Checklists' },
   { id: 'tips', filename: '07_tips.md', label: 'Tips & Tricks' },
+] as const;
+
+export const MARKETPLACE_METADATA = [
+  { id: 'description', filename: 'DESCRIPTION.txt', label: 'Product Description' },
+] as const;
+
+export const FORGE_REQUIRED_FILES = [
+  ...MARKETPLACE_METADATA,
+  ...KNOWLEDGE_ASSETS
 ] as const;
 
 export type ForgeFileId = typeof FORGE_REQUIRED_FILES[number]['id'];

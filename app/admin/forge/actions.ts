@@ -5,7 +5,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
 import JSZip from 'jszip';
-import { FORGE_REQUIRED_FILES } from '@/lib/constants/forge';
+import { FORGE_REQUIRED_FILES, KNOWLEDGE_ASSETS } from '@/lib/constants/forge';
 
 export async function ingestKit(data: { id: string, slug: string, title: string, content: Record<string, string>, assets: { iconSvgName: string, fileUrl?: string }, metadata: { version: string } }) {
   try {
@@ -28,9 +28,9 @@ export async function ingestKit(data: { id: string, slug: string, title: string,
     
     if (!folder) throw new Error("Failed to create zip folder");
 
-    // Add all mandatory markdown files to the zip
+    // Add all mandatory knowledge asset files to the zip
     Object.entries(kit.content).forEach(([id, content]) => {
-      const fileMeta = FORGE_REQUIRED_FILES.find(f => f.id === id);
+      const fileMeta = KNOWLEDGE_ASSETS.find(f => f.id === id);
       if (fileMeta) {
         folder.file(fileMeta.filename, content);
       }

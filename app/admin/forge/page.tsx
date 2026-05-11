@@ -24,7 +24,7 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { kitSchema, type Kit } from '@/lib/schemas/kit';
-import { FORGE_REQUIRED_FILES, KIT_ICONS } from '@/lib/constants/forge';
+import { FORGE_REQUIRED_FILES, KIT_ICONS, KNOWLEDGE_ASSETS } from '@/lib/constants/forge';
 import { useAuth } from '@/context/AuthContext';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,7 +100,7 @@ export default function ForgePage() {
         const content = await file.text();
         newContents[match.id] = content;
 
-        // Auto-populate title and description from DESCRIPTION.md
+        // Auto-populate title and description from DESCRIPTION.txt
         if (match.id === 'description') {
           // Extract title (First H1)
           const titleMatch = content.match(/^#\s+(.+)$/m);
@@ -112,7 +112,7 @@ export default function ForgePage() {
           // 1. Remove filename header if present (e.g., ### DESCRIPTION.md)
           // 2. Remove all headers at the top of the file to reach the prose
           const cleanBody = content
-            .replace(/^###\s+DESCRIPTION\.md.*$/im, '')
+            .replace(/^###\s+DESCRIPTION\.txt.*$/im, '')
             .replace(/^[#]+\s+.+$/gm, '') // Remove all # level headers
             .trim();
 
@@ -183,7 +183,7 @@ export default function ForgePage() {
       if (!folder) throw new Error("Failed to create zip folder");
 
       Object.entries(submissionData.content).forEach(([id, content]) => {
-        const fileMeta = FORGE_REQUIRED_FILES.find(f => f.id === id);
+        const fileMeta = KNOWLEDGE_ASSETS.find(f => f.id === id);
         if (fileMeta) {
           folder.file(fileMeta.filename, content as string);
         }
@@ -539,7 +539,7 @@ export default function ForgePage() {
                     <input
                       type="file"
                       multiple
-                      accept=".md"
+                      accept=".md,.txt"
                       className="absolute inset-0 opacity-0 cursor-pointer"
                       onChange={(e) => e.target.files && handleBulkUpload(e.target.files)}
                     />
@@ -583,7 +583,7 @@ export default function ForgePage() {
                           <label className="cursor-pointer absolute inset-0 opacity-0">
                             <input
                               type="file"
-                              accept=".md"
+                              accept={file.id === 'description' ? '.txt' : '.md'}
                               onChange={(e) => handleFileChange(e, file.id)}
                               className="hidden"
                             />
