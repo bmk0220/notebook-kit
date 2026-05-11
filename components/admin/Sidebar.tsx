@@ -17,7 +17,8 @@ import {
   Briefcase,
   ImageIcon,
   NotebookIcon,
-  Home
+  Home,
+  ShoppingBag
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
@@ -35,6 +36,7 @@ export default function Sidebar({ onLinkClick }: { onLinkClick?: () => void }) {
       title: "Main",
       links: [
         { name: "Home", href: "/", icon: Home },
+        { name: "Marketplace", href: "/marketplace", icon: ShoppingBag },
         { name: isAdmin ? "Admin Panel" : isPartner ? "Partner Portal" : "My Library", href: isAdmin ? "/admin" : isPartner ? "/partner" : "/kits", icon: isAdmin || isPartner ? LayoutDashboard : BookOpen },
         ...(isAdmin || isPartner ? [{ name: "My Library", href: "/kits", icon: BookOpen }] : []),
       ]
