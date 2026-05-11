@@ -1,4 +1,5 @@
 {
-    "local.model.provider.serverUrl": "http://127.0.0.1:1234",
-    "local.model.provider.serverPresets": []
+    "local.model.provider.serverUrl": "http://localhost:11434/v1",
+    "local.model.provider.serverPresets": [],
+    "local.model.provider.defaultModel": "qwen2.5-coder:14b"
 }

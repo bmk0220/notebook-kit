@@ -9,7 +9,9 @@ import {
   ArrowUpRight,
   Hammer,
   Briefcase,
-  LayoutDashboard
+  LayoutDashboard,
+  Clock,
+  ChevronRight
 } from "lucide-react";
 import { collection, query, orderBy, limit, getDocs, getCountFromServer, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
