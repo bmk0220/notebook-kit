@@ -91,9 +91,14 @@ export default function ForgePage() {
 
     for (const file of Array.from(files)) {
       // Find matching requirement by filename
-      const match = FORGE_REQUIRED_FILES.find((req: any) =>
+      let match = FORGE_REQUIRED_FILES.find((req: any) =>
         req.filename.toLowerCase() === file.name.toLowerCase()
       );
+
+      // Fallback for Windows hidden extension issue (e.g. DESCRIPTION.txt.txt)
+      if (!match && file.name.toLowerCase().includes('description') && file.name.toLowerCase().includes('.txt')) {
+        match = FORGE_REQUIRED_FILES.find((req: any) => req.id === 'description');
+      }
 
       if (match) {
         newFiles[match.id] = file;
@@ -134,7 +139,7 @@ export default function ForgePage() {
 
   const onSubmit = async (data: Partial<Kit>) => {
     if (Object.keys(uploadedFiles).length < FORGE_REQUIRED_FILES.length) {
-      setError(`Publishing Blocked: You must upload all ${FORGE_REQUIRED_FILES.length} required markdown files. Check the Readiness list below.`);
+      setError(`Publishing Blocked: You must upload all ${FORGE_REQUIRED_FILES.length} required files. Check the Readiness list below.`);
       return;
     }
 
@@ -351,7 +356,7 @@ export default function ForgePage() {
                       />
                       {errors.description && <span className="text-error text-xs mt-1">{errors.description.message}</span>}
                       <label className="label">
-                        <span className="label-text-alt text-muted-foreground">Auto-extracted from DESCRIPTION.md if uploaded.</span>
+                        <span className="label-text-alt text-muted-foreground">Auto-extracted from DESCRIPTION.txt if uploaded.</span>
                       </label>
                     </div>
 
@@ -520,7 +525,7 @@ export default function ForgePage() {
                         <Upload className="w-5 h-5 text-primary" />
                         File Ingestion
                       </h2>
-                      <p className="text-sm text-muted-foreground mt-1">Upload the required 10 markdown files for validation.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Upload the required 11 files for validation.</p>
                     </div>
                     <div className="flex items-center gap-2 bg-primary/5 text-primary text-xs font-bold px-3 py-1.5 rounded-full border border-primary/10">
                       {Object.keys(uploadedFiles).length} / {FORGE_REQUIRED_FILES.length} FILES DETECTED
@@ -539,7 +544,7 @@ export default function ForgePage() {
                     <input
                       type="file"
                       multiple
-                      accept=".md,.txt"
+                      accept=".md,.txt,text/plain,text/markdown"
                       className="absolute inset-0 opacity-0 cursor-pointer"
                       onChange={(e) => e.target.files && handleBulkUpload(e.target.files)}
                     />
@@ -583,7 +588,7 @@ export default function ForgePage() {
                           <label className="cursor-pointer absolute inset-0 opacity-0">
                             <input
                               type="file"
-                              accept={file.id === 'description' ? '.txt' : '.md'}
+                              accept={file.id === 'description' ? '.txt,text/plain' : '.md,text/markdown'}
                               onChange={(e) => handleFileChange(e, file.id)}
                               className="hidden"
                             />
