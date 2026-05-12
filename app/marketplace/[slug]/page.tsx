@@ -158,7 +158,7 @@ export default function KitPage() {
           {/* Left Column: Info & Action */}
           <div className="flex-1 space-y-12">
             <div className="space-y-8">
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8 text-center md:text-left">
                 {/* Hero Icon Container */}
                 <div className="relative shrink-0">
                   <div
@@ -166,18 +166,18 @@ export default function KitPage() {
                     style={{ backgroundColor: categoryConfig.color }}
                   />
                   <div
-                    className="relative w-24 h-24 md:w-32 md:h-32 rounded-[2.5rem] flex items-center justify-center border border-white/10 shadow-2xl backdrop-blur-sm"
+                    className="relative w-20 h-20 md:w-32 md:h-32 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center border border-white/10 shadow-2xl backdrop-blur-sm"
                     style={{ backgroundColor: categoryConfig.bgLight }}
                   >
                     <IconComponent
-                      className="h-12 w-12 md:h-16 md:w-16 drop-shadow-lg"
+                      className="h-10 w-10 md:h-16 md:w-16 drop-shadow-lg"
                       style={{ color: categoryConfig.color }}
                     />
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
+                <div className="space-y-4 w-full">
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
                     {kit.categories.map(cat => (
                       <span
                         key={cat}
@@ -192,7 +192,7 @@ export default function KitPage() {
                       </span>
                     ))}
                   </div>
-                  <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9]">
+                  <h1 className="text-3xl md:text-6xl font-black tracking-tighter leading-[0.9]">
                     {kit.title}
                   </h1>
                 </div>
