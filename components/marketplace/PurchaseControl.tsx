@@ -156,6 +156,7 @@ export default function PurchaseControl({ kitId, kitTitle, kitSlug, price, fileU
         slug: kitSlug,
         status: "owned",
         unlockedAt: serverTimestamp(),
+        grantedAt: serverTimestamp(),
       });
       setIsOwner(true);
     } catch (err) {

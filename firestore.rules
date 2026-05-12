@@ -34,7 +34,16 @@ service cloud.firestore {
 
     match /user_kits/{accessId} {
       allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow write: if isAdmin();
+      allow create: if isAdmin() || (
+        isSignedIn() && 
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.status == 'owned' &&
+        request.resource.data.unlockedAt == request.time &&
+        request.resource.data.grantedAt == request.time &&
+        get(/databases/$(database)/documents/kits/$(request.resource.data.kitId)).data.price == 0 &&
+        get(/databases/$(database)/documents/kits/$(request.resource.data.kitId)).data.status == 'published'
+      );
+      allow update, delete: if isAdmin();
     }
 
     match /kit_categories/{categoryId} {
